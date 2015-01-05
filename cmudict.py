@@ -53,7 +53,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	},
 }
 
-def print_entry(fmt, word, context, phonemes, comment):
+def format(fmt, word, context, phonemes, comment):
 	components = []
 	if word:
 		components.append('entry')
@@ -74,7 +74,7 @@ def read_file(filename):
 		for line in f:
 			yield line.replace('\n', '')
 
-def parse_cmudict(filename):
+def parse(filename):
 	"""
 		Parse the entries in the cmudict file.
 

@@ -26,18 +26,18 @@ import sys
 
 def print_dict(filename, opts={}):
 	fmt = cmudict.dict_formats[opts.get('format', 'cmudict')]
-	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
+	for word, context, phonemes, comment, error in cmudict.parse(filename):
 		if error:
 			print(error, file=sys.stderr)
 		else:
-			cmudict.print_entry(fmt, word, context, phonemes, comment)
+			cmudict.format(fmt, word, context, phonemes, comment)
 
 def debug(filename, opts={}):
-	for entry in cmudict.parse_cmudict(filename):
+	for entry in cmudict.parse(filename):
 		print(entry)
 
 def validate(filename, opts={}):
-	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
+	for word, context, phonemes, comment, error in cmudict.parse(filename):
 		if error:
 			print(error, file=sys.stderr)
 
