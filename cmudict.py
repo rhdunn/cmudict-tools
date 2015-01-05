@@ -19,6 +19,8 @@
 # You should have received a copy of the GNU General Public License
 # along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
+
 import os
 import sys
 import re
@@ -53,21 +55,26 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	},
 }
 
-def format(fmt, word, context, phonemes, comment):
-	components = []
-	if word:
-		components.append('entry')
-		word = fmt['word'](word)
-	if context:
-		components.append('context')
-	if comment != None:
-		components.append('comment')
-	if phonemes:
-		phonemes = fmt['phonemes'](phonemes)
-	if len(components) == 0:
-		print()
-	else:
-		print(fmt['-'.join(components)].format(word, context, phonemes, comment))
+def format(dict_format, entries):
+	fmt = dict_formats[dict_format]
+	for word, context, phonemes, comment, error in entries:
+		if error:
+			print(error, file=sys.stderr)
+			continue
+		components = []
+		if word:
+			components.append('entry')
+			word = fmt['word'](word)
+		if context:
+			components.append('context')
+		if comment != None:
+			components.append('comment')
+		if phonemes:
+			phonemes = fmt['phonemes'](phonemes)
+		if len(components) == 0:
+			print()
+		else:
+			print(fmt['-'.join(components)].format(word, context, phonemes, comment))
 
 def read_file(filename):
 	with open(filename) as f:

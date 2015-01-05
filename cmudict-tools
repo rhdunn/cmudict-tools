@@ -25,12 +25,7 @@ import cmudict
 import sys
 
 def print_dict(filename, opts={}):
-	fmt = cmudict.dict_formats[opts.get('format', 'cmudict')]
-	for word, context, phonemes, comment, error in cmudict.parse(filename):
-		if error:
-			print(error, file=sys.stderr)
-		else:
-			cmudict.format(fmt, word, context, phonemes, comment)
+	cmudict.format(opts.get('format', 'cmudict'), cmudict.parse(filename))
 
 def debug(filename, opts={}):
 	for entry in cmudict.parse(filename):
