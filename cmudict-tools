@@ -29,8 +29,13 @@ dict_formats = {
 	'cmudict': { 'line-comment': ';;;' },
 }
 
+phoneme_sets = {
+	'cmu': lambda phonemes: ' '.join(phonemes)
+}
+
 def print_dict(filename, opts={}):
 	fmt = dict_formats[opts.get('format', 'cmudict')]
+	phonemeset = phoneme_sets[opts.get('phonemeset', 'cmu')]
 
 	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
 		if error:
@@ -38,9 +43,9 @@ def print_dict(filename, opts={}):
 		elif comment != None:
 			print('{0}{1}'.format(fmt['line-comment'], comment))
 		elif context:
-			print('{0}({1})  {2}'.format(word, context, ' '.join(phonemes)))
+			print('{0}({1})  {2}'.format(word, context, phonemeset(phonemes)))
 		elif word:
-			print('{0}  {1}'.format(word, ' '.join(phonemes)))
+			print('{0}  {1}'.format(word, phonemeset(phonemes)))
 		else:
 			print()
 
@@ -71,7 +76,7 @@ try:
 				arg, value = arg.split('=')
 			else:
 				value = None
-			if arg in ['format']:
+			if arg in ['format', 'phonemeset']:
 				if value:
 					opts[arg] = value
 				else:
