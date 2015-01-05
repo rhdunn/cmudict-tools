@@ -28,13 +28,17 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'comment': '##{3}',
 		'entry': '{0}  {2}',
 		'entry-context': '{0}({1})  {2}',
+		'entry-context-comment': '{0}({1})  {2}',
+		'entry-comment': '{0}  {2}',
 		'phonemes': lambda phonemes: ' '.join(phonemes),
 		'word': lambda word: word.upper(),
 	},
 	'cmudict': {
 		'comment': ';;;{3}',
 		'entry': '{0}  {2}',
+		'entry-comment': '{0}  {2}',
 		'entry-context': '{0}({1})  {2}',
+		'entry-context-comment': '{0}({1})  {2}',
 		'phonemes': lambda phonemes: ' '.join(phonemes),
 		'word': lambda word: word.upper(),
 	},
@@ -42,6 +46,8 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'comment': ';;;{3}',
 		'entry': '{0} {2}',
 		'entry-context': '{0}({1}) {2}',
+		'entry-comment': '{0} {2} #{3}',
+		'entry-context-comment': '{0}({1}) {2} #{3}',
 		'phonemes': lambda phonemes: ' '.join(phonemes),
 		'word': lambda word: word.lower(),
 	},
@@ -77,7 +83,7 @@ def parse_cmudict(filename):
 	"""
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry_cmu = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([A-Z012 ]+)$') # wade/air
-	re_entry_new = re.compile(r'^([^ ][a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [A-Z012 ]+)$') # nshmyrev
+	re_entry_new = re.compile(r'^([^ ][a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [A-Z012 ]+)( #(.*))?$') # nshmyrev
 	re_entry = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	for line in read_file(filename):
@@ -107,4 +113,4 @@ def parse_cmudict(filename):
 		else:
 			yield None, None, None, None, 'Entry needs 2 spaces between word and phoneme: "{0}"'.format(line)
 
-		yield m.group(1), m.group(3), phonemes, None, None
+		yield m.group(1), m.group(3), phonemes, m.group(6), None
