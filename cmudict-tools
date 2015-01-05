@@ -19,8 +19,25 @@
 # You should have received a copy of the GNU General Public License
 # along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
+
 import cmudict
 import sys
 
-for entry in cmudict.parse_cmudict(sys.argv[1]):
-	print(entry)
+def validate(filename):
+	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
+		if error:
+			print(error, file=sys.stderr)
+
+commands = {
+	'validate': validate,
+}
+
+try:
+	command = commands[sys.argv[1]]
+	filename = sys.argv[2]
+except:
+	print('usage: cmudict-tools validate <filename>')
+	sys.exit(1)
+
+command(filename)
