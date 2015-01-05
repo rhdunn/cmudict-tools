@@ -38,12 +38,18 @@ def parse_cmudict(filename):
 	re_linecomment = re.compile(r'^##(.*)$')
 	re_entry = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))?  ([A-Z012 ]+)$')
 	for line in read_file(filename):
+		if line == '':
+			yield None, None, None, None, None
+			continue
+
 		m = re_linecomment.match(line)
 		if m:
 			yield None, None, None, m.group(1), None
 			continue
+
 		m = re_entry.match(line)
 		if m:
 			yield m.group(1), m.group(3), m.group(4), None, None
 			continue
+
 		yield None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
