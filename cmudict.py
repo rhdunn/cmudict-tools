@@ -35,7 +35,7 @@ def parse_cmudict(filename):
 		The return value is of the form:
 			(word, context, phonemes, comment, error)
 	"""
-	re_linecomment = re.compile(r'^##(.*)$')
+	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))?  ([A-Z012 ]+)$')
 	for line in read_file(filename):
 		if line == '':
@@ -44,7 +44,7 @@ def parse_cmudict(filename):
 
 		m = re_linecomment.match(line)
 		if m:
-			yield None, None, None, m.group(1), None
+			yield None, None, None, m.group(2), None
 			continue
 
 		m = re_entry.match(line)
