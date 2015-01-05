@@ -29,10 +29,21 @@ def read_file(filename):
 			yield line.replace('\n', '')
 
 def parse_cmudict(filename):
-	re_entry = re.compile(r'^([A-Z0-9\'\.\-]+)(\(([1-9])\))?  ([A-Z012 ]+)$')
+	"""
+		Parse the entries in the cmudict file.
+
+		The return value is of the form:
+			(word, context, phonemes, comment, error)
+	"""
+	re_linecomment = re.compile(r'^##(.*)$')
+	re_entry = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))?  ([A-Z012 ]+)$')
 	for line in read_file(filename):
+		m = re_linecomment.match(line)
+		if m:
+			yield None, None, None, m.group(1), None
+			continue
 		m = re_entry.match(line)
 		if m:
-			yield m.group(1), m.group(3), m.group(4)
+			yield m.group(1), m.group(3), m.group(4), None, None
 			continue
-		raise Exception('Unsupported entry: "{0}"'.format(line))
+		yield None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
