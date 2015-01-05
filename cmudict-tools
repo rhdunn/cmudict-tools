@@ -24,12 +24,19 @@ from __future__ import print_function
 import cmudict
 import sys
 
-def format_cmudict(filename, line_comment='##'):
+dict_formats = {
+	'cmudict-wade': { 'line-comment': '##' },
+	'cmudict': { 'line-comment': ';;;' },
+}
+
+def print_dict(filename, opts={}):
+	fmt = dict_formats[opts.get('format', 'cmudict')]
+
 	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
 		if error:
 			print(error, file=sys.stderr)
 		elif comment != None:
-			print('{0}{1}'.format(line_comment, comment))
+			print('{0}{1}'.format(fmt['line-comment'], comment))
 		elif context:
 			print('{0}({1})  {2}'.format(word, context, ' '.join(phonemes)))
 		elif word:
@@ -37,11 +44,11 @@ def format_cmudict(filename, line_comment='##'):
 		else:
 			print()
 
-def debug(filename):
+def debug(filename, opts={}):
 	for entry in cmudict.parse_cmudict(filename):
 		print(entry)
 
-def validate(filename):
+def validate(filename, opts={}):
 	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
 		if error:
 			print(error, file=sys.stderr)
@@ -49,16 +56,39 @@ def validate(filename):
 commands = {
 	'debug':    debug,
 	'validate': validate,
-	'format': format_cmudict,
+	'print':    print_dict,
 }
 
 try:
-	command = commands[sys.argv[1]]
-	filename = sys.argv[2]
+	command = None
+	filename = None
+	optname = None
+	opts = {}
+	for arg in sys.argv[1:]:
+		if arg.startswith('--'):
+			arg = arg[2:]
+			if '=' in arg:
+				arg, value = arg.split('=')
+			else:
+				value = None
+			if arg in ['format']:
+				if value:
+					opts[arg] = value
+				else:
+					optname = arg
+		elif optname:
+			opts[optname] = arg
+			optname = None
+		elif not command:
+			command = commands[arg]
+		elif not filename:
+			filename = arg
+		else:
+			raise Exception('invalid argument')
 except:
 	print('usage: cmudict-tools debug    <filename>')
 	print('usage: cmudict-tools validate <filename>')
-	print('usage: cmudict-tools format   <filename>')
+	print('usage: cmudict-tools print    <filename>')
 	sys.exit(1)
 
-command(filename)
+command(filename, opts)
