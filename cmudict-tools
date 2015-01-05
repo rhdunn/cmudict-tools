@@ -24,9 +24,17 @@ from __future__ import print_function
 import cmudict
 import sys
 
-dict_formats = {
-	'cmudict-wade': { 'line-comment': '##' },
-	'cmudict': { 'line-comment': ';;;' },
+dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
+	'cmudict-wade': {
+		'comment': '##{3}',
+		'entry': '{0}  {2}',
+		'entry-context': '{0}({1})  {2}',
+	},
+	'cmudict': {
+		'comment': ';;;{3}',
+		'entry': '{0}  {2}',
+		'entry-context': '{0}({1})  {2}',
+	},
 }
 
 phoneme_sets = {
@@ -40,14 +48,20 @@ def print_dict(filename, opts={}):
 	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
 		if error:
 			print(error, file=sys.stderr)
-		elif comment != None:
-			print('{0}{1}'.format(fmt['line-comment'], comment))
-		elif context:
-			print('{0}({1})  {2}'.format(word, context, phonemeset(phonemes)))
-		elif word:
-			print('{0}  {1}'.format(word, phonemeset(phonemes)))
-		else:
+			continue
+		components = []
+		if word:
+			components.append('entry')
+		if context:
+			components.append('context')
+		if comment != None:
+			components.append('comment')
+		if phonemes:
+			phonemes = phonemeset(phonemes)
+		if len(components) == 0:
 			print()
+		else:
+			print(fmt['-'.join(components)].format(word, context, phonemes, comment))
 
 def debug(filename, opts={}):
 	for entry in cmudict.parse_cmudict(filename):
