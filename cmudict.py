@@ -21,8 +21,18 @@
 
 import os
 import sys
+import re
 
 def read_file(filename):
 	with open(filename) as f:
 		for line in f:
 			yield line.replace('\n', '')
+
+def parse_cmudict(filename):
+	re_entry = re.compile(r'^([A-Z0-9\'\.\-]+)(\(([1-9])\))?  ([A-Z012 ]+)$')
+	for line in read_file(filename):
+		m = re_entry.match(line)
+		if m:
+			yield m.group(1), m.group(3), m.group(4)
+			continue
+		raise Exception('Unsupported entry: "{0}"'.format(line))

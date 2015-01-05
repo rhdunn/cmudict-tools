@@ -22,5 +22,5 @@
 import cmudict
 import sys
 
-for line in cmudict.read_file(sys.argv[1]):
-	print(line)
+for entry in cmudict.parse_cmudict(sys.argv[1]):
+	print(entry)
