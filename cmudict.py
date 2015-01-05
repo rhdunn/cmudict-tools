@@ -23,6 +23,42 @@ import os
 import sys
 import re
 
+dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
+	'cmudict-wade': {
+		'comment': '##{3}',
+		'entry': '{0}  {2}',
+		'entry-context': '{0}({1})  {2}',
+		'phonemes': lambda phonemes: ' '.join(phonemes),
+	},
+	'cmudict': {
+		'comment': ';;;{3}',
+		'entry': '{0}  {2}',
+		'entry-context': '{0}({1})  {2}',
+		'phonemes': lambda phonemes: ' '.join(phonemes),
+	},
+	'cmudict-new': {
+		'comment': ';;;{3}',
+		'entry': '{0} {2}',
+		'entry-context': '{0}({1}) {2}',
+		'phonemes': lambda phonemes: ' '.join(phonemes),
+	},
+}
+
+def print_entry(fmt, word, context, phonemes, comment):
+	components = []
+	if word:
+		components.append('entry')
+	if context:
+		components.append('context')
+	if comment != None:
+		components.append('comment')
+	if phonemes:
+		phonemes = fmt['phonemes'](phonemes)
+	if len(components) == 0:
+		print()
+	else:
+		print(fmt['-'.join(components)].format(word, context, phonemes, comment))
+
 def read_file(filename):
 	with open(filename) as f:
 		for line in f:
