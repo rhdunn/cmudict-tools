@@ -89,8 +89,8 @@ def parse(filename):
 			(word, context, phonemes, comment, error)
 	"""
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
-	re_entry_cmu = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([A-Z012 ]+)$') # wade/air
-	re_entry_new = re.compile(r'^([^ ][a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [A-Z012 ]+)( #(.*))?$') # nshmyrev
+	re_entry_cmu = re.compile(r'^([^ a-zA-Z]?[A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([A-Z012 ]+)$') # wade/air
+	re_entry_new = re.compile(r'^([^ a-zA-Z]?[a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [A-Z012 ]+)( #(.*))?$') # nshmyrev
 	re_entry = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	for line in read_file(filename):
