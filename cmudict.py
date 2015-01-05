@@ -125,7 +125,7 @@ def read_file(filename):
 		for line in f:
 			yield line.replace('\n', '')
 
-def parse(filename):
+def parse(filename, check_trailing_whitespace=False):
 	"""
 		Parse the entries in the cmudict file.
 
@@ -137,6 +137,7 @@ def parse(filename):
 	re_entry_new = re.compile(r'^([^ a-zA-Z]?[a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [A-Z012 ]+)( #(.*))?$') # nshmyrev
 	re_entry = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
+	re_phoneme_start = re.compile(r'^ [A-Z]')
 	valid_phonemes = set()
 	for line in read_file(filename):
 		if line == '':
@@ -161,15 +162,16 @@ def parse(filename):
 			yield None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
 			continue
 
-		phonemes = re_phonemes.split(m.group(4))
-		if phonemes[0] == '':
-			phonemes = phonemes[1:]
-		else:
+		phonemes = m.group(4)
+		if not re_phoneme_start.match(phonemes):
 			yield None, None, None, None, 'Entry needs 2 spaces between word and phoneme: "{0}"'.format(line)
+		if phonemes.endswith(' ') and check_trailing_whitespace:
+			yield None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
 
+		phonemes = re_phonemes.split(phonemes.strip())
 		for phoneme in phonemes:
 			if not phoneme in valid_phonemes:
-				yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
+				yield None, None, None, None, 'Invalid phoneme "{0}" for "{1}" in entry: "{2}"'.format(phoneme, m.group(4), line)
 
 		comment = m.group(6) or None
 		yield m.group(1), m.group(3), phonemes, comment, None
