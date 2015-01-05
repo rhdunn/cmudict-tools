@@ -24,6 +24,19 @@ from __future__ import print_function
 import cmudict
 import sys
 
+def format_cmudict(filename, line_comment='##'):
+	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
+		if error:
+			print(error, file=sys.stderr)
+		elif comment != None:
+			print('{0}{1}'.format(line_comment, comment))
+		elif context:
+			print('{0}({1})  {2}'.format(word, context, ' '.join(phonemes)))
+		elif word:
+			print('{0}  {1}'.format(word, ' '.join(phonemes)))
+		else:
+			print()
+
 def debug(filename):
 	for entry in cmudict.parse_cmudict(filename):
 		print(entry)
@@ -36,6 +49,7 @@ def validate(filename):
 commands = {
 	'debug':    debug,
 	'validate': validate,
+	'format': format_cmudict,
 }
 
 try:
@@ -44,6 +58,7 @@ try:
 except:
 	print('usage: cmudict-tools debug    <filename>')
 	print('usage: cmudict-tools validate <filename>')
+	print('usage: cmudict-tools format   <filename>')
 	sys.exit(1)
 
 command(filename)
