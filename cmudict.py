@@ -25,6 +25,50 @@ import os
 import sys
 import re
 
+phoneme_table = [ # cmudict
+	##### VOWELS ##########################################################
+	('AA'), ('AA0'), ('AA1'), ('AA2'),	# AA	odd	AA D
+	('AE'), ('AE0'), ('AE1'), ('AE2'),	# AE	at	AE T
+	('AH'), ('AH0'), ('AH1'), ('AH2'),	# AH	hut	HH AH T
+	('AO'), ('AO0'), ('AO1'), ('AO2'),	# AO	ought	AO T
+	('AW'), ('AW0'), ('AW1'), ('AW2'),	# AW	cow	K AW
+	('AY'), ('AY0'), ('AY1'), ('AY2'),	# AY	hide	HH AY D
+	('EH'), ('EH0'), ('EH1'), ('EH2'),	# EH	Ed	EH D
+	('ER'), ('ER0'), ('ER1'), ('ER2'),	# ER	hurt	HH ER T
+	('EY'), ('EY0'), ('EY1'), ('EY2'),	# EY	ate	EY T
+	('IH'), ('IH0'), ('IH1'), ('IH2'),	# IH	it	IH T
+	('IY'), ('IY0'), ('IY1'), ('IY2'),	# IY	eat	IY T
+	('OW'), ('OW0'), ('OW1'), ('OW2'),	# OW	oat	OW T
+	('OY'), ('OY0'), ('OY1'), ('OY2'),	# OY	toy	T OY
+	('UH'), ('UH0'), ('UH1'), ('UH2'),	# UH	hood	HH UH D
+	('UW'), ('UW0'), ('UW1'), ('UW2'),	# UW	two	T UW
+	##### CONSONANTS ######################################################
+	('B'),					# B	be	B IY
+	('CH'),					# CH	cheese	CH IY Z
+	('D'),					# D	dee	D IY
+	('DH'),					# DH	thee	DH IY
+	('F'),					# F	fee	F IY
+	('G'),					# G	green	G R IY N
+	('HH'),					# HH	he	HH IY
+	('JH'),					# JH	gee	JH IY
+	('K'),					# K	key	K IY
+	('L'),					# L	lee	L IY
+	('M'),					# M	me	M IY
+	('N'),					# N	knee	N IY
+	('NG'),					# NG	ping	P IH NG
+	('P'),					# P	pee	P IY
+	('R'),					# R	read	R IY D
+	('S'),					# S	sea	S IY
+	('SH'),					# SH	she	SH IY
+	('T'),					# T	tea	T IY
+	('TH'),					# TH	theta	TH EY T AH
+	('V'),					# V	vee	V IY
+	('W'),					# W	we	W IY
+	('Y'),					# Y	yield	Y IY L D
+	('Z'),					# Z	zee	Z IY
+	('ZH'),					# ZH	seizure	S IY ZH ER
+]
+
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-wade': {
 		'comment': '##{3}',
@@ -93,6 +137,7 @@ def parse(filename):
 	re_entry_new = re.compile(r'^([^ a-zA-Z]?[a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [A-Z012 ]+)( #(.*))?$') # nshmyrev
 	re_entry = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
+	valid_phonemes = set()
 	for line in read_file(filename):
 		if line == '':
 			yield None, None, None, None, None
@@ -106,8 +151,10 @@ def parse(filename):
 		if not re_entry: # detect the dictionary format ...
 			if re_entry_new.match(line):
 				re_entry = re_entry_new
+				valid_phonemes = set([p for p in phoneme_table])
 			else:
 				re_entry = re_entry_cmu
+				valid_phonemes = set([p for p in phoneme_table])
 
 		m = re_entry.match(line)
 		if not m:
@@ -119,5 +166,9 @@ def parse(filename):
 			phonemes = phonemes[1:]
 		else:
 			yield None, None, None, None, 'Entry needs 2 spaces between word and phoneme: "{0}"'.format(line)
+
+		for phoneme in phonemes:
+			if not phoneme in valid_phonemes:
+				yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
 
 		yield m.group(1), m.group(3), phonemes, m.group(6), None
