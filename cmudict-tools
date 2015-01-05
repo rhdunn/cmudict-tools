@@ -24,12 +24,17 @@ from __future__ import print_function
 import cmudict
 import sys
 
+def debug(filename):
+	for entry in cmudict.parse_cmudict(filename):
+		print(entry)
+
 def validate(filename):
 	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
 		if error:
 			print(error, file=sys.stderr)
 
 commands = {
+	'debug':    debug,
 	'validate': validate,
 }
 
@@ -37,6 +42,7 @@ try:
 	command = commands[sys.argv[1]]
 	filename = sys.argv[2]
 except:
+	print('usage: cmudict-tools debug    <filename>')
 	print('usage: cmudict-tools validate <filename>')
 	sys.exit(1)
 
