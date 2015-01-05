@@ -36,7 +36,8 @@ def parse_cmudict(filename):
 			(word, context, phonemes, comment, error)
 	"""
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
-	re_entry = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))?  ([A-Z012 ]+)$')
+	re_entry = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([A-Z012 ]+)$')
+	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	for line in read_file(filename):
 		if line == '':
 			yield None, None, None, None, None
@@ -48,8 +49,14 @@ def parse_cmudict(filename):
 			continue
 
 		m = re_entry.match(line)
-		if m:
-			yield m.group(1), m.group(3), m.group(4), None, None
+		if not m:
+			yield None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
 			continue
 
-		yield None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
+		phonemes = re_phonemes.split(m.group(4))
+		if phonemes[0] == '':
+			phonemes = phonemes[1:]
+		else:
+			yield None, None, None, None, 'Entry needs 2 spaces between word and phoneme: "{0}"'.format(line)
+
+		yield m.group(1), m.group(3), phonemes, None, None
