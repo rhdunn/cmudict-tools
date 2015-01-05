@@ -29,18 +29,21 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'entry': '{0}  {2}',
 		'entry-context': '{0}({1})  {2}',
 		'phonemes': lambda phonemes: ' '.join(phonemes),
+		'word': lambda word: word.upper(),
 	},
 	'cmudict': {
 		'comment': ';;;{3}',
 		'entry': '{0}  {2}',
 		'entry-context': '{0}({1})  {2}',
 		'phonemes': lambda phonemes: ' '.join(phonemes),
+		'word': lambda word: word.upper(),
 	},
 	'cmudict-new': {
 		'comment': ';;;{3}',
 		'entry': '{0} {2}',
 		'entry-context': '{0}({1}) {2}',
 		'phonemes': lambda phonemes: ' '.join(phonemes),
+		'word': lambda word: word.lower(),
 	},
 }
 
@@ -48,6 +51,7 @@ def print_entry(fmt, word, context, phonemes, comment):
 	components = []
 	if word:
 		components.append('entry')
+		word = fmt['word'](word)
 	if context:
 		components.append('context')
 	if comment != None:
