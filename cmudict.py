@@ -171,4 +171,5 @@ def parse(filename):
 			if not phoneme in valid_phonemes:
 				yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
 
-		yield m.group(1), m.group(3), phonemes, m.group(6), None
+		comment = m.group(6) or None
+		yield m.group(1), m.group(3), phonemes, comment, None
