@@ -125,7 +125,7 @@ def read_file(filename):
 		for line in f:
 			yield line.replace('\n', '')
 
-def parse(filename, check_trailing_whitespace=False):
+def parse(filename, check_trailing_whitespace=True):
 	"""
 		Parse the entries in the cmudict file.
 
