@@ -36,7 +36,9 @@ def parse_cmudict(filename):
 			(word, context, phonemes, comment, error)
 	"""
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
-	re_entry = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([A-Z012 ]+)$')
+	re_entry_cmu = re.compile(r'^([^ ][A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([A-Z012 ]+)$') # wade/air
+	re_entry_new = re.compile(r'^([^ ][a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [A-Z012 ]+)$') # nshmyrev
+	re_entry = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	for line in read_file(filename):
 		if line == '':
@@ -47,6 +49,12 @@ def parse_cmudict(filename):
 		if m:
 			yield None, None, None, m.group(2), None
 			continue
+
+		if not re_entry: # detect the dictionary format ...
+			if re_entry_new.match(line):
+				re_entry = re_entry_new
+			else:
+				re_entry = re_entry_cmu
 
 		m = re_entry.match(line)
 		if not m:

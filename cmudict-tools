@@ -35,6 +35,11 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'entry': '{0}  {2}',
 		'entry-context': '{0}({1})  {2}',
 	},
+	'cmudict-new': {
+		'comment': ';;;{3}',
+		'entry': '{0} {2}',
+		'entry-context': '{0}({1}) {2}',
+	},
 }
 
 phoneme_sets = {
