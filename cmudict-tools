@@ -29,26 +29,25 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'comment': '##{3}',
 		'entry': '{0}  {2}',
 		'entry-context': '{0}({1})  {2}',
+		'phonemes': lambda phonemes: ' '.join(phonemes),
 	},
 	'cmudict': {
 		'comment': ';;;{3}',
 		'entry': '{0}  {2}',
 		'entry-context': '{0}({1})  {2}',
+		'phonemes': lambda phonemes: ' '.join(phonemes),
 	},
 	'cmudict-new': {
 		'comment': ';;;{3}',
 		'entry': '{0} {2}',
 		'entry-context': '{0}({1}) {2}',
+		'phonemes': lambda phonemes: ' '.join(phonemes),
 	},
-}
-
-phoneme_sets = {
-	'cmu': lambda phonemes: ' '.join(phonemes)
 }
 
 def print_dict(filename, opts={}):
 	fmt = dict_formats[opts.get('format', 'cmudict')]
-	phonemeset = phoneme_sets[opts.get('phonemeset', 'cmu')]
+	phonemeset = fmt['phonemes']
 
 	for word, context, phonemes, comment, error in cmudict.parse_cmudict(filename):
 		if error:
@@ -95,7 +94,7 @@ try:
 				arg, value = arg.split('=')
 			else:
 				value = None
-			if arg in ['format', 'phonemeset']:
+			if arg in ['format']:
 				if value:
 					opts[arg] = value
 				else:
