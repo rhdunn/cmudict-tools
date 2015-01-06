@@ -73,18 +73,18 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-wade': {
 		'comment': '##{3}',
 		'entry': '{0}  {2}',
+		'entry-comment': '{0}  {2} #{3}',
 		'entry-context': '{0}({1})  {2}',
-		'entry-context-comment': '{0}({1})  {2}',
-		'entry-comment': '{0}  {2}',
+		'entry-context-comment': '{0}({1})  {2} #{3}',
 		'phonemes': lambda phonemes: ' '.join(phonemes),
 		'word': lambda word: word.upper(),
 	},
 	'cmudict': {
 		'comment': ';;;{3}',
 		'entry': '{0}  {2}',
-		'entry-comment': '{0}  {2}',
+		'entry-comment': '{0}  {2} #{3}',
 		'entry-context': '{0}({1})  {2}',
-		'entry-context-comment': '{0}({1})  {2}',
+		'entry-context-comment': '{0}({1})  {2} #{3}',
 		'phonemes': lambda phonemes: ' '.join(phonemes),
 		'word': lambda word: word.upper(),
 	},
@@ -133,7 +133,7 @@ def parse(filename, check_trailing_whitespace=True):
 			(word, context, phonemes, comment, error)
 	"""
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
-	re_entry_cmu = re.compile(r'^([^ a-zA-Z]?[A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([A-Z012 ]+)(())[ \t]*$') # wade/air
+	re_entry_cmu = re.compile(r'^([^ a-zA-Z]?[A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([A-Z012 ]+)( #(.*))?[ \t]*$') # wade/air
 	re_entry_new = re.compile(r'^([^ a-zA-Z]?[a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [A-Z012 ]+)( #(.*))?$') # nshmyrev
 	re_entry = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
