@@ -133,9 +133,10 @@ def parse(filename, check_trailing_whitespace=True):
 			(word, context, phonemes, comment, error)
 	"""
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
-	re_entry_cmu = re.compile(r'^([^ a-zA-Z]?[A-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([^#]+)( #(.*))?[ \t]*$') # wade/air
-	re_entry_new = re.compile(r'^([^ a-zA-Z]?[a-z0-9\'\.\-\_]*)(\(([1-9])\))?( [^#]+)( #(.*))?$') # nshmyrev
-	re_entry = None
+	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([^#]+)( #(.*))?[ \t]*$')
+	re_word_cmu = re.compile(r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$') # wade/air
+	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
+	re_word = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	re_phoneme_start = re.compile(r'^ [A-Z]')
 	valid_phonemes = set()
@@ -149,18 +150,22 @@ def parse(filename, check_trailing_whitespace=True):
 			yield None, None, None, m.group(2), None
 			continue
 
-		if not re_entry: # detect the dictionary format ...
-			if re_entry_new.match(line):
-				re_entry = re_entry_new
-				valid_phonemes = set([p for p in phoneme_table])
-			else:
-				re_entry = re_entry_cmu
-				valid_phonemes = set([p for p in phoneme_table])
-
 		m = re_entry.match(line)
 		if not m:
 			yield None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
 			continue
+
+		word = m.group(1)
+		if not re_word: # detect the dictionary format ...
+			if re_word_cmu.match(word):
+				re_word = re_word_cmu
+				valid_phonemes = set([p for p in phoneme_table])
+			else:
+				re_word = re_word_new
+				valid_phonemes = set([p for p in phoneme_table])
+
+		if not re_word.match(word):
+			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
 		phonemes = m.group(4)
 		if not re_phoneme_start.match(phonemes):
