@@ -132,6 +132,11 @@ def parse(filename, check_trailing_whitespace=True):
 		The return value is of the form:
 			(word, context, phonemes, comment, error)
 	"""
+	GROUP_WORD     = 1
+	GROUP_CONTEXT  = 3 # 2 = with context markers ~ ({3})
+	GROUP_PHONEMES = 4
+	GROUP_COMMENT  = 6 # 5 = with comment marker ~ #{6}
+
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([^#]+)( #(.*))?[ \t]*$')
 	re_word_cmu = re.compile(r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$') # wade/air
@@ -155,7 +160,7 @@ def parse(filename, check_trailing_whitespace=True):
 			yield None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
 			continue
 
-		word = m.group(1)
+		word = m.group(GROUP_WORD)
 		if not re_word: # detect the dictionary format ...
 			if re_word_cmu.match(word):
 				re_word = re_word_cmu
@@ -167,7 +172,7 @@ def parse(filename, check_trailing_whitespace=True):
 		if not re_word.match(word):
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
-		phonemes = m.group(4)
+		phonemes = m.group(GROUP_PHONEMES)
 		if not re_phoneme_start.match(phonemes):
 			yield None, None, None, None, 'Entry needs 2 spaces between word and phoneme: "{0}"'.format(line)
 		if phonemes.endswith(' ') and check_trailing_whitespace:
@@ -176,7 +181,7 @@ def parse(filename, check_trailing_whitespace=True):
 		phonemes = re_phonemes.split(phonemes.strip())
 		for phoneme in phonemes:
 			if not phoneme in valid_phonemes:
-				yield None, None, None, None, 'Invalid phoneme "{0}" for "{1}" in entry: "{2}"'.format(phoneme, m.group(4), line)
+				yield None, None, None, None, 'Invalid phoneme "{0}" for "{1}" in entry: "{2}"'.format(phoneme, m.group(GROUP_PHONEMES), line)
 
-		comment = m.group(6) or None
-		yield m.group(1), m.group(3), phonemes, comment, None
+		comment = m.group(GROUP_COMMENT) or None
+		yield word, m.group(GROUP_CONTEXT), phonemes, comment, None
