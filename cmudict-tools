@@ -24,15 +24,18 @@ from __future__ import print_function
 import cmudict
 import sys
 
+def parse(filename, opts):
+	return cmudict.parse(filename, check_trailing_whitespace=opts['check-trailing-whitespace'])
+
 def print_dict(filename, opts={}):
-	cmudict.format(opts.get('format', 'cmudict'), cmudict.parse(filename))
+	cmudict.format(opts.get('format', 'cmudict'), parse(filename, opts))
 
 def debug(filename, opts={}):
-	for entry in cmudict.parse(filename):
+	for entry in parse(filename, opts):
 		print(entry)
 
 def validate(filename, opts={}):
-	for word, context, phonemes, comment, error in cmudict.parse(filename):
+	for word, context, phonemes, comment, error in parse(filename, opts):
 		if error:
 			print(error, file=sys.stderr)
 
@@ -46,7 +49,7 @@ try:
 	command = None
 	filename = None
 	optname = None
-	opts = {}
+	opts = { 'check-trailing-whitespace': False }
 	for arg in sys.argv[1:]:
 		if arg.startswith('--'):
 			arg = arg[2:]
@@ -59,6 +62,8 @@ try:
 					opts[arg] = value
 				else:
 					optname = arg
+			elif arg in ['check-trailing-whitespace']:
+				opts[arg] = True
 		elif optname:
 			opts[optname] = arg
 			optname = None
