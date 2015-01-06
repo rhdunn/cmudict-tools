@@ -185,7 +185,7 @@ def parse(filename, check_trailing_whitespace=True):
 		phonemes = re_phonemes.split(phonemes.strip())
 		for phoneme in phonemes:
 			if not phoneme in valid_phonemes:
-				yield None, None, None, None, 'Invalid phoneme "{0}" for "{1}" in entry: "{2}"'.format(phoneme, m.group(GROUP_PHONEMES), line)
+				yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
 
 		comment = m.group(GROUP_COMMENT) or None
 		yield word, m.group(GROUP_CONTEXT), phonemes, comment, None
