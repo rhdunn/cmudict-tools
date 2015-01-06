@@ -134,11 +134,12 @@ def parse(filename, check_trailing_whitespace=True):
 	"""
 	GROUP_WORD     = 1
 	GROUP_CONTEXT  = 3 # 2 = with context markers ~ ({3})
-	GROUP_PHONEMES = 4
-	GROUP_COMMENT  = 6 # 5 = with comment marker ~ #{6}
+	GROUP_SPACING  = 4
+	GROUP_PHONEMES = 5
+	GROUP_COMMENT  = 7 # 6 = with comment marker ~ #{7}
 
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
-	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([1-9])\))? ([^#]+)( #(.*))?[ \t]*$')
+	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([1-9])\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	re_word_cmu = re.compile(r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$') # wade/air
 	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
 	re_word = None
@@ -165,16 +166,19 @@ def parse(filename, check_trailing_whitespace=True):
 			if re_word_cmu.match(word):
 				re_word = re_word_cmu
 				valid_phonemes = set([p for p in phoneme_table])
+				spacing = '  '
 			else:
 				re_word = re_word_new
 				valid_phonemes = set([p for p in phoneme_table])
+				spacing = ' '
 
 		if not re_word.match(word):
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
+		if m.group(GROUP_SPACING) != spacing:
+			yield None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
+
 		phonemes = m.group(GROUP_PHONEMES)
-		if not re_phoneme_start.match(phonemes):
-			yield None, None, None, None, 'Entry needs 2 spaces between word and phoneme: "{0}"'.format(line)
 		if phonemes.endswith(' ') and check_trailing_whitespace:
 			yield None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
 
