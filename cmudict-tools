@@ -23,19 +23,20 @@ from __future__ import print_function
 
 import cmudict
 import sys
+import argparse
 
-def parse(filename, opts):
-	return cmudict.parse(filename, check_trailing_whitespace=opts['check-trailing-whitespace'], check_missing_stress_marks=opts['check-missing-stress-marks'])
+def parse(args):
+	return cmudict.parse(args.filename, check_trailing_whitespace=args.check_trailing_whitespace, check_missing_stress_marks=args.check_missing_stress_marks)
 
-def print_dict(filename, opts={}):
-	cmudict.format(opts.get('format', 'cmudict'), parse(filename, opts))
+def print_dict(args):
+	cmudict.format(args.format, parse(args))
 
-def debug(filename, opts={}):
-	for entry in parse(filename, opts):
+def debug(args):
+	for entry in parse(args):
 		print(entry)
 
-def validate(filename, opts={}):
-	for word, context, phonemes, comment, error in parse(filename, opts):
+def validate(args):
+	for word, context, phonemes, comment, error in parse(args):
 		if error:
 			print(error, file=sys.stderr)
 
@@ -45,38 +46,12 @@ commands = {
 	'print':    print_dict,
 }
 
-try:
-	command = None
-	filename = None
-	optname = None
-	opts = { 'check-trailing-whitespace': False, 'check-missing-stress-marks': False }
-	for arg in sys.argv[1:]:
-		if arg.startswith('--'):
-			arg = arg[2:]
-			if '=' in arg:
-				arg, value = arg.split('=')
-			else:
-				value = None
-			if arg in ['format']:
-				if value:
-					opts[arg] = value
-				else:
-					optname = arg
-			elif arg in ['check-trailing-whitespace', 'check-missing-stress-marks']:
-				opts[arg] = True
-		elif optname:
-			opts[optname] = arg
-			optname = None
-		elif not command:
-			command = commands[arg]
-		elif not filename:
-			filename = arg
-		else:
-			raise Exception('invalid argument')
-except:
-	print('usage: cmudict-tools debug    <filename>')
-	print('usage: cmudict-tools validate <filename>')
-	print('usage: cmudict-tools print    <filename>')
-	sys.exit(1)
+parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.')
+parser.add_argument('--check-trailing-whitespace', action='store_true')
+parser.add_argument('--check-missing-stress-marks', action='store_true')
+parser.add_argument('--format', default='cmudict', choices=cmudict.dict_formats.keys())
+parser.add_argument('command', choices=commands.keys())
+parser.add_argument('filename')
+args = parser.parse_args()
 
-command(filename, opts)
+commands[args.command](args)
