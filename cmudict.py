@@ -28,46 +28,46 @@ import re
 VOWEL = 1
 CONSONANT = 2
 
-phoneme_table = [ # cmudict
-	('AA', VOWEL),				# AA	odd	AA D
-	('AE', VOWEL),				# AE	at	AE T
-	('AH', VOWEL),				# AH	hut	HH AH T
-	('AO', VOWEL),				# AO	ought	AO T
-	('AW', VOWEL),				# AW	cow	K AW
-	('AY', VOWEL),				# AY	hide	HH AY D
-	('B',  CONSONANT),			# B	be	B IY
-	('CH', CONSONANT),			# CH	cheese	CH IY Z
-	('D',  CONSONANT),			# D	dee	D IY
-	('DH', CONSONANT),			# DH	thee	DH IY
-	('EH', VOWEL),				# EH	Ed	EH D
-	('ER', VOWEL),				# ER	hurt	HH ER T
-	('EY', VOWEL),				# EY	ate	EY T
-	('F',  CONSONANT),			# F	fee	F IY
-	('G',  CONSONANT),			# G	green	G R IY N
-	('HH', CONSONANT),			# HH	he	HH IY
-	('IH', VOWEL),				# IH	it	IH T
-	('IY', VOWEL),				# IY	eat	IY T
-	('JH', CONSONANT),			# JH	gee	JH IY
-	('K',  CONSONANT),			# K	key	K IY
-	('L',  CONSONANT),			# L	lee	L IY
-	('M',  CONSONANT),			# M	me	M IY
-	('N',  CONSONANT),			# N	knee	N IY
-	('NG', CONSONANT),			# NG	ping	P IH NG
-	('OW', VOWEL),				# OW	oat	OW T
-	('OY', VOWEL),				# OY	toy	T OY
-	('P',  CONSONANT),			# P	pee	P IY
-	('R',  CONSONANT),			# R	read	R IY D
-	('S',  CONSONANT),			# S	sea	S IY
-	('SH', CONSONANT),			# SH	she	SH IY
-	('T',  CONSONANT),			# T	tea	T IY
-	('TH', CONSONANT),			# TH	theta	TH EY T AH
-	('UH', VOWEL),				# UH	hood	HH UH D
-	('UW', VOWEL),				# UW	two	T UW
-	('V',  CONSONANT),			# V	vee	V IY
-	('W',  CONSONANT),			# W	we	W IY
-	('Y',  CONSONANT),			# Y	yield	Y IY L D
-	('Z',  CONSONANT),			# Z	zee	Z IY
-	('ZH', CONSONANT),			# ZH	seizure	S IY ZH ER
+phoneme_table = [
+	{'cmudict': 'AA', 'type': VOWEL,     'example': ('odd',     'AA D')},
+	{'cmudict': 'AE', 'type': VOWEL,     'example': ('at',      'AE T')},
+	{'cmudict': 'AH', 'type': VOWEL,     'example': ('hut',     'HH AH T')},
+	{'cmudict': 'AO', 'type': VOWEL,     'example': ('ought',   'AO T')},
+	{'cmudict': 'AW', 'type': VOWEL,     'example': ('cow',     'K AW')},
+	{'cmudict': 'AY', 'type': VOWEL,     'example': ('hide',    'HH AY D')},
+	{'cmudict': 'B',  'type': CONSONANT, 'example': ('be',      'B IY')},
+	{'cmudict': 'CH', 'type': CONSONANT, 'example': ('cheese',  'CH IY Z')},
+	{'cmudict': 'D',  'type': CONSONANT, 'example': ('dee',     'D IY')},
+	{'cmudict': 'DH', 'type': CONSONANT, 'example': ('thee',    'DH IY')},
+	{'cmudict': 'EH', 'type': VOWEL,     'example': ('Ed',      'EH D')},
+	{'cmudict': 'ER', 'type': VOWEL,     'example': ('hurt',    'HH ER T')},
+	{'cmudict': 'EY', 'type': VOWEL,     'example': ('ate',     'EY T')},
+	{'cmudict': 'F',  'type': CONSONANT, 'example': ('fee',     'F IY')},
+	{'cmudict': 'G',  'type': CONSONANT, 'example': ('green',   'G R IY N')},
+	{'cmudict': 'HH', 'type': CONSONANT, 'example': ('he',      'HH IY')},
+	{'cmudict': 'IH', 'type': VOWEL,     'example': ('it',      'IH T')},
+	{'cmudict': 'IY', 'type': VOWEL,     'example': ('eat',     'IY T')},
+	{'cmudict': 'JH', 'type': CONSONANT, 'example': ('gee',     'JH IY')},
+	{'cmudict': 'K',  'type': CONSONANT, 'example': ('key',     'K IY')},
+	{'cmudict': 'L',  'type': CONSONANT, 'example': ('lee',     'L IY')},
+	{'cmudict': 'M',  'type': CONSONANT, 'example': ('me',      'M IY')},
+	{'cmudict': 'N',  'type': CONSONANT, 'example': ('knee',    'N IY')},
+	{'cmudict': 'NG', 'type': CONSONANT, 'example': ('ping',    'P IH NG')},
+	{'cmudict': 'OW', 'type': VOWEL,     'example': ('oat',     'OW T')},
+	{'cmudict': 'OY', 'type': VOWEL,     'example': ('toy',     'T OY')},
+	{'cmudict': 'P',  'type': CONSONANT, 'example': ('pee',     'P IY')},
+	{'cmudict': 'R',  'type': CONSONANT, 'example': ('read',    'R IY D')},
+	{'cmudict': 'S',  'type': CONSONANT, 'example': ('sea',     'S IY')},
+	{'cmudict': 'SH', 'type': CONSONANT, 'example': ('she',     'SH IY')},
+	{'cmudict': 'T',  'type': CONSONANT, 'example': ('tea',     'T IY')},
+	{'cmudict': 'TH', 'type': CONSONANT, 'example': ('theta',   'TH EY T AH')},
+	{'cmudict': 'UH', 'type': VOWEL,     'example': ('hood',    'HH UH D')},
+	{'cmudict': 'UW', 'type': VOWEL,     'example': ('two',     'T UW')},
+	{'cmudict': 'V',  'type': CONSONANT, 'example': ('vee',     'V IY')},
+	{'cmudict': 'W',  'type': CONSONANT, 'example': ('we',      'W IY')},
+	{'cmudict': 'Y',  'type': CONSONANT, 'example': ('yield',   'Y IY L D')},
+	{'cmudict': 'Z',  'type': CONSONANT, 'example': ('zee',     'Z IY')},
+	{'cmudict': 'ZH', 'type': CONSONANT, 'example': ('seizure', 'S IY ZH ER')},
 ]
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
@@ -170,12 +170,12 @@ def parse(filename, check_trailing_whitespace=True):
 			else:
 				re_word = re_word_new
 				spacing = ' '
-			for cmu, ptype in phoneme_table:
-				valid_phonemes.add(cmu)
-				if ptype == VOWEL:
-					valid_phonemes.add('{0}0'.format(cmu))
-					valid_phonemes.add('{0}1'.format(cmu))
-					valid_phonemes.add('{0}2'.format(cmu))
+			for p in phoneme_table:
+				valid_phonemes.add(p['cmudict'])
+				if p['type'] == VOWEL:
+					valid_phonemes.add('{0}0'.format(p['cmudict']))
+					valid_phonemes.add('{0}1'.format(p['cmudict']))
+					valid_phonemes.add('{0}2'.format(p['cmudict']))
 
 		if not re_word.match(word):
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
