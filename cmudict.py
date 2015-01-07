@@ -101,11 +101,14 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 }
 
 parser_warnings = {
-	'trailing-whitespace': 'check for trailing whitespaces',
+	'entry-spacing':       'check spacing between word and phoneme',
+	'invalid-phonemes':    'check for invalid phonemes',
 	'missing-stress':      'check for missing stress markers',
+	'trailing-whitespace': 'check for trailing whitespaces',
+	'word-casing':         'check for consistent word casing',
 }
 
-default_warnings = []
+default_warnings = ['entry-spacing', 'invalid-phonemes', 'word-casing']
 
 def format(dict_format, entries):
 	fmt = dict_formats[dict_format]
@@ -203,10 +206,10 @@ def parse(filename, warnings=[]):
 				else:
 					valid_phonemes.add(p['cmudict'])
 
-		if not re_word.match(word):
+		if not re_word.match(word) and 'word-casing' in checks:
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
-		if m.group(GROUP_SPACING) != spacing:
+		if m.group(GROUP_SPACING) != spacing and 'entry-spacing' in checks:
 			yield None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
 
 		phonemes = m.group(GROUP_PHONEMES)
@@ -219,7 +222,8 @@ def parse(filename, warnings=[]):
 				if 'missing-stress' in checks:
 					yield None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
 			elif not phoneme in valid_phonemes:
-				yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
+				if 'invalid-phonemes' in checks:
+					yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
 
 		comment = m.group(GROUP_COMMENT) or None
 		yield word, m.group(GROUP_CONTEXT), phonemes, comment, None
