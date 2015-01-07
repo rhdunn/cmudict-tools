@@ -111,6 +111,26 @@ parser_warnings = {
 
 default_warnings = ['entry-spacing', 'invalid-phonemes', 'phoneme-spacing', 'word-casing']
 
+def sort(entries, mode):
+	if mode is None:
+		for entry in entries:
+			yield entry
+	elif mode in ['weide']:
+		ordered = []
+		for word, context, phonemes, comment, error in entries:
+			if not word:
+				yield (word, context, phonemes, comment, error)
+				continue
+			if context:
+				key = '{0}({1})'.format(word, context)
+			else:
+				key = word
+			ordered.append((key, (word, context, phonemes, comment, error)))
+		for key, entry in sorted(ordered):
+			yield entry
+	else:
+		raise ValueError('unsupported sort mode: {0}'.format(mode))
+
 def format(dict_format, entries):
 	fmt = dict_formats[dict_format]
 	for word, context, phonemes, comment, error in entries:

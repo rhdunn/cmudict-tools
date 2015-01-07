@@ -36,7 +36,10 @@ class HelpWarningsAction(argparse.Action):
 		sys.exit(0)
 
 def parse(args):
-	return cmudict.parse(args.filename, warnings=args.warnings)
+	if args.sort:
+		return cmudict.sort(cmudict.parse(args.filename, warnings=args.warnings), args.sort)
+	else:
+		return cmudict.parse(args.filename, warnings=args.warnings)
 
 def print_dict(args):
 	cmudict.format(args.format, parse(args))
@@ -59,6 +62,7 @@ commands = {
 parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.')
 parser.add_argument('-W', dest='warnings', action='append', default=[])
 parser.add_argument('--format', default='cmudict', choices=cmudict.dict_formats.keys())
+parser.add_argument('--sort', default=None, choices=['weide'])
 parser.add_argument('--help-warnings', action=HelpWarningsAction)
 parser.add_argument('command', choices=commands.keys())
 parser.add_argument('filename')
