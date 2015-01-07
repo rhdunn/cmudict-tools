@@ -102,6 +102,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 
 parser_warnings = {
 	'context-values':      'check context values are numbers',
+	'context-ordering':    'check context values are ordered sequentially',
 	'entry-spacing':       'check spacing between word and pronunciation',
 	'invalid-phonemes':    'check for invalid phonemes',
 	'missing-stress':      'check for missing stress markers',
@@ -112,11 +113,45 @@ parser_warnings = {
 
 default_warnings = [
 	'context-values',
+	'context-ordering',
 	'entry-spacing',
 	'invalid-phonemes',
 	'phoneme-spacing',
 	'word-casing'
 ]
+
+# dict() is too slow for indexing cmudict entries, so use a simple trie
+# data structure instead ...
+class Trie:
+	def __init__(self):
+		self.root = {}
+
+	def lookup(self, key):
+		current = self.root
+		for letter in key:
+			if letter in current:
+				current = current[letter]
+			else:
+				return False, None
+		if None in current:
+			return True, current[None]
+		return False, None
+
+	def __contains__(self, key):
+		valid, _ = self.lookup(key)
+		return valid
+
+	def __getitem__(self, key):
+		valid, item = self.lookup(key)
+		if not valid:
+			raise KeyError('Item not in Trie')
+		return item
+
+	def __setitem__(self, key, value):
+		current = self.root
+		for letter in key:
+			current = current.setdefault(letter, {})
+		current[None] = value
 
 def sort(entries, mode):
 	if mode is None:
@@ -170,7 +205,7 @@ def read_file(filename):
 		for line in f:
 			yield line.replace('\n', '')
 
-def parse(filename, warnings=[]):
+def parse(filename, warnings=[], order_from=0):
 	"""
 		Parse the entries in the cmudict file.
 
@@ -206,6 +241,8 @@ def parse(filename, warnings=[]):
 	re_word = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	re_phoneme_start = re.compile(r'^ [A-Z]')
+
+	entries = Trie()
 	valid_phonemes = set()
 	missing_stress_marks = set()
 	for line in read_file(filename):
@@ -271,6 +308,22 @@ def parse(filename, warnings=[]):
 			elif not phoneme in valid_phonemes:
 				if 'invalid-phonemes' in checks:
 					yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
+
+		key = word.upper()
+		position = order_from if context is None else context
+
+		if isinstance(position, int):
+			pronunciation = ' '.join(phonemes)
+			if key in entries:
+				expect_position, pronunciations = entries[key]
+			else:
+				expect_position = order_from
+				pronunciations = []
+			if position != expect_position and 'context-ordering' in checks:
+				yield None, None, None, None, 'Incorrect context ordering "{0}" (expected: "{1}") in entry: "{2}"'.format(position, expect_position, line)
+			expect_position = expect_position + 1
+			pronunciations.append(pronunciation)
+			entries[key] = (expect_position, pronunciations)
 
 		comment = m.group(GROUP_COMMENT) or None
 		yield word, context, phonemes, comment, None

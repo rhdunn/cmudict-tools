@@ -37,9 +37,9 @@ class HelpWarningsAction(argparse.Action):
 
 def parse(args):
 	if args.sort:
-		return cmudict.sort(cmudict.parse(args.filename, warnings=args.warnings), args.sort)
+		return cmudict.sort(cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from), args.sort)
 	else:
-		return cmudict.parse(args.filename, warnings=args.warnings)
+		return cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from)
 
 def print_dict(args):
 	cmudict.format(args.format, parse(args))
@@ -63,6 +63,7 @@ parser = argparse.ArgumentParser(description='A helper program for working with 
 parser.add_argument('-W', dest='warnings', action='append', default=[])
 parser.add_argument('--format', default='cmudict', choices=cmudict.dict_formats.keys())
 parser.add_argument('--sort', default=None, choices=['weide', 'air'])
+parser.add_argument('--order-from', default=0, type=int)
 parser.add_argument('--help-warnings', action=HelpWarningsAction)
 parser.add_argument('command', choices=commands.keys())
 parser.add_argument('filename')
