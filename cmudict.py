@@ -115,16 +115,22 @@ def sort(entries, mode):
 	if mode is None:
 		for entry in entries:
 			yield entry
-	elif mode in ['weide']:
+	elif mode in ['weide', 'air']:
 		ordered = []
 		for word, context, phonemes, comment, error in entries:
 			if not word:
 				yield (word, context, phonemes, comment, error)
 				continue
-			if context:
-				key = '{0}({1})'.format(word, context)
-			else:
-				key = word
+			if mode == 'weide':
+				if context:
+					key = '{0}({1})'.format(word, context)
+				else:
+					key = word
+			elif mode == 'air':
+				if context:
+					key = '{0}!{1}'.format(word, context)
+				else:
+					key = word
 			ordered.append((key, (word, context, phonemes, comment, error)))
 		for key, entry in sorted(ordered):
 			yield entry

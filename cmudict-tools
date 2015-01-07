@@ -62,7 +62,7 @@ commands = {
 parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.')
 parser.add_argument('-W', dest='warnings', action='append', default=[])
 parser.add_argument('--format', default='cmudict', choices=cmudict.dict_formats.keys())
-parser.add_argument('--sort', default=None, choices=['weide'])
+parser.add_argument('--sort', default=None, choices=['weide', 'air'])
 parser.add_argument('--help-warnings', action=HelpWarningsAction)
 parser.add_argument('command', choices=commands.keys())
 parser.add_argument('filename')
