@@ -71,7 +71,7 @@ phoneme_table = [
 ]
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
-	'cmudict-wade': {
+	'cmudict-weide': {
 		'comment': '##{3}',
 		'entry': '{0}  {2}',
 		'entry-comment': '{0}  {2} #{3}',
@@ -168,7 +168,7 @@ def parse(filename, warnings=[]):
 
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([1-9])\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
-	re_word_cmu = re.compile(r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$') # wade/air
+	re_word_cmu = re.compile(r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$') # weide/air
 	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
 	re_word = None
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
