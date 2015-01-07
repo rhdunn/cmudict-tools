@@ -101,6 +101,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 }
 
 parser_warnings = {
+	'context-values':      'check context values are numbers',
 	'entry-spacing':       'check spacing between word and pronunciation',
 	'invalid-phonemes':    'check for invalid phonemes',
 	'missing-stress':      'check for missing stress markers',
@@ -109,7 +110,13 @@ parser_warnings = {
 	'word-casing':         'check for consistent word casing',
 }
 
-default_warnings = ['entry-spacing', 'invalid-phonemes', 'phoneme-spacing', 'word-casing']
+default_warnings = [
+	'context-values',
+	'entry-spacing',
+	'invalid-phonemes',
+	'phoneme-spacing',
+	'word-casing'
+]
 
 def sort(entries, mode):
 	if mode is None:
@@ -193,7 +200,7 @@ def parse(filename, warnings=[]):
 			raise ValueError('Invalid warning: {0}'.format(warning))
 
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
-	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([1-9])\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
+	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	re_word_cmu = re.compile(r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$') # weide/air
 	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
 	re_word = None
@@ -236,6 +243,15 @@ def parse(filename, warnings=[]):
 		if not re_word.match(word) and 'word-casing' in checks:
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
+		try:
+			context = m.group(GROUP_CONTEXT)
+			if context is not None:
+				context = int(context)
+		except ValueError:
+			if 'context-values' in checks:
+				yield None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(m.group(GROUP_CONTEXT), line)
+			context = m.group(GROUP_CONTEXT)
+
 		if m.group(GROUP_SPACING) != spacing and 'entry-spacing' in checks:
 			yield None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
 
@@ -257,4 +273,4 @@ def parse(filename, warnings=[]):
 					yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
 
 		comment = m.group(GROUP_COMMENT) or None
-		yield word, m.group(GROUP_CONTEXT), phonemes, comment, None
+		yield word, context, phonemes, comment, None
