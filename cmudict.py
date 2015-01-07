@@ -126,7 +126,7 @@ def read_file(filename):
 		for line in f:
 			yield line.replace('\n', '')
 
-def parse(filename, check_trailing_whitespace=True):
+def parse(filename, check_trailing_whitespace=True, check_missing_stress_marks=True):
 	"""
 		Parse the entries in the cmudict file.
 
@@ -147,6 +147,7 @@ def parse(filename, check_trailing_whitespace=True):
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	re_phoneme_start = re.compile(r'^ [A-Z]')
 	valid_phonemes = set()
+	missing_stress_marks = set()
 	for line in read_file(filename):
 		if line == '':
 			yield None, None, None, None, None
@@ -171,11 +172,13 @@ def parse(filename, check_trailing_whitespace=True):
 				re_word = re_word_new
 				spacing = ' '
 			for p in phoneme_table:
-				valid_phonemes.add(p['cmudict'])
 				if p['type'] == VOWEL:
+					missing_stress_marks.add(p['cmudict'])
 					valid_phonemes.add('{0}0'.format(p['cmudict']))
 					valid_phonemes.add('{0}1'.format(p['cmudict']))
 					valid_phonemes.add('{0}2'.format(p['cmudict']))
+				else:
+					valid_phonemes.add(p['cmudict'])
 
 		if not re_word.match(word):
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
@@ -189,7 +192,10 @@ def parse(filename, check_trailing_whitespace=True):
 
 		phonemes = re_phonemes.split(phonemes.strip())
 		for phoneme in phonemes:
-			if not phoneme in valid_phonemes:
+			if phoneme in missing_stress_marks:
+				if check_missing_stress_marks:
+					yield None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
+			elif not phoneme in valid_phonemes:
 				yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
 
 		comment = m.group(GROUP_COMMENT) or None
