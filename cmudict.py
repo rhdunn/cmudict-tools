@@ -101,14 +101,15 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 }
 
 parser_warnings = {
-	'context-values':      'check context values are numbers',
-	'context-ordering':    'check context values are ordered sequentially',
-	'entry-spacing':       'check spacing between word and pronunciation',
-	'invalid-phonemes':    'check for invalid phonemes',
-	'missing-stress':      'check for missing stress markers',
-	'phoneme-space':       'check for a single space between phonemes',
+	'context-values': 'check context values are numbers',
+	'context-ordering': 'check context values are ordered sequentially',
+	'duplicate-pronunciations': 'check for duplicated pronunciations for an entry',
+	'entry-spacing': 'check spacing between word and pronunciation',
+	'invalid-phonemes': 'check for invalid phonemes',
+	'missing-stress': 'check for missing stress markers',
+	'phoneme-space': 'check for a single space between phonemes',
 	'trailing-whitespace': 'check for trailing whitespaces',
-	'word-casing':         'check for consistent word casing',
+	'word-casing': 'check for consistent word casing',
 }
 
 default_warnings = [
@@ -322,7 +323,11 @@ def parse(filename, warnings=[], order_from=0):
 			if position != expect_position and 'context-ordering' in checks:
 				yield None, None, None, None, 'Incorrect context ordering "{0}" (expected: "{1}") in entry: "{2}"'.format(position, expect_position, line)
 			expect_position = expect_position + 1
-			pronunciations.append(pronunciation)
+			if pronunciation in pronunciations:
+				if 'duplicate-pronunciations' in checks:
+					yield None, None, None, None, 'Existing pronunciation in entry: "{2}"'.format(position, expect_position, line)
+			else:
+				pronunciations.append(pronunciation)
 			entries[key] = (expect_position, pronunciations)
 
 		comment = m.group(GROUP_COMMENT) or None
