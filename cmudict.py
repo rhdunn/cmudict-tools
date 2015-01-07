@@ -29,42 +29,40 @@ VOWEL = 1
 CONSONANT = 2
 
 phoneme_table = [ # cmudict
-	##### VOWELS ##########################################################
 	('AA', VOWEL),				# AA	odd	AA D
 	('AE', VOWEL),				# AE	at	AE T
 	('AH', VOWEL),				# AH	hut	HH AH T
 	('AO', VOWEL),				# AO	ought	AO T
 	('AW', VOWEL),				# AW	cow	K AW
 	('AY', VOWEL),				# AY	hide	HH AY D
-	('EH', VOWEL),				# EH	Ed	EH D
-	('ER', VOWEL),				# ER	hurt	HH ER T
-	('EY', VOWEL),				# EY	ate	EY T
-	('IH', VOWEL),				# IH	it	IH T
-	('IY', VOWEL),				# IY	eat	IY T
-	('OW', VOWEL),				# OW	oat	OW T
-	('OY', VOWEL),				# OY	toy	T OY
-	('UH', VOWEL),				# UH	hood	HH UH D
-	('UW', VOWEL),				# UW	two	T UW
-	##### CONSONANTS ######################################################
 	('B',  CONSONANT),			# B	be	B IY
 	('CH', CONSONANT),			# CH	cheese	CH IY Z
 	('D',  CONSONANT),			# D	dee	D IY
 	('DH', CONSONANT),			# DH	thee	DH IY
+	('EH', VOWEL),				# EH	Ed	EH D
+	('ER', VOWEL),				# ER	hurt	HH ER T
+	('EY', VOWEL),				# EY	ate	EY T
 	('F',  CONSONANT),			# F	fee	F IY
 	('G',  CONSONANT),			# G	green	G R IY N
 	('HH', CONSONANT),			# HH	he	HH IY
+	('IH', VOWEL),				# IH	it	IH T
+	('IY', VOWEL),				# IY	eat	IY T
 	('JH', CONSONANT),			# JH	gee	JH IY
 	('K',  CONSONANT),			# K	key	K IY
 	('L',  CONSONANT),			# L	lee	L IY
 	('M',  CONSONANT),			# M	me	M IY
 	('N',  CONSONANT),			# N	knee	N IY
 	('NG', CONSONANT),			# NG	ping	P IH NG
+	('OW', VOWEL),				# OW	oat	OW T
+	('OY', VOWEL),				# OY	toy	T OY
 	('P',  CONSONANT),			# P	pee	P IY
 	('R',  CONSONANT),			# R	read	R IY D
 	('S',  CONSONANT),			# S	sea	S IY
 	('SH', CONSONANT),			# SH	she	SH IY
 	('T',  CONSONANT),			# T	tea	T IY
 	('TH', CONSONANT),			# TH	theta	TH EY T AH
+	('UH', VOWEL),				# UH	hood	HH UH D
+	('UW', VOWEL),				# UW	two	T UW
 	('V',  CONSONANT),			# V	vee	V IY
 	('W',  CONSONANT),			# W	we	W IY
 	('Y',  CONSONANT),			# Y	yield	Y IY L D
