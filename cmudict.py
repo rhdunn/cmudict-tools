@@ -100,6 +100,13 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	},
 }
 
+parser_warnings = {
+	'trailing-whitespace': 'check for trailing whitespaces',
+	'missing-stress':      'check for missing stress markers',
+}
+
+default_warnings = []
+
 def format(dict_format, entries):
 	fmt = dict_formats[dict_format]
 	for word, context, phonemes, comment, error in entries:
@@ -126,7 +133,7 @@ def read_file(filename):
 		for line in f:
 			yield line.replace('\n', '')
 
-def parse(filename, check_trailing_whitespace=True, check_missing_stress_marks=True):
+def parse(filename, warnings=[]):
 	"""
 		Parse the entries in the cmudict file.
 
@@ -138,6 +145,22 @@ def parse(filename, check_trailing_whitespace=True, check_missing_stress_marks=T
 	GROUP_SPACING  = 4
 	GROUP_PHONEMES = 5
 	GROUP_COMMENT  = 7 # 6 = with comment marker ~ #{7}
+
+	checks = default_warnings
+	for warning in warnings:
+		if warning == 'all':
+			checks = parser_warnings.keys()
+		elif warning.startswith('no-'):
+			if warning[3:] in parser_warnings.keys():
+				if warning[3:] in checks:
+					checks.remove(warning[3:])
+			else:
+				raise ValueError('Invalid warning: {0}'.format(warning))
+		elif warning in parser_warnings.keys():
+			if warning not in checks:
+				checks.append(warning)
+		else:
+			raise ValueError('Invalid warning: {0}'.format(warning))
 
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([1-9])\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
@@ -187,13 +210,13 @@ def parse(filename, check_trailing_whitespace=True, check_missing_stress_marks=T
 			yield None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
 
 		phonemes = m.group(GROUP_PHONEMES)
-		if phonemes.endswith(' ') and check_trailing_whitespace:
+		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
 			yield None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
 
 		phonemes = re_phonemes.split(phonemes.strip())
 		for phoneme in phonemes:
 			if phoneme in missing_stress_marks:
-				if check_missing_stress_marks:
+				if 'missing-stress' in checks:
 					yield None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
 			elif not phoneme in valid_phonemes:
 				yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)

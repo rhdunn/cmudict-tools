@@ -25,8 +25,18 @@ import cmudict
 import sys
 import argparse
 
+class HelpWarningsAction(argparse.Action):
+	def __init__(self, option_strings, dest):
+		super(HelpWarningsAction, self).__init__(option_strings=option_strings, dest=dest, nargs=0)
+
+	def __call__(self, parser, namespace, values, option_string=None):
+		print('{0: <25}{1}'.format('all', 'enable all warnings'))
+		for warning, help in cmudict.parser_warnings.items():
+			print('{0: <25}{1}'.format(warning, help))
+		sys.exit(0)
+
 def parse(args):
-	return cmudict.parse(args.filename, check_trailing_whitespace=args.check_trailing_whitespace, check_missing_stress_marks=args.check_missing_stress_marks)
+	return cmudict.parse(args.filename, warnings=args.warnings)
 
 def print_dict(args):
 	cmudict.format(args.format, parse(args))
@@ -47,11 +57,14 @@ commands = {
 }
 
 parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.')
-parser.add_argument('--check-trailing-whitespace', action='store_true')
-parser.add_argument('--check-missing-stress-marks', action='store_true')
+parser.add_argument('-W', dest='warnings', action='append')
 parser.add_argument('--format', default='cmudict', choices=cmudict.dict_formats.keys())
+parser.add_argument('--help-warnings', action=HelpWarningsAction)
 parser.add_argument('command', choices=commands.keys())
 parser.add_argument('filename')
 args = parser.parse_args()
 
-commands[args.command](args)
+try:
+	commands[args.command](args)
+except ValueError, e:
+	print(e)
