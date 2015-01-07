@@ -25,48 +25,51 @@ import os
 import sys
 import re
 
+VOWEL = 1
+CONSONANT = 2
+
 phoneme_table = [ # cmudict
 	##### VOWELS ##########################################################
-	('AA'), ('AA0'), ('AA1'), ('AA2'),	# AA	odd	AA D
-	('AE'), ('AE0'), ('AE1'), ('AE2'),	# AE	at	AE T
-	('AH'), ('AH0'), ('AH1'), ('AH2'),	# AH	hut	HH AH T
-	('AO'), ('AO0'), ('AO1'), ('AO2'),	# AO	ought	AO T
-	('AW'), ('AW0'), ('AW1'), ('AW2'),	# AW	cow	K AW
-	('AY'), ('AY0'), ('AY1'), ('AY2'),	# AY	hide	HH AY D
-	('EH'), ('EH0'), ('EH1'), ('EH2'),	# EH	Ed	EH D
-	('ER'), ('ER0'), ('ER1'), ('ER2'),	# ER	hurt	HH ER T
-	('EY'), ('EY0'), ('EY1'), ('EY2'),	# EY	ate	EY T
-	('IH'), ('IH0'), ('IH1'), ('IH2'),	# IH	it	IH T
-	('IY'), ('IY0'), ('IY1'), ('IY2'),	# IY	eat	IY T
-	('OW'), ('OW0'), ('OW1'), ('OW2'),	# OW	oat	OW T
-	('OY'), ('OY0'), ('OY1'), ('OY2'),	# OY	toy	T OY
-	('UH'), ('UH0'), ('UH1'), ('UH2'),	# UH	hood	HH UH D
-	('UW'), ('UW0'), ('UW1'), ('UW2'),	# UW	two	T UW
+	('AA', VOWEL),				# AA	odd	AA D
+	('AE', VOWEL),				# AE	at	AE T
+	('AH', VOWEL),				# AH	hut	HH AH T
+	('AO', VOWEL),				# AO	ought	AO T
+	('AW', VOWEL),				# AW	cow	K AW
+	('AY', VOWEL),				# AY	hide	HH AY D
+	('EH', VOWEL),				# EH	Ed	EH D
+	('ER', VOWEL),				# ER	hurt	HH ER T
+	('EY', VOWEL),				# EY	ate	EY T
+	('IH', VOWEL),				# IH	it	IH T
+	('IY', VOWEL),				# IY	eat	IY T
+	('OW', VOWEL),				# OW	oat	OW T
+	('OY', VOWEL),				# OY	toy	T OY
+	('UH', VOWEL),				# UH	hood	HH UH D
+	('UW', VOWEL),				# UW	two	T UW
 	##### CONSONANTS ######################################################
-	('B'),					# B	be	B IY
-	('CH'),					# CH	cheese	CH IY Z
-	('D'),					# D	dee	D IY
-	('DH'),					# DH	thee	DH IY
-	('F'),					# F	fee	F IY
-	('G'),					# G	green	G R IY N
-	('HH'),					# HH	he	HH IY
-	('JH'),					# JH	gee	JH IY
-	('K'),					# K	key	K IY
-	('L'),					# L	lee	L IY
-	('M'),					# M	me	M IY
-	('N'),					# N	knee	N IY
-	('NG'),					# NG	ping	P IH NG
-	('P'),					# P	pee	P IY
-	('R'),					# R	read	R IY D
-	('S'),					# S	sea	S IY
-	('SH'),					# SH	she	SH IY
-	('T'),					# T	tea	T IY
-	('TH'),					# TH	theta	TH EY T AH
-	('V'),					# V	vee	V IY
-	('W'),					# W	we	W IY
-	('Y'),					# Y	yield	Y IY L D
-	('Z'),					# Z	zee	Z IY
-	('ZH'),					# ZH	seizure	S IY ZH ER
+	('B',  CONSONANT),			# B	be	B IY
+	('CH', CONSONANT),			# CH	cheese	CH IY Z
+	('D',  CONSONANT),			# D	dee	D IY
+	('DH', CONSONANT),			# DH	thee	DH IY
+	('F',  CONSONANT),			# F	fee	F IY
+	('G',  CONSONANT),			# G	green	G R IY N
+	('HH', CONSONANT),			# HH	he	HH IY
+	('JH', CONSONANT),			# JH	gee	JH IY
+	('K',  CONSONANT),			# K	key	K IY
+	('L',  CONSONANT),			# L	lee	L IY
+	('M',  CONSONANT),			# M	me	M IY
+	('N',  CONSONANT),			# N	knee	N IY
+	('NG', CONSONANT),			# NG	ping	P IH NG
+	('P',  CONSONANT),			# P	pee	P IY
+	('R',  CONSONANT),			# R	read	R IY D
+	('S',  CONSONANT),			# S	sea	S IY
+	('SH', CONSONANT),			# SH	she	SH IY
+	('T',  CONSONANT),			# T	tea	T IY
+	('TH', CONSONANT),			# TH	theta	TH EY T AH
+	('V',  CONSONANT),			# V	vee	V IY
+	('W',  CONSONANT),			# W	we	W IY
+	('Y',  CONSONANT),			# Y	yield	Y IY L D
+	('Z',  CONSONANT),			# Z	zee	Z IY
+	('ZH', CONSONANT),			# ZH	seizure	S IY ZH ER
 ]
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
@@ -165,12 +168,16 @@ def parse(filename, check_trailing_whitespace=True):
 		if not re_word: # detect the dictionary format ...
 			if re_word_cmu.match(word):
 				re_word = re_word_cmu
-				valid_phonemes = set([p for p in phoneme_table])
 				spacing = '  '
 			else:
 				re_word = re_word_new
-				valid_phonemes = set([p for p in phoneme_table])
 				spacing = ' '
+			for cmu, ptype in phoneme_table:
+				valid_phonemes.add(cmu)
+				if ptype == VOWEL:
+					valid_phonemes.add('{0}0'.format(cmu))
+					valid_phonemes.add('{0}1'.format(cmu))
+					valid_phonemes.add('{0}2'.format(cmu))
 
 		if not re_word.match(word):
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
