@@ -101,14 +101,15 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 }
 
 parser_warnings = {
-	'entry-spacing':       'check spacing between word and phoneme',
+	'entry-spacing':       'check spacing between word and pronunciation',
 	'invalid-phonemes':    'check for invalid phonemes',
 	'missing-stress':      'check for missing stress markers',
+	'phoneme-space':       'check for a single space between phonemes',
 	'trailing-whitespace': 'check for trailing whitespaces',
 	'word-casing':         'check for consistent word casing',
 }
 
-default_warnings = ['entry-spacing', 'invalid-phonemes', 'word-casing']
+default_warnings = ['entry-spacing', 'invalid-phonemes', 'phoneme-spacing', 'word-casing']
 
 def format(dict_format, entries):
 	fmt = dict_formats[dict_format]
@@ -218,6 +219,10 @@ def parse(filename, warnings=[]):
 
 		phonemes = re_phonemes.split(phonemes.strip())
 		for phoneme in phonemes:
+			if ' ' in phoneme or '\t' in phoneme:
+				phoneme = phoneme.strip()
+				if 'phoneme-spacing' in checks:
+					yield None, None, None, None, 'Incorrect whitespace after phoneme in entry: "{1}"'.format(phoneme, line)
 			if phoneme in missing_stress_marks:
 				if 'missing-stress' in checks:
 					yield None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
