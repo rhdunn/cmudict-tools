@@ -223,6 +223,8 @@ def parse(filename, warnings=[], order_from=0):
 	for warning in warnings:
 		if warning == 'all':
 			checks = parser_warnings.keys()
+		elif warning == 'none':
+			checks = []
 		elif warning.startswith('no-'):
 			if warning[3:] in parser_warnings.keys():
 				if warning[3:] in checks:

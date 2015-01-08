@@ -31,6 +31,7 @@ class HelpWarningsAction(argparse.Action):
 
 	def __call__(self, parser, namespace, values, option_string=None):
 		print('{0: <25}{1}'.format('all', 'enable all warnings'))
+		print('{0: <25}{1}'.format('none', 'disable all warnings'))
 		for warning, help in sorted(cmudict.parser_warnings.items()):
 			print('{0: <25}{1}'.format(warning, help))
 		sys.exit(0)
