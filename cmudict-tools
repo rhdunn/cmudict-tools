@@ -30,10 +30,28 @@ class HelpWarningsAction(argparse.Action):
 		super(HelpWarningsAction, self).__init__(option_strings=option_strings, dest=dest, nargs=0)
 
 	def __call__(self, parser, namespace, values, option_string=None):
-		print('{0: <25}{1}'.format('all', 'enable all warnings'))
-		print('{0: <25}{1}'.format('none', 'disable all warnings'))
+		print('The following values are available for -W:')
+		print()
 		for warning, help in sorted(cmudict.parser_warnings.items()):
 			print('{0: <25}{1}'.format(warning, help))
+		print()
+		print('If -Wwarn is used, the option is enabled. If -Wno-warn is used, the option')
+		print('is disabled.')
+		print()
+		print('The following values have a special behaviour, and cannot be used with the')
+		print('`no-` prefix:')
+		print()
+		print('{0: <25}{1}'.format('all', 'enable all warnings'))
+		print('{0: <25}{1}'.format('none', 'disable all warnings'))
+		print()
+		print('The order is important, as the warning set is tracked incrementally. This')
+		print('allows the following combinations:')
+		print()
+		print('    -Wnone -Winvalid-phonemes')
+		print('        Only use the invalid-phonemes warning.')
+		print()
+		print('    -Wall -Wno-missing-stress')
+		print('        Use all warnings except missing-stress.')
 		sys.exit(0)
 
 def parse(args):
