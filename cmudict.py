@@ -107,7 +107,7 @@ parser_warnings = {
 	'entry-spacing': 'check spacing between word and pronunciation',
 	'invalid-phonemes': 'check for invalid phonemes',
 	'missing-stress': 'check for missing stress markers',
-	'phoneme-space': 'check for a single space between phonemes',
+	'phoneme-spacing': 'check for a single space between phonemes',
 	'trailing-whitespace': 'check for trailing whitespaces',
 	'word-casing': 'check for consistent word casing',
 }
