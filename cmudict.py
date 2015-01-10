@@ -103,6 +103,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 parser_warnings = {
 	'context-values': 'check context values are numbers',
 	'context-ordering': 'check context values are ordered sequentially',
+	'duplicate-entries': 'check for matching entries (word, context, pronunciation)',
 	'duplicate-pronunciations': 'check for duplicated pronunciations for an entry',
 	'entry-spacing': 'check spacing between word and pronunciation',
 	'invalid-phonemes': 'check for invalid phonemes',
@@ -246,6 +247,7 @@ def parse(filename, warnings=[], order_from=0):
 	re_phoneme_start = re.compile(r'^ [A-Z]')
 
 	entries = Trie()
+	lines = Trie()
 	valid_phonemes = set()
 	missing_stress_marks = set()
 	for line in read_file(filename):
@@ -315,7 +317,10 @@ def parse(filename, warnings=[], order_from=0):
 		key = word.upper()
 		position = order_from if context is None else context
 
-		if isinstance(position, int):
+		entry_line = '{0}({1}) {2}'.format(word, context, phonemes)
+		if entry_line in lines and 'duplicate-entries' in checks:
+			yield None, None, None, None, 'Duplicate entry: "{2}"'.format(position, expect_position, line)
+		elif isinstance(position, int):
 			pronunciation = ' '.join(phonemes)
 			if key in entries:
 				expect_position, pronunciations = entries[key]
@@ -331,6 +336,8 @@ def parse(filename, warnings=[], order_from=0):
 			else:
 				pronunciations.append(pronunciation)
 			entries[key] = (expect_position, pronunciations)
+
+		lines[entry_line] = True
 
 		comment = m.group(GROUP_COMMENT) or None
 		yield word, context, phonemes, comment, None
