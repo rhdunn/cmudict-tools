@@ -110,6 +110,7 @@ parser_warnings = {
 	'missing-stress': 'check for missing stress markers',
 	'phoneme-spacing': 'check for a single space between phonemes',
 	'trailing-whitespace': 'check for trailing whitespaces',
+	'unsorted': 'check if a word is not sorted correctly',
 	'word-casing': 'check for consistent word casing',
 }
 
@@ -250,6 +251,7 @@ def parse(filename, warnings=[], order_from=0):
 	lines = Trie()
 	valid_phonemes = set()
 	missing_stress_marks = set()
+	previous_word = None
 	for line in read_file(filename):
 		if line == '':
 			yield None, None, None, None, None
@@ -284,6 +286,9 @@ def parse(filename, warnings=[], order_from=0):
 
 		if not re_word.match(word) and 'word-casing' in checks:
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
+
+		if previous_word and word < previous_word and 'unsorted' in checks:
+			yield None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
 
 		try:
 			context = m.group(GROUP_CONTEXT)
@@ -338,6 +343,7 @@ def parse(filename, warnings=[], order_from=0):
 			entries[key] = (expect_position, pronunciations)
 
 		lines[entry_line] = True
+		previous_word = word
 
 		comment = m.group(GROUP_COMMENT) or None
 		yield word, context, phonemes, comment, None
