@@ -233,7 +233,7 @@ def parse_cmudict(filename, checks, order_from):
 		Parse the entries in the cmudict file.
 
 		The return value is of the form:
-			(word, context, phonemes, comment, error)
+			(line, word, context, phonemes, comment, error)
 	"""
 	GROUP_WORD     = 1
 	GROUP_CONTEXT  = 3 # 2 = with context markers ~ ({3})
@@ -249,24 +249,22 @@ def parse_cmudict(filename, checks, order_from):
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	re_phoneme_start = re.compile(r'^ [A-Z]')
 
-	entries = Trie()
-	lines = Trie()
 	valid_phonemes = set()
 	missing_stress_marks = set()
 	previous_word = None
 	for line in read_file(filename):
 		if line == '':
-			yield None, None, None, None, None
+			yield line, None, None, None, None, None
 			continue
 
 		m = re_linecomment.match(line)
 		if m:
-			yield None, None, None, m.group(2), None
+			yield line, None, None, None, m.group(2), None
 			continue
 
 		m = re_entry.match(line)
 		if not m:
-			yield None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
+			yield line, None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
 			continue
 
 		word = m.group(GROUP_WORD)
@@ -287,10 +285,10 @@ def parse_cmudict(filename, checks, order_from):
 					valid_phonemes.add(p['cmudict'])
 
 		if not re_word.match(word) and 'word-casing' in checks:
-			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
+			yield line, None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
 		if previous_word and word < previous_word and 'unsorted' in checks:
-			yield None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
+			yield line, None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
 
 		try:
 			context = m.group(GROUP_CONTEXT)
@@ -298,28 +296,44 @@ def parse_cmudict(filename, checks, order_from):
 				context = int(context)
 		except ValueError:
 			if 'context-values' in checks:
-				yield None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(m.group(GROUP_CONTEXT), line)
+				yield line, None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(m.group(GROUP_CONTEXT), line)
 			context = m.group(GROUP_CONTEXT)
 
 		if m.group(GROUP_SPACING) != spacing and 'entry-spacing' in checks:
-			yield None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
+			yield line, None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
 
 		phonemes = m.group(GROUP_PHONEMES)
 		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
-			yield None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
+			yield line, None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
 
 		phonemes = re_phonemes.split(phonemes.strip())
 		for phoneme in phonemes:
 			if ' ' in phoneme or '\t' in phoneme:
 				phoneme = phoneme.strip()
 				if 'phoneme-spacing' in checks:
-					yield None, None, None, None, 'Incorrect whitespace after phoneme in entry: "{1}"'.format(phoneme, line)
+					yield line, None, None, None, None, 'Incorrect whitespace after phoneme in entry: "{1}"'.format(phoneme, line)
 			if phoneme in missing_stress_marks:
 				if 'missing-stress' in checks:
-					yield None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
+					yield line, None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
 			elif not phoneme in valid_phonemes:
 				if 'invalid-phonemes' in checks:
-					yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
+					yield line, None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
+
+		comment = m.group(GROUP_COMMENT) or None
+		yield line, word, context, phonemes, comment, None
+
+def parse(filename, warnings=[], order_from=0):
+	checks = warnings_to_checks(warnings)
+	entries = Trie()
+	lines = Trie()
+	for line, word, context, phonemes, comment, error in parse_cmudict(filename, checks, order_from):
+		if error:
+			yield None, None, None, None, error
+			continue
+
+		if not word and comment is not None: # line comment
+			yield None, None, None, comment, None
+			continue
 
 		key = word.upper()
 		position = order_from if context is None else context
@@ -346,15 +360,5 @@ def parse_cmudict(filename, checks, order_from):
 
 		lines[entry_line] = True
 		previous_word = word
-
-		comment = m.group(GROUP_COMMENT) or None
-		yield word, context, phonemes, comment, None
-
-def parse(filename, warnings=[], order_from=0):
-	checks = warnings_to_checks(warnings)
-	for word, context, phonemes, comment, error in parse_cmudict(filename, checks, order_from):
-		if error:
-			yield None, None, None, None, error
-			continue
 
 		yield word, context, phonemes, comment, None
