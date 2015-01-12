@@ -228,7 +228,7 @@ def warnings_to_checks(warnings):
 			raise ValueError('Invalid warning: {0}'.format(warning))
 	return checks
 
-def parse(filename, warnings=[], order_from=0):
+def parse_cmudict(filename, checks, order_from):
 	"""
 		Parse the entries in the cmudict file.
 
@@ -240,8 +240,6 @@ def parse(filename, warnings=[], order_from=0):
 	GROUP_SPACING  = 4
 	GROUP_PHONEMES = 5
 	GROUP_COMMENT  = 7 # 6 = with comment marker ~ #{7}
-
-	checks = warnings_to_checks(warnings)
 
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
@@ -350,4 +348,13 @@ def parse(filename, warnings=[], order_from=0):
 		previous_word = word
 
 		comment = m.group(GROUP_COMMENT) or None
+		yield word, context, phonemes, comment, None
+
+def parse(filename, warnings=[], order_from=0):
+	checks = warnings_to_checks(warnings)
+	for word, context, phonemes, comment, error in parse_cmudict(filename, checks, order_from):
+		if error:
+			yield None, None, None, None, error
+			continue
+
 		yield word, context, phonemes, comment, None
