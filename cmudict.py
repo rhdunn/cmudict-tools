@@ -29,45 +29,45 @@ VOWEL = 1
 CONSONANT = 2
 
 phoneme_table = [
-	{'arpabet': 'AA', 'type': VOWEL,     'example': ('odd',     'AA D')},
-	{'arpabet': 'AE', 'type': VOWEL,     'example': ('at',      'AE T')},
-	{'arpabet': 'AH', 'type': VOWEL,     'example': ('hut',     'HH AH T')},
-	{'arpabet': 'AO', 'type': VOWEL,     'example': ('ought',   'AO T')},
-	{'arpabet': 'AW', 'type': VOWEL,     'example': ('cow',     'K AW')},
-	{'arpabet': 'AY', 'type': VOWEL,     'example': ('hide',    'HH AY D')},
-	{'arpabet': 'B',  'type': CONSONANT, 'example': ('be',      'B IY')},
-	{'arpabet': 'CH', 'type': CONSONANT, 'example': ('cheese',  'CH IY Z')},
-	{'arpabet': 'D',  'type': CONSONANT, 'example': ('dee',     'D IY')},
-	{'arpabet': 'DH', 'type': CONSONANT, 'example': ('thee',    'DH IY')},
-	{'arpabet': 'EH', 'type': VOWEL,     'example': ('Ed',      'EH D')},
-	{'arpabet': 'ER', 'type': VOWEL,     'example': ('hurt',    'HH ER T')},
-	{'arpabet': 'EY', 'type': VOWEL,     'example': ('ate',     'EY T')},
-	{'arpabet': 'F',  'type': CONSONANT, 'example': ('fee',     'F IY')},
-	{'arpabet': 'G',  'type': CONSONANT, 'example': ('green',   'G R IY N')},
-	{'arpabet': 'HH', 'type': CONSONANT, 'example': ('he',      'HH IY')},
-	{'arpabet': 'IH', 'type': VOWEL,     'example': ('it',      'IH T')},
-	{'arpabet': 'IY', 'type': VOWEL,     'example': ('eat',     'IY T')},
-	{'arpabet': 'JH', 'type': CONSONANT, 'example': ('gee',     'JH IY')},
-	{'arpabet': 'K',  'type': CONSONANT, 'example': ('key',     'K IY')},
-	{'arpabet': 'L',  'type': CONSONANT, 'example': ('lee',     'L IY')},
-	{'arpabet': 'M',  'type': CONSONANT, 'example': ('me',      'M IY')},
-	{'arpabet': 'N',  'type': CONSONANT, 'example': ('knee',    'N IY')},
-	{'arpabet': 'NG', 'type': CONSONANT, 'example': ('ping',    'P IH NG')},
-	{'arpabet': 'OW', 'type': VOWEL,     'example': ('oat',     'OW T')},
-	{'arpabet': 'OY', 'type': VOWEL,     'example': ('toy',     'T OY')},
-	{'arpabet': 'P',  'type': CONSONANT, 'example': ('pee',     'P IY')},
-	{'arpabet': 'R',  'type': CONSONANT, 'example': ('read',    'R IY D')},
-	{'arpabet': 'S',  'type': CONSONANT, 'example': ('sea',     'S IY')},
-	{'arpabet': 'SH', 'type': CONSONANT, 'example': ('she',     'SH IY')},
-	{'arpabet': 'T',  'type': CONSONANT, 'example': ('tea',     'T IY')},
-	{'arpabet': 'TH', 'type': CONSONANT, 'example': ('theta',   'TH EY T AH')},
-	{'arpabet': 'UH', 'type': VOWEL,     'example': ('hood',    'HH UH D')},
-	{'arpabet': 'UW', 'type': VOWEL,     'example': ('two',     'T UW')},
-	{'arpabet': 'V',  'type': CONSONANT, 'example': ('vee',     'V IY')},
-	{'arpabet': 'W',  'type': CONSONANT, 'example': ('we',      'W IY')},
-	{'arpabet': 'Y',  'type': CONSONANT, 'example': ('yield',   'Y IY L D')},
-	{'arpabet': 'Z',  'type': CONSONANT, 'example': ('zee',     'Z IY')},
-	{'arpabet': 'ZH', 'type': CONSONANT, 'example': ('seizure', 'S IY ZH ER')},
+	{'arpabet': 'AA', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'AE', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'AH', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'AO', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'AW', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'AY', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'B',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'CH', 'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'D',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'DH', 'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'EH', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'ER', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'EY', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'F',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'G',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'HH', 'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'IH', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'IY', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'JH', 'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'K',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'L',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'M',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'N',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'NG', 'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'OW', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'OY', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'P',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'R',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'S',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'SH', 'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'T',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'TH', 'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'UH', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'UW', 'type': VOWEL,     'accent': ['cmudict']},
+	{'arpabet': 'V',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'W',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'Y',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'Z',  'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'ZH', 'type': CONSONANT, 'accent': ['cmudict']},
 ]
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
@@ -228,7 +228,12 @@ def warnings_to_checks(warnings):
 			raise ValueError('Invalid warning: {0}'.format(warning))
 	return checks
 
-def load_phonemes(phonemeset):
+def load_phonemes(accent):
+	if accent == 'cmudict':
+		phonemeset = 'arpabet'
+	else:
+		raise ValueError('Unsupported accent: {0}'.format(accent))
+
 	valid_phonemes = set()
 	missing_stress_marks = set()
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
@@ -263,7 +268,7 @@ def parse_cmudict(filename, checks, order_from):
 	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
 	re_word = None
 
-	valid_phonemes, missing_stress_marks, re_phonemes = load_phonemes('arpabet')
+	valid_phonemes, missing_stress_marks, re_phonemes = load_phonemes('cmudict')
 	previous_word = None
 	for line in read_file(filename):
 		if line == '':
