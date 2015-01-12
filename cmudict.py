@@ -26,30 +26,39 @@ import sys
 import re
 
 class ArpabetPhonemeSet:
-	def __init__(self, name):
+	def __init__(self, name, capitalization):
 		self.name = name
-		self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
+		if capitalization == 'upper':
+			self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
+			self.conversion = str.upper
+		elif capitalization == 'lower':
+			self.re_phonemes = re.compile(r' (?=[a-z][a-z]?[0-9]?)')
+			self.conversion = str.lower
+		else:
+			raise ValueError('Unsupported capitalization value: {0}'.format(capitalization))
 		self.valid_phonemes = set()
 		self.missing_stress_marks = set()
 
 	def add_vowel(self, phoneme):
+		phoneme = self.conversion(phoneme)
 		self.missing_stress_marks.add(phoneme)
 		self.valid_phonemes.add('{0}0'.format(phoneme))
 		self.valid_phonemes.add('{0}1'.format(phoneme))
 		self.valid_phonemes.add('{0}2'.format(phoneme))
 
 	def add(self, phoneme):
+		phoneme = self.conversion(phoneme)
 		self.valid_phonemes.add(phoneme)
 
 	def split(self, phonemes):
 		return self.re_phonemes.split(phonemes.strip())
 
 	def format(self, phonemes):
-		return ' '.join(phonemes)
+		return ' '.join([self.conversion(p) for p in phonemes])
 
 accents = {
-	'cmudict': lambda: ArpabetPhonemeSet('arpabet'),
-	'festlex': lambda: ArpabetPhonemeSet('arpabet'),
+	'cmudict': lambda: ArpabetPhonemeSet('arpabet', 'upper'),
+	'festlex': lambda: ArpabetPhonemeSet('arpabet', 'lower'),
 }
 
 VOWEL = 1
