@@ -25,6 +25,11 @@ import os
 import sys
 import re
 
+def festlex_context(context):
+	if not context in ['dt', 'j', 'n', 'nil', 'v', 'v_p', 'vl', 'y']:
+		raise ValueError('Unknown festlex context value: {0}'.format(context))
+	return context
+
 class ArpabetPhonemeSet:
 	def __init__(self, name, capitalization):
 		self.name = name
@@ -63,47 +68,49 @@ accents = {
 
 VOWEL = 1
 CONSONANT = 2
+SCHWA = 3 # The /@/ vowel -- no stress marker
 
 phoneme_table = [
-	{'arpabet': 'AA', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'AE', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'AH', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'AO', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'AW', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'AY', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'B',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'CH', 'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'D',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'DH', 'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'EH', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'ER', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'EY', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'F',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'G',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'HH', 'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'IH', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'IY', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'JH', 'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'K',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'L',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'M',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'N',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'NG', 'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'OW', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'OY', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'P',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'R',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'S',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'SH', 'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'T',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'TH', 'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'UH', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'UW', 'type': VOWEL,     'accent': ['cmudict']},
-	{'arpabet': 'V',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'W',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'Y',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'Z',  'type': CONSONANT, 'accent': ['cmudict']},
-	{'arpabet': 'ZH', 'type': CONSONANT, 'accent': ['cmudict']},
+	{'arpabet': 'AA', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AE', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AH', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AO', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AW', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AX', 'type': SCHWA,     'accent': ['festlex']},
+	{'arpabet': 'AY', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'B',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'CH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'D',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'DH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'EH', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'ER', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'EY', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'F',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'G',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'HH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'IH', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'IY', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'JH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'K',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'L',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'M',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'N',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'NG', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'OW', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'OY', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'P',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'R',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'S',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'SH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'T',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'TH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'UH', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'UW', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'V',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'W',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'Y',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'Z',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'ZH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
 ]
 
 def load_phonemes(accent):
@@ -165,6 +172,9 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'entry-comment': '("{0}" nil ({2})) ;{3}',
 		'entry-context-comment': '("{0}" {1} ({2})) ;{3}',
 		'word': lambda word: word.lower(),
+		# parsing:
+		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$',
+		'context-parser': festlex_context,
 	},
 }
 
@@ -297,6 +307,40 @@ def warnings_to_checks(warnings):
 			raise ValueError('Invalid warning: {0}'.format(warning))
 	return checks
 
+def parse_festlex(filename, checks, order_from):
+	"""
+		Parse the entries in a festlex formatted dictionary (e.g. festlex-cmu).
+
+		The return value is of the form:
+			(line, format, word, context, phonemes, comment, error)
+	"""
+
+	re_linecomment = re.compile(r'^;;(.*)$')
+	re_entry = re.compile(r'^\("([^"]+)" ([a-zA-Z0-9_]+) \(([^\)]+)\)\)')
+	format = 'festlex'
+	for line in read_file(filename):
+		if line == '':
+			yield line, format, None, None, None, None, None
+			continue
+
+		m = re_linecomment.match(line)
+		if m:
+			yield line, format, None, None, None, m.group(1), None
+			continue
+
+		m = re_entry.match(line)
+		if not m:
+			yield line, format, None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
+			continue
+
+		word = m.group(1)
+		context = m.group(2)
+		phonemes = m.group(3)
+		comment = None
+#		comment = m.group(4)
+
+		yield line, format, word, context, phonemes, comment, None
+
 def parse_cmudict(filename, checks, order_from):
 	"""
 		Parse the entries in the cmudict file.
@@ -354,7 +398,13 @@ def parse(filename, warnings=[], order_from=0):
 	entries = Trie()
 	lines = Trie()
 	fmt = None
-	for line, format, word, context, phonemes, comment, error in parse_cmudict(filename, checks, order_from):
+
+	if filename.endswith('.scm'):
+		dict_parser = parse_festlex
+	else:
+		dict_parser = parse_cmudict
+
+	for line, format, word, context, phonemes, comment, error in dict_parser(filename, checks, order_from):
 		if error:
 			yield None, None, None, None, error
 			continue
