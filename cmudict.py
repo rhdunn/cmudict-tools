@@ -314,7 +314,7 @@ def parse_festlex(filename, checks, order_from):
 	"""
 
 	re_linecomment = re.compile(r'^;;(.*)$')
-	re_entry = re.compile(r'^\("([^"]+)" ([a-zA-Z0-9_]+) \(([^\)]+)\)\)')
+	re_entry = re.compile(r'^\("([^"]+)" ([a-zA-Z0-9_]+) \(([^\)]+)\)\)[ \t]*(;(.*))?[ \t]*$')
 	format = 'festlex'
 	for line in read_file(filename):
 		if line == '':
@@ -334,8 +334,7 @@ def parse_festlex(filename, checks, order_from):
 		word = m.group(1)
 		context = m.group(2)
 		phonemes = m.group(3)
-		comment = None
-#		comment = m.group(4)
+		comment = m.group(5)
 
 		yield line, format, word, context, phonemes, comment, None
 
