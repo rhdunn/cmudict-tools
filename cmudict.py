@@ -40,9 +40,11 @@ class ArpabetPhonemeSet:
 		if capitalization == 'upper':
 			self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 			self.conversion = str.upper
+			self.parse_phoneme = str # already upper case
 		elif capitalization == 'lower':
 			self.re_phonemes = re.compile(r' (?=[a-z][a-z]?[0-9]?)')
 			self.conversion = str.lower
+			self.parse_phoneme = str.upper
 		else:
 			raise ValueError('Unsupported capitalization value: {0}'.format(capitalization))
 		self.valid_phonemes = set()
@@ -75,7 +77,7 @@ class ArpabetPhonemeSet:
 				if 'invalid-phonemes' in checks:
 					yield None, 'Invalid phoneme "{0}"'.format(phoneme)
 
-			yield phoneme, None
+			yield self.parse_phoneme(phoneme), None
 
 	def format(self, phonemes):
 		return ' '.join([self.conversion(p) for p in phonemes])
@@ -271,9 +273,11 @@ def sort(entries, mode):
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
 
-def format(dict_format, entries):
+def format(dict_format, entries, accent=None):
 	fmt = dict_formats[dict_format]
-	phonemeset = load_phonemes(fmt['accent'])
+	if not accent:
+		accent = fmt['accent']
+	phonemeset = load_phonemes(accent)
 	for word, context, phonemes, comment, error in entries:
 		if error:
 			print(error, file=sys.stderr)
