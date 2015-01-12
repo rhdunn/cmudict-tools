@@ -208,19 +208,7 @@ def read_file(filename):
 		for line in f:
 			yield line.replace('\n', '')
 
-def parse(filename, warnings=[], order_from=0):
-	"""
-		Parse the entries in the cmudict file.
-
-		The return value is of the form:
-			(word, context, phonemes, comment, error)
-	"""
-	GROUP_WORD     = 1
-	GROUP_CONTEXT  = 3 # 2 = with context markers ~ ({3})
-	GROUP_SPACING  = 4
-	GROUP_PHONEMES = 5
-	GROUP_COMMENT  = 7 # 6 = with comment marker ~ #{7}
-
+def warnings_to_checks(warnings):
 	checks = default_warnings
 	for warning in warnings:
 		if warning == 'all':
@@ -238,6 +226,22 @@ def parse(filename, warnings=[], order_from=0):
 				checks.append(warning)
 		else:
 			raise ValueError('Invalid warning: {0}'.format(warning))
+	return checks
+
+def parse(filename, warnings=[], order_from=0):
+	"""
+		Parse the entries in the cmudict file.
+
+		The return value is of the form:
+			(word, context, phonemes, comment, error)
+	"""
+	GROUP_WORD     = 1
+	GROUP_CONTEXT  = 3 # 2 = with context markers ~ ({3})
+	GROUP_SPACING  = 4
+	GROUP_PHONEMES = 5
+	GROUP_COMMENT  = 7 # 6 = with comment marker ~ #{7}
+
+	checks = warnings_to_checks(warnings)
 
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
