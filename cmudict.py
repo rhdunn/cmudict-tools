@@ -345,11 +345,15 @@ def parse(filename, warnings=[], order_from=0):
 			re_word = re.compile(fmt['word-validation'])
 			context_parser = fmt['context-parser']
 
+		# word validation checks
+
 		if not re_word.match(word) and 'word-casing' in checks:
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
 		if previous_word and word < previous_word and 'unsorted' in checks:
 			yield None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
+
+		# context parsing and validation checks
 
 		try:
 			if context is not None:
@@ -357,6 +361,8 @@ def parse(filename, warnings=[], order_from=0):
 		except ValueError:
 			if 'context-values' in checks:
 				yield None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(m.group(GROUP_CONTEXT), line)
+
+		# phoneme validation checks
 
 		for phoneme in phoneme_parser(phonemes):
 			if ' ' in phoneme or '\t' in phoneme:
@@ -369,6 +375,8 @@ def parse(filename, warnings=[], order_from=0):
 			elif not phoneme in valid_phonemes:
 				if 'invalid-phonemes' in checks:
 					yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
+
+		# duplicate and context ordering checks
 
 		key = word.upper()
 		position = order_from if context is None else context
@@ -395,5 +403,7 @@ def parse(filename, warnings=[], order_from=0):
 
 		lines[entry_line] = True
 		previous_word = word
+
+		# return the parsed entry
 
 		yield word, context, phonemes, comment, None
