@@ -55,10 +55,10 @@ class HelpWarningsAction(argparse.Action):
 		sys.exit(0)
 
 def parse(args):
+	parser = cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from, accent=args.accent)
 	if args.sort:
-		return cmudict.sort(cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from), args.sort)
-	else:
-		return cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from)
+		return cmudict.sort(parser, args.sort)
+	return parser
 
 def print_dict(args):
 	cmudict.format(args.format, parse(args), accent=args.accent)

@@ -443,7 +443,7 @@ def parse_cmudict(filename, checks, order_from):
 
 		yield line, format, word, context, phonemes, comment, None
 
-def parse(filename, warnings=[], order_from=0):
+def parse(filename, warnings=[], order_from=0, accent=None):
 	checks = warnings_to_checks(warnings)
 	previous_word = None
 	re_word = None
@@ -469,7 +469,9 @@ def parse(filename, warnings=[], order_from=0):
 
 		if not fmt:
 			fmt = dict_formats[format]
-			phonemeset = load_phonemes(fmt['accent'])
+			if not accent:
+				accent = fmt['accent']
+			phonemeset = load_phonemes(accent)
 			re_word = re.compile(fmt['word-validation'])
 			context_parser = fmt['context-parser']
 
