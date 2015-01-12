@@ -228,6 +228,21 @@ def warnings_to_checks(warnings):
 			raise ValueError('Invalid warning: {0}'.format(warning))
 	return checks
 
+def load_phonemes(phonemeset):
+	valid_phonemes = set()
+	missing_stress_marks = set()
+
+	for p in phoneme_table:
+		if p['type'] == VOWEL:
+			missing_stress_marks.add(p['cmudict'])
+			valid_phonemes.add('{0}0'.format(p['cmudict']))
+			valid_phonemes.add('{0}1'.format(p['cmudict']))
+			valid_phonemes.add('{0}2'.format(p['cmudict']))
+		else:
+			valid_phonemes.add(p['cmudict'])
+
+	return valid_phonemes, missing_stress_marks
+
 def parse_cmudict(filename, checks, order_from):
 	"""
 		Parse the entries in the cmudict file.
@@ -249,8 +264,7 @@ def parse_cmudict(filename, checks, order_from):
 	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 	re_phoneme_start = re.compile(r'^ [A-Z]')
 
-	valid_phonemes = set()
-	missing_stress_marks = set()
+	valid_phonemes, missing_stress_marks = load_phonemes('cmudict')
 	previous_word = None
 	for line in read_file(filename):
 		if line == '':
@@ -275,14 +289,6 @@ def parse_cmudict(filename, checks, order_from):
 			else:
 				re_word = re_word_new
 				spacing = ' '
-			for p in phoneme_table:
-				if p['type'] == VOWEL:
-					missing_stress_marks.add(p['cmudict'])
-					valid_phonemes.add('{0}0'.format(p['cmudict']))
-					valid_phonemes.add('{0}1'.format(p['cmudict']))
-					valid_phonemes.add('{0}2'.format(p['cmudict']))
-				else:
-					valid_phonemes.add(p['cmudict'])
 
 		if not re_word.match(word) and 'word-casing' in checks:
 			yield line, None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
