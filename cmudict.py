@@ -35,8 +35,7 @@ def festlex_context(context):
 	return context
 
 class ArpabetPhonemeSet:
-	def __init__(self, name, capitalization):
-		self.name = name
+	def __init__(self, capitalization):
 		if capitalization == 'upper':
 			self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 			self.conversion = str.upper
@@ -83,8 +82,8 @@ class ArpabetPhonemeSet:
 		return ' '.join([self.conversion(p) for p in phonemes])
 
 accents = {
-	'cmudict': lambda: ArpabetPhonemeSet('arpabet', 'upper'),
-	'festlex': lambda: ArpabetPhonemeSet('arpabet', 'lower'),
+	'cmudict': lambda: ArpabetPhonemeSet('upper'),
+	'festlex': lambda: ArpabetPhonemeSet('lower'),
 }
 
 phoneme_table = [
