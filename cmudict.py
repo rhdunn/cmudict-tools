@@ -275,7 +275,6 @@ def parse_cmudict(filename, checks, order_from):
 	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
 	re_word = None
 
-	valid_phonemes, missing_stress_marks, phoneme_parser = load_phonemes('cmudict')
 	previous_word = None
 	for line in read_file(filename):
 		if line == '':
@@ -323,23 +322,12 @@ def parse_cmudict(filename, checks, order_from):
 		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
 			yield line, None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
 
-		for phoneme in phoneme_parser(phonemes):
-			if ' ' in phoneme or '\t' in phoneme:
-				phoneme = phoneme.strip()
-				if 'phoneme-spacing' in checks:
-					yield line, None, None, None, None, 'Incorrect whitespace after phoneme in entry: "{1}"'.format(phoneme, line)
-			if phoneme in missing_stress_marks:
-				if 'missing-stress' in checks:
-					yield line, None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
-			elif not phoneme in valid_phonemes:
-				if 'invalid-phonemes' in checks:
-					yield line, None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
-
 		comment = m.group(GROUP_COMMENT) or None
 		yield line, word, context, phonemes, comment, None
 
 def parse(filename, warnings=[], order_from=0):
 	checks = warnings_to_checks(warnings)
+	valid_phonemes, missing_stress_marks, phoneme_parser = load_phonemes('cmudict')
 	entries = Trie()
 	lines = Trie()
 	for line, word, context, phonemes, comment, error in parse_cmudict(filename, checks, order_from):
@@ -350,6 +338,18 @@ def parse(filename, warnings=[], order_from=0):
 		if not word and comment is not None: # line comment
 			yield None, None, None, comment, None
 			continue
+
+		for phoneme in phoneme_parser(phonemes):
+			if ' ' in phoneme or '\t' in phoneme:
+				phoneme = phoneme.strip()
+				if 'phoneme-spacing' in checks:
+					yield None, None, None, None, 'Incorrect whitespace after phoneme in entry: "{1}"'.format(phoneme, line)
+			if phoneme in missing_stress_marks:
+				if 'missing-stress' in checks:
+					yield None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
+			elif not phoneme in valid_phonemes:
+				if 'invalid-phonemes' in checks:
+					yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
 
 		key = word.upper()
 		position = order_from if context is None else context
