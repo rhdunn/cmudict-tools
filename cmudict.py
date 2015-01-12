@@ -28,8 +28,10 @@ import re
 class ArpabetPhonemeSet:
 	def __init__(self):
 		self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
+		self.valid_phonemes = set()
+		self.missing_stress_marks = set()
 
-	def __call__(self, phonemes):
+	def split(self, phonemes):
 		return self.re_phonemes.split(phonemes.strip())
 
 VOWEL = 1
@@ -252,24 +254,21 @@ def warnings_to_checks(warnings):
 
 def load_phonemes(accent):
 	if accent == 'cmudict':
-		phonemeset = 'arpabet'
-		phoneme_parser = ArpabetPhonemeSet()
+		name = 'arpabet'
+		phonemeset = ArpabetPhonemeSet()
 	else:
 		raise ValueError('Unsupported accent: {0}'.format(accent))
 
-	valid_phonemes = set()
-	missing_stress_marks = set()
-
 	for p in phoneme_table:
 		if p['type'] == VOWEL:
-			missing_stress_marks.add(p[phonemeset])
-			valid_phonemes.add('{0}0'.format(p[phonemeset]))
-			valid_phonemes.add('{0}1'.format(p[phonemeset]))
-			valid_phonemes.add('{0}2'.format(p[phonemeset]))
+			phonemeset.missing_stress_marks.add(p[name])
+			phonemeset.valid_phonemes.add('{0}0'.format(p[name]))
+			phonemeset.valid_phonemes.add('{0}1'.format(p[name]))
+			phonemeset.valid_phonemes.add('{0}2'.format(p[name]))
 		else:
-			valid_phonemes.add(p[phonemeset])
+			phonemeset.valid_phonemes.add(p[name])
 
-	return valid_phonemes, missing_stress_marks, phoneme_parser
+	return phonemeset
 
 def parse_cmudict(filename, checks, order_from):
 	"""
@@ -322,11 +321,9 @@ def parse_cmudict(filename, checks, order_from):
 def parse(filename, warnings=[], order_from=0):
 	checks = warnings_to_checks(warnings)
 	previous_word = None
-	valid_phonemes = None
-	missing_stress_marks = None
 	re_word = None
 	context_parser = None
-	phoneme_parser = None
+	phonemeset = None
 	entries = Trie()
 	lines = Trie()
 	fmt = None
@@ -341,7 +338,7 @@ def parse(filename, warnings=[], order_from=0):
 
 		if not fmt:
 			fmt = dict_formats[format]
-			valid_phonemes, missing_stress_marks, phoneme_parser = load_phonemes(fmt['accent'])
+			phonemeset = load_phonemes(fmt['accent'])
 			re_word = re.compile(fmt['word-validation'])
 			context_parser = fmt['context-parser']
 
@@ -364,16 +361,16 @@ def parse(filename, warnings=[], order_from=0):
 
 		# phoneme validation checks
 
-		phonemes = list(phoneme_parser(phonemes))
+		phonemes = list(phonemeset.split(phonemes))
 		for phoneme in phonemes:
 			if ' ' in phoneme or '\t' in phoneme:
 				phoneme = phoneme.strip()
 				if 'phoneme-spacing' in checks:
 					yield None, None, None, None, 'Incorrect whitespace after phoneme in entry: "{1}"'.format(phoneme, line)
-			if phoneme in missing_stress_marks:
+			if phoneme in phonemeset.missing_stress_marks:
 				if 'missing-stress' in checks:
 					yield None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
-			elif not phoneme in valid_phonemes:
+			elif not phoneme in phonemeset.valid_phonemes:
 				if 'invalid-phonemes' in checks:
 					yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
 
