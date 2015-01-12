@@ -25,6 +25,13 @@ import os
 import sys
 import re
 
+class ArpabetPhonemeSet:
+	def __init__(self):
+		self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
+
+	def __call__(self, phonemes):
+		return self.re_phonemes.split(phonemes.strip())
+
 VOWEL = 1
 CONSONANT = 2
 
@@ -231,12 +238,12 @@ def warnings_to_checks(warnings):
 def load_phonemes(accent):
 	if accent == 'cmudict':
 		phonemeset = 'arpabet'
+		phoneme_parser = ArpabetPhonemeSet()
 	else:
 		raise ValueError('Unsupported accent: {0}'.format(accent))
 
 	valid_phonemes = set()
 	missing_stress_marks = set()
-	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 
 	for p in phoneme_table:
 		if p['type'] == VOWEL:
@@ -247,7 +254,7 @@ def load_phonemes(accent):
 		else:
 			valid_phonemes.add(p[phonemeset])
 
-	return valid_phonemes, missing_stress_marks, re_phonemes
+	return valid_phonemes, missing_stress_marks, phoneme_parser
 
 def parse_cmudict(filename, checks, order_from):
 	"""
@@ -268,7 +275,7 @@ def parse_cmudict(filename, checks, order_from):
 	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
 	re_word = None
 
-	valid_phonemes, missing_stress_marks, re_phonemes = load_phonemes('cmudict')
+	valid_phonemes, missing_stress_marks, phoneme_parser = load_phonemes('cmudict')
 	previous_word = None
 	for line in read_file(filename):
 		if line == '':
@@ -316,8 +323,7 @@ def parse_cmudict(filename, checks, order_from):
 		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
 			yield line, None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
 
-		phonemes = re_phonemes.split(phonemes.strip())
-		for phoneme in phonemes:
+		for phoneme in phoneme_parser(phonemes):
 			if ' ' in phoneme or '\t' in phoneme:
 				phoneme = phoneme.strip()
 				if 'phoneme-spacing' in checks:
