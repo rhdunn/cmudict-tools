@@ -231,6 +231,7 @@ def warnings_to_checks(warnings):
 def load_phonemes(phonemeset):
 	valid_phonemes = set()
 	missing_stress_marks = set()
+	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 
 	for p in phoneme_table:
 		if p['type'] == VOWEL:
@@ -241,7 +242,7 @@ def load_phonemes(phonemeset):
 		else:
 			valid_phonemes.add(p['cmudict'])
 
-	return valid_phonemes, missing_stress_marks
+	return valid_phonemes, missing_stress_marks, re_phonemes
 
 def parse_cmudict(filename, checks, order_from):
 	"""
@@ -261,10 +262,8 @@ def parse_cmudict(filename, checks, order_from):
 	re_word_cmu = re.compile(r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$') # weide/air
 	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
 	re_word = None
-	re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
-	re_phoneme_start = re.compile(r'^ [A-Z]')
 
-	valid_phonemes, missing_stress_marks = load_phonemes('cmudict')
+	valid_phonemes, missing_stress_marks, re_phonemes = load_phonemes('cmudict')
 	previous_word = None
 	for line in read_file(filename):
 		if line == '':
