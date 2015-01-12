@@ -275,7 +275,6 @@ def parse_cmudict(filename, checks, order_from):
 	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
 	re_word = None
 
-	previous_word = None
 	for line in read_file(filename):
 		if line == '':
 			yield line, None, None, None, None, None
@@ -303,9 +302,6 @@ def parse_cmudict(filename, checks, order_from):
 		if not re_word.match(word) and 'word-casing' in checks:
 			yield line, None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
-		if previous_word and word < previous_word and 'unsorted' in checks:
-			yield line, None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
-
 		try:
 			context = m.group(GROUP_CONTEXT)
 			if context is not None:
@@ -327,6 +323,7 @@ def parse_cmudict(filename, checks, order_from):
 
 def parse(filename, warnings=[], order_from=0):
 	checks = warnings_to_checks(warnings)
+	previous_word = None
 	valid_phonemes, missing_stress_marks, phoneme_parser = load_phonemes('cmudict')
 	entries = Trie()
 	lines = Trie()
@@ -338,6 +335,9 @@ def parse(filename, warnings=[], order_from=0):
 		if not word and comment is not None: # line comment
 			yield None, None, None, comment, None
 			continue
+
+		if previous_word and word < previous_word and 'unsorted' in checks:
+			yield None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
 
 		for phoneme in phoneme_parser(phonemes):
 			if ' ' in phoneme or '\t' in phoneme:
