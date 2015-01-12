@@ -89,6 +89,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.upper(),
 		# parsing:
 		'accent': 'cmudict',
+		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$',
 	},
 	'cmudict': {
 		# formatting:
@@ -101,6 +102,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.upper(),
 		# parsing:
 		'accent': 'cmudict',
+		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$',
 	},
 	'cmudict-new': {
 		# formatting:
@@ -113,6 +115,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.lower(),
 		# parsing:
 		'accent': 'cmudict',
+		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$',
 	},
 }
 
@@ -280,10 +283,6 @@ def parse_cmudict(filename, checks, order_from):
 
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
-	re_word_cmu = re.compile(r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$') # weide/air
-	re_word_new = re.compile(r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$') # nshmyrev
-	re_word = None
-
 	format = None
 	for line in read_file(filename):
 		if line == '':
@@ -301,18 +300,14 @@ def parse_cmudict(filename, checks, order_from):
 			continue
 
 		word = m.group(GROUP_WORD)
-		if not re_word: # detect the dictionary format ...
-			if re_word_cmu.match(word):
+		if not format: # detect the dictionary format ...
+			cmudict_fmt = re.compile(dict_formats['cmudict']['word-validation'])
+			if cmudict_fmt.match(word):
 				format = 'cmudict'
-				re_word = re_word_cmu
 				spacing = '  '
 			else:
 				format = 'cmudict-new'
-				re_word = re_word_new
 				spacing = ' '
-
-		if not re_word.match(word) and 'word-casing' in checks:
-			yield line, format, None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
 		try:
 			context = m.group(GROUP_CONTEXT)
@@ -339,6 +334,7 @@ def parse(filename, warnings=[], order_from=0):
 	valid_phonemes = None
 	missing_stress_marks = None
 	phoneme_parser = None
+	re_word = None
 	entries = Trie()
 	lines = Trie()
 	fmt = None
@@ -354,6 +350,10 @@ def parse(filename, warnings=[], order_from=0):
 		if not fmt:
 			fmt = dict_formats[format]
 			valid_phonemes, missing_stress_marks, phoneme_parser = load_phonemes(fmt['accent'])
+			re_word = re.compile(fmt['word-validation'])
+
+		if not re_word.match(word) and 'word-casing' in checks:
+			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
 		if previous_word and word < previous_word and 'unsorted' in checks:
 			yield None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
