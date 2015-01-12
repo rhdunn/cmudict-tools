@@ -26,7 +26,8 @@ import sys
 import re
 
 class ArpabetPhonemeSet:
-	def __init__(self):
+	def __init__(self, name):
+		self.name = name
 		self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
 		self.valid_phonemes = set()
 		self.missing_stress_marks = set()
@@ -42,6 +43,10 @@ class ArpabetPhonemeSet:
 
 	def split(self, phonemes):
 		return self.re_phonemes.split(phonemes.strip())
+
+accents = {
+	'cmudict': lambda: ArpabetPhonemeSet('arpabet'),
+}
 
 VOWEL = 1
 CONSONANT = 2
@@ -262,17 +267,12 @@ def warnings_to_checks(warnings):
 	return checks
 
 def load_phonemes(accent):
-	if accent == 'cmudict':
-		name = 'arpabet'
-		phonemeset = ArpabetPhonemeSet()
-	else:
-		raise ValueError('Unsupported accent: {0}'.format(accent))
-
+	phonemeset = accents[accent]()
 	for p in phoneme_table:
 		if p['type'] == VOWEL:
-			phonemeset.add_vowel(p[name])
+			phonemeset.add_vowel(p[phonemeset.name])
 		else:
-			phonemeset.add(p[name])
+			phonemeset.add(p[phonemeset.name])
 
 	return phonemeset
 
