@@ -61,8 +61,21 @@ class ArpabetPhonemeSet:
 			self.valid_phonemes.add(phoneme)
 			self.valid_phonemes.add('{0}0'.format(phoneme))
 
-	def split(self, phonemes):
-		return self.re_phonemes.split(phonemes.strip())
+	def parse(self, phonemes, checks):
+		for phoneme in self.re_phonemes.split(phonemes.strip()):
+			if ' ' in phoneme or '\t' in phoneme:
+				phoneme = phoneme.strip()
+				if 'phoneme-spacing' in checks:
+					yield None, 'Incorrect whitespace after phoneme "{0}"'.format(phoneme)
+
+			if phoneme in self.missing_stress_marks:
+				if 'missing-stress' in checks:
+					yield None, 'Vowel phoneme "{0}" missing stress marker'.format(phoneme)
+			elif not phoneme in self.valid_phonemes:
+				if 'invalid-phonemes' in checks:
+					yield None, 'Invalid phoneme "{0}"'.format(phoneme)
+
+			yield phoneme, None
 
 	def format(self, phonemes):
 		return ' '.join([self.conversion(p) for p in phonemes])
@@ -435,29 +448,23 @@ def parse(filename, warnings=[], order_from=0):
 
 		# phoneme validation checks
 
-		phonemes = list(phonemeset.split(phonemes))
-		for phoneme in phonemes:
-			if ' ' in phoneme or '\t' in phoneme:
-				phoneme = phoneme.strip()
-				if 'phoneme-spacing' in checks:
-					yield None, None, None, None, 'Incorrect whitespace after phoneme in entry: "{1}"'.format(phoneme, line)
-			if phoneme in phonemeset.missing_stress_marks:
-				if 'missing-stress' in checks:
-					yield None, None, None, None, 'Vowel phoneme "{0}" missing stress marker in entry: "{1}"'.format(phoneme, line)
-			elif not phoneme in phonemeset.valid_phonemes:
-				if 'invalid-phonemes' in checks:
-					yield None, None, None, None, 'Invalid phoneme "{0}" in entry: "{1}"'.format(phoneme, line)
+		arpabet_phonemes = []
+		for phoneme, error in phonemeset.parse(phonemes, checks):
+			if error:
+				yield None, None, None, None, '{0} in entry: "{1}"'.format(error, line)
+			else:
+				arpabet_phonemes.append(phoneme)
 
 		# duplicate and context ordering checks
 
 		key = word.upper()
 		position = order_from if context is None else context
 
-		entry_line = '{0}({1}) {2}'.format(word, context, phonemes)
+		entry_line = '{0}({1}) {2}'.format(word, context, arpabet_phonemes)
 		if entry_line in lines and 'duplicate-entries' in checks:
 			yield None, None, None, None, 'Duplicate entry: "{2}"'.format(position, expect_position, line)
 		elif isinstance(position, int):
-			pronunciation = ' '.join(phonemes)
+			pronunciation = ' '.join(arpabet_phonemes)
 			if key in entries:
 				expect_position, pronunciations = entries[key]
 			else:
@@ -478,4 +485,4 @@ def parse(filename, warnings=[], order_from=0):
 
 		# return the parsed entry
 
-		yield word, context, phonemes, comment, None
+		yield word, context, arpabet_phonemes, comment, None
