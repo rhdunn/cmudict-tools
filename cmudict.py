@@ -136,6 +136,16 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$',
 		'context-parser': int,
 	},
+	'festlex': {
+		# formatting:
+		'comment': ';;{3}',
+		'entry': '("{0}" nil ({2}))',
+		'entry-context': '("{0}" {1} ({2}))',
+		'entry-comment': '("{0}" nil ({2})) ;{3}',
+		'entry-context-comment': '("{0}" {1} ({2})) ;{3}',
+		'phonemes': lambda phonemes: ' '.join([p.lower() for p in phonemes]),
+		'word': lambda word: word.lower(),
+	},
 }
 
 parser_warnings = {
