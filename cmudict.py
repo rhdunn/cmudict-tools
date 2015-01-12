@@ -335,7 +335,7 @@ def parse(filename, warnings=[], order_from=0):
 			yield None, None, None, None, error
 			continue
 
-		if not word and comment is not None: # line comment
+		if not word: # line comment or blank line
 			yield None, None, None, comment, None
 			continue
 
