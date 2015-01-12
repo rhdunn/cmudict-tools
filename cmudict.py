@@ -278,12 +278,6 @@ def parse_cmudict(filename, checks, order_from):
 		The return value is of the form:
 			(line, format, word, context, phonemes, comment, error)
 	"""
-	GROUP_WORD     = 1
-	GROUP_CONTEXT  = 3 # 2 = with context markers ~ ({3})
-	GROUP_SPACING  = 4
-	GROUP_PHONEMES = 5
-	GROUP_COMMENT  = 7 # 6 = with comment marker ~ #{7}
-
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
@@ -302,7 +296,12 @@ def parse_cmudict(filename, checks, order_from):
 			yield line, format, None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
 			continue
 
-		word = m.group(GROUP_WORD)
+		word = m.group(1)
+		context = m.group(3) # 2 = with context markers: `(...)`
+		word_phoneme_space = m.group(4)
+		phonemes = m.group(5)
+		comment = m.group(7) or None # 6 = with comment marker: `#...`
+
 		if not format: # detect the dictionary format ...
 			cmudict_fmt = re.compile(dict_formats['cmudict']['word-validation'])
 			if cmudict_fmt.match(word):
@@ -312,15 +311,12 @@ def parse_cmudict(filename, checks, order_from):
 				format = 'cmudict-new'
 				spacing = ' '
 
-		if m.group(GROUP_SPACING) != spacing and 'entry-spacing' in checks:
+		if word_phoneme_space != spacing and 'entry-spacing' in checks:
 			yield line, format, None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
 
-		phonemes = m.group(GROUP_PHONEMES)
 		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
 			yield line, format, None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
 
-		context = m.group(GROUP_CONTEXT)
-		comment = m.group(GROUP_COMMENT) or None
 		yield line, format, word, context, phonemes, comment, None
 
 def parse(filename, warnings=[], order_from=0):
