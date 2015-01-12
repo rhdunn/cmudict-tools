@@ -364,7 +364,8 @@ def parse(filename, warnings=[], order_from=0):
 
 		# phoneme validation checks
 
-		for phoneme in phoneme_parser(phonemes):
+		phonemes = list(phoneme_parser(phonemes))
+		for phoneme in phonemes:
 			if ' ' in phoneme or '\t' in phoneme:
 				phoneme = phoneme.strip()
 				if 'phoneme-spacing' in checks:
