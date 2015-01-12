@@ -384,7 +384,7 @@ def parse(filename, warnings=[], order_from=0):
 				context = context_parser(context)
 		except ValueError:
 			if 'context-values' in checks:
-				yield None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(m.group(GROUP_CONTEXT), line)
+				yield None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(context, line)
 
 		# phoneme validation checks
 
