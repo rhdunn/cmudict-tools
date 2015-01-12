@@ -25,6 +25,10 @@ import os
 import sys
 import re
 
+VOWEL = 1
+CONSONANT = 2
+SCHWA = 3 # The /@/ vowel -- no stress marker
+
 def festlex_context(context):
 	if not context in ['dt', 'j', 'n', 'nil', 'v', 'v_p', 'vl', 'y']:
 		raise ValueError('Unknown festlex context value: {0}'.format(context))
@@ -44,16 +48,18 @@ class ArpabetPhonemeSet:
 		self.valid_phonemes = set()
 		self.missing_stress_marks = set()
 
-	def add_vowel(self, phoneme):
+	def add(self, phoneme, phoneme_type):
 		phoneme = self.conversion(phoneme)
-		self.missing_stress_marks.add(phoneme)
-		self.valid_phonemes.add('{0}0'.format(phoneme))
-		self.valid_phonemes.add('{0}1'.format(phoneme))
-		self.valid_phonemes.add('{0}2'.format(phoneme))
-
-	def add(self, phoneme):
-		phoneme = self.conversion(phoneme)
-		self.valid_phonemes.add(phoneme)
+		if phoneme_type == CONSONANT:
+			self.valid_phonemes.add(phoneme)
+		elif phoneme_type == VOWEL:
+			self.missing_stress_marks.add(phoneme)
+			self.valid_phonemes.add('{0}0'.format(phoneme))
+			self.valid_phonemes.add('{0}1'.format(phoneme))
+			self.valid_phonemes.add('{0}2'.format(phoneme))
+		elif phoneme_type == SCHWA:
+			self.valid_phonemes.add(phoneme)
+			self.valid_phonemes.add('{0}0'.format(phoneme))
 
 	def split(self, phonemes):
 		return self.re_phonemes.split(phonemes.strip())
@@ -65,10 +71,6 @@ accents = {
 	'cmudict': lambda: ArpabetPhonemeSet('arpabet', 'upper'),
 	'festlex': lambda: ArpabetPhonemeSet('arpabet', 'lower'),
 }
-
-VOWEL = 1
-CONSONANT = 2
-SCHWA = 3 # The /@/ vowel -- no stress marker
 
 phoneme_table = [
 	{'arpabet': 'AA', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
@@ -116,11 +118,7 @@ phoneme_table = [
 def load_phonemes(accent):
 	phonemeset = accents[accent]()
 	for p in phoneme_table:
-		if p['type'] == VOWEL:
-			phonemeset.add_vowel(p[phonemeset.name])
-		else:
-			phonemeset.add(p[phonemeset.name])
-
+		phonemeset.add(p[phonemeset.name], p['type'])
 	return phonemeset
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
