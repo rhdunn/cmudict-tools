@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# coding=utf-8
 #
 # Tool for processing the CMU Pronunciation Dictionary file formats.
 #
@@ -33,6 +34,30 @@ def festlex_context(context):
 	if not context in ['dt', 'j', 'n', 'nil', 'v', 'v_p', 'vl', 'y']:
 		raise ValueError('Unknown festlex context value: {0}'.format(context))
 	return context
+
+class IpaPhonemeSet:
+	def __init__(self):
+		self.to_ipa = {}
+
+	def add(self, data):
+		arpabet = data['arpabet']
+		ipa = data['ipa']
+		if data['type'] == CONSONANT:
+			self.to_ipa[arpabet] = ipa
+		elif data['type'] == VOWEL:
+			self.to_ipa[arpabet] = ipa # missing stress
+			self.to_ipa['{0}0'.format(arpabet)] = ipa
+			self.to_ipa['{0}1'.format(arpabet)] = 'ˈ{0}'.format(ipa)
+			self.to_ipa['{0}2'.format(arpabet)] = 'ˌ{0}'.format(ipa)
+		elif data['type'] == SCHWA:
+			self.to_ipa[arpabet] = ipa # missing stress
+			self.to_ipa['{0}0'.format(arpabet)] = ipa
+
+	def parse(self, phonemes, checks):
+		raise Exception('parse is not currently supported for IPA phonemes')
+
+	def format(self, phonemes):
+		return ''.join([self.to_ipa[p] for p in phonemes])
 
 class ArpabetPhonemeSet:
 	def __init__(self, capitalization):
@@ -84,49 +109,50 @@ class ArpabetPhonemeSet:
 accents = {
 	'cmudict': lambda: ArpabetPhonemeSet('upper'),
 	'festlex': lambda: ArpabetPhonemeSet('lower'),
+	'ipa': lambda: IpaPhonemeSet(),
 }
 
 phoneme_table = [
-	{'arpabet': 'AA', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AE', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AH', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AO', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AW', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AX', 'type': SCHWA,     'accent': ['festlex']},
-	{'arpabet': 'AY', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'B',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'CH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'D',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'DH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'EH', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'ER', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'EY', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'F',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'G',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'HH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'IH', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'IY', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'JH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'K',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'L',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'M',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'N',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'NG', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'OW', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'OY', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'P',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'R',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'S',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'SH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'T',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'TH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'UH', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'UW', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'V',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'W',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'Y',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'Z',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'ZH', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AA',  'ipa': 'ɑ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AE',  'ipa': 'æ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AH',  'ipa': 'ʌ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AO',  'ipa': 'ɔ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AW',  'ipa': 'aʊ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'AX',  'ipa': 'ə',  'type': SCHWA,     'accent': ['festlex']},
+	{'arpabet': 'AY',  'ipa': 'aɪ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'B',   'ipa': 'b',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'CH',  'ipa': 't͡ʃ', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'D',   'ipa': 'd',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'DH',  'ipa': 'ð',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'EH',  'ipa': 'ɛ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'ER',  'ipa': 'ɝ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'EY',  'ipa': 'eɪ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'F',   'ipa': 'f',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'G',   'ipa': 'ɡ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'HH',  'ipa': 'h',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'IH',  'ipa': 'ɪ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'IY',  'ipa': 'i',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'JH',  'ipa': 'd͡ʒ', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'K',   'ipa': 'k',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'L',   'ipa': 'l',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'M',   'ipa': 'm',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'N',   'ipa': 'n',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'NG',  'ipa': 'ŋ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'OW',  'ipa': 'oʊ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'OY',  'ipa': 'ɔɪ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'P',   'ipa': 'p',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'R',   'ipa': 'ɹ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'S',   'ipa': 's',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'SH',  'ipa': 'ʃ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'T',   'ipa': 't',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'TH',  'ipa': 'θ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'UH',  'ipa': 'ʊ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'UW',  'ipa': 'u',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'V',   'ipa': 'v',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'W',   'ipa': 'w',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'Y',   'ipa': 'j',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'Z',   'ipa': 'z',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
+	{'arpabet': 'ZH',  'ipa': 'ʒ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
 ]
 
 def load_phonemes(accent):
