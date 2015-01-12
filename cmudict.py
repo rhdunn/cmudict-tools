@@ -50,16 +50,16 @@ class ArpabetPhonemeSet:
 		self.valid_phonemes = set()
 		self.missing_stress_marks = set()
 
-	def add(self, phoneme, phoneme_type):
-		phoneme = self.conversion(phoneme)
-		if phoneme_type == CONSONANT:
+	def add(self, data):
+		phoneme = self.conversion(data['arpabet'])
+		if data['type'] == CONSONANT:
 			self.valid_phonemes.add(phoneme)
-		elif phoneme_type == VOWEL:
+		elif data['type'] == VOWEL:
 			self.missing_stress_marks.add(phoneme)
 			self.valid_phonemes.add('{0}0'.format(phoneme))
 			self.valid_phonemes.add('{0}1'.format(phoneme))
 			self.valid_phonemes.add('{0}2'.format(phoneme))
-		elif phoneme_type == SCHWA:
+		elif data['type'] == SCHWA:
 			self.valid_phonemes.add(phoneme)
 			self.valid_phonemes.add('{0}0'.format(phoneme))
 
@@ -133,7 +133,7 @@ phoneme_table = [
 def load_phonemes(accent):
 	phonemeset = accents[accent]()
 	for p in phoneme_table:
-		phonemeset.add(p[phonemeset.name], p['type'])
+		phonemeset.add(p)
 	return phonemeset
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
