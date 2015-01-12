@@ -90,6 +90,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		# parsing:
 		'accent': 'cmudict',
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$',
+		'context-parser': int,
 	},
 	'cmudict': {
 		# formatting:
@@ -103,6 +104,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		# parsing:
 		'accent': 'cmudict',
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$',
+		'context-parser': int,
 	},
 	'cmudict-new': {
 		# formatting:
@@ -116,6 +118,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		# parsing:
 		'accent': 'cmudict',
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$',
+		'context-parser': int,
 	},
 }
 
@@ -309,15 +312,6 @@ def parse_cmudict(filename, checks, order_from):
 				format = 'cmudict-new'
 				spacing = ' '
 
-		try:
-			context = m.group(GROUP_CONTEXT)
-			if context is not None:
-				context = int(context)
-		except ValueError:
-			if 'context-values' in checks:
-				yield line, format, None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(m.group(GROUP_CONTEXT), line)
-			context = m.group(GROUP_CONTEXT)
-
 		if m.group(GROUP_SPACING) != spacing and 'entry-spacing' in checks:
 			yield line, format, None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
 
@@ -325,6 +319,7 @@ def parse_cmudict(filename, checks, order_from):
 		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
 			yield line, format, None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
 
+		context = m.group(GROUP_CONTEXT)
 		comment = m.group(GROUP_COMMENT) or None
 		yield line, format, word, context, phonemes, comment, None
 
@@ -333,8 +328,9 @@ def parse(filename, warnings=[], order_from=0):
 	previous_word = None
 	valid_phonemes = None
 	missing_stress_marks = None
-	phoneme_parser = None
 	re_word = None
+	context_parser = None
+	phoneme_parser = None
 	entries = Trie()
 	lines = Trie()
 	fmt = None
@@ -351,12 +347,20 @@ def parse(filename, warnings=[], order_from=0):
 			fmt = dict_formats[format]
 			valid_phonemes, missing_stress_marks, phoneme_parser = load_phonemes(fmt['accent'])
 			re_word = re.compile(fmt['word-validation'])
+			context_parser = fmt['context-parser']
 
 		if not re_word.match(word) and 'word-casing' in checks:
 			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
 
 		if previous_word and word < previous_word and 'unsorted' in checks:
 			yield None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
+
+		try:
+			if context is not None:
+				context = context_parser(context)
+		except ValueError:
+			if 'context-values' in checks:
+				yield None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(m.group(GROUP_CONTEXT), line)
 
 		for phoneme in phoneme_parser(phonemes):
 			if ' ' in phoneme or '\t' in phoneme:
