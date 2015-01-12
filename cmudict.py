@@ -44,8 +44,12 @@ class ArpabetPhonemeSet:
 	def split(self, phonemes):
 		return self.re_phonemes.split(phonemes.strip())
 
+	def format(self, phonemes):
+		return ' '.join(phonemes)
+
 accents = {
 	'cmudict': lambda: ArpabetPhonemeSet('arpabet'),
+	'festlex': lambda: ArpabetPhonemeSet('arpabet'),
 }
 
 VOWEL = 1
@@ -93,57 +97,64 @@ phoneme_table = [
 	{'arpabet': 'ZH', 'type': CONSONANT, 'accent': ['cmudict']},
 ]
 
+def load_phonemes(accent):
+	phonemeset = accents[accent]()
+	for p in phoneme_table:
+		if p['type'] == VOWEL:
+			phonemeset.add_vowel(p[phonemeset.name])
+		else:
+			phonemeset.add(p[phonemeset.name])
+
+	return phonemeset
+
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-weide': {
+		'accent': 'cmudict',
 		# formatting:
 		'comment': '##{3}',
 		'entry': '{0}  {2}',
 		'entry-comment': '{0}  {2} #{3}',
 		'entry-context': '{0}({1})  {2}',
 		'entry-context-comment': '{0}({1})  {2} #{3}',
-		'phonemes': lambda phonemes: ' '.join(phonemes),
 		'word': lambda word: word.upper(),
 		# parsing:
-		'accent': 'cmudict',
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$',
 		'context-parser': int,
 	},
 	'cmudict': {
+		'accent': 'cmudict',
 		# formatting:
 		'comment': ';;;{3}',
 		'entry': '{0}  {2}',
 		'entry-comment': '{0}  {2} #{3}',
 		'entry-context': '{0}({1})  {2}',
 		'entry-context-comment': '{0}({1})  {2} #{3}',
-		'phonemes': lambda phonemes: ' '.join(phonemes),
 		'word': lambda word: word.upper(),
 		# parsing:
-		'accent': 'cmudict',
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$',
 		'context-parser': int,
 	},
 	'cmudict-new': {
+		'accent': 'cmudict',
 		# formatting:
 		'comment': ';;;{3}',
 		'entry': '{0} {2}',
 		'entry-context': '{0}({1}) {2}',
 		'entry-comment': '{0} {2} #{3}',
 		'entry-context-comment': '{0}({1}) {2} #{3}',
-		'phonemes': lambda phonemes: ' '.join(phonemes),
 		'word': lambda word: word.lower(),
 		# parsing:
-		'accent': 'cmudict',
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$',
 		'context-parser': int,
 	},
 	'festlex': {
+		'accent': 'festlex',
 		# formatting:
 		'comment': ';;{3}',
 		'entry': '("{0}" nil ({2}))',
 		'entry-context': '("{0}" {1} ({2}))',
 		'entry-comment': '("{0}" nil ({2})) ;{3}',
 		'entry-context-comment': '("{0}" {1} ({2})) ;{3}',
-		'phonemes': lambda phonemes: ' '.join([p.lower() for p in phonemes]),
 		'word': lambda word: word.lower(),
 	},
 }
@@ -232,6 +243,7 @@ def sort(entries, mode):
 
 def format(dict_format, entries):
 	fmt = dict_formats[dict_format]
+	phonemeset = load_phonemes(fmt['accent'])
 	for word, context, phonemes, comment, error in entries:
 		if error:
 			print(error, file=sys.stderr)
@@ -245,7 +257,7 @@ def format(dict_format, entries):
 		if comment != None:
 			components.append('comment')
 		if phonemes:
-			phonemes = fmt['phonemes'](phonemes)
+			phonemes = phonemeset.format(phonemes)
 		if len(components) == 0:
 			print()
 		else:
@@ -275,16 +287,6 @@ def warnings_to_checks(warnings):
 		else:
 			raise ValueError('Invalid warning: {0}'.format(warning))
 	return checks
-
-def load_phonemes(accent):
-	phonemeset = accents[accent]()
-	for p in phoneme_table:
-		if p['type'] == VOWEL:
-			phonemeset.add_vowel(p[phonemeset.name])
-		else:
-			phonemeset.add(p[phonemeset.name])
-
-	return phonemeset
 
 def parse_cmudict(filename, checks, order_from):
 	"""
