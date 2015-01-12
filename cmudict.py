@@ -353,6 +353,9 @@ def parse_festlex(filename, checks, order_from):
 		phonemes = m.group(3)
 		comment = m.group(5)
 
+		if context == 'nil':
+			context = None
+
 		yield line, format, word, context, phonemes, comment, None
 
 def parse_cmudict(filename, checks, order_from):
