@@ -92,5 +92,5 @@ args = parser.parse_args()
 
 try:
 	commands[args.command](args)
-except ValueError, e:
+except ValueError as e:
 	print(e)
