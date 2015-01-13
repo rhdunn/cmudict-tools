@@ -144,8 +144,10 @@ class ArpabetPhonemeSet:
 accents = {
 	'cmudict': lambda: ArpabetPhonemeSet('upper'),
 	'festlex': lambda: ArpabetPhonemeSet('lower'),
+	'GenAm': lambda: ArpabetPhonemeSet('upper'),
 	'ipa-GenAm': lambda: IpaPhonemeSet('GenAm'),
 	'ipa-RP': lambda: IpaPhonemeSet('RP'),
+	'RP': lambda: ArpabetPhonemeSet('upper'),
 }
 
 phoneme_table = list(read_phonetable(os.path.join(root, 'phones.csv')))
