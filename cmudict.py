@@ -154,6 +154,7 @@ accents = {
 	'en-US': lambda: ArpabetPhonemeSet('upper'),
 	'en-US-x-ipa': lambda: IpaPhonemeSet('en-US'),
 	# dictionary/TTS specific accents
+	'en-GB-x-cepstral': lambda: ArpabetPhonemeSet('lower'),
 	'en-US-x-cepstral': lambda: ArpabetPhonemeSet('lower'),
 	'en-US-x-cmu': lambda: ArpabetPhonemeSet('upper'),
 	'en-US-x-festvox': lambda: ArpabetPhonemeSet('lower'),
