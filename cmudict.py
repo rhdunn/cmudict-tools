@@ -25,10 +25,44 @@ from __future__ import print_function
 import os
 import sys
 import re
+import csv
+import codecs
 
-VOWEL = 1
-CONSONANT = 2
-SCHWA = 3 # The /@/ vowel -- no stress marker
+root = os.path.dirname(os.path.realpath(__file__))
+
+if sys.version_info[0] == 2:
+	ustr = unicode
+
+	def to_utf8(x):
+		return x.encode('utf-8')
+
+	def read_csv(filename):
+		with open(filename, 'rb') as f:
+			for entry in csv.reader(f):
+				yield [x.decode('utf-8') for x in entry]
+else:
+	ustr = str
+
+	def to_utf8(x):
+		return x
+
+	def read_csv(filename):
+		with open(filename, 'rb') as f:
+			for entry in csv.reader(codecs.iterdecode(f, 'utf-8')):
+				yield entry
+
+def read_phonetable(filename):
+	columns = None
+	for entry in read_csv(filename):
+		if len(entry) == 0 or entry[0].startswith('#'):
+			continue
+		entry = [ None if x == '' else x for x in entry ]
+		if columns:
+			data = dict(zip(columns, entry))
+			data['Accents'] = data['Accents'].split(';')
+			yield data
+		else:
+			columns = entry
 
 def festlex_context(context):
 	if not context in ['dt', 'j', 'n', 'nil', 'v', 'v_p', 'vl', 'y']:
@@ -40,16 +74,16 @@ class IpaPhonemeSet:
 		self.to_ipa = {}
 
 	def add(self, data):
-		arpabet = data['arpabet']
-		ipa = data['ipa']
-		if data['type'] == CONSONANT:
+		arpabet = data['Arpabet']
+		ipa = to_utf8(data['IPA'])
+		if data['Type'] == 'consonant':
 			self.to_ipa[arpabet] = ipa
-		elif data['type'] == VOWEL:
+		elif data['Type'] == 'vowel':
 			self.to_ipa[arpabet] = ipa # missing stress
 			self.to_ipa['{0}0'.format(arpabet)] = ipa
 			self.to_ipa['{0}1'.format(arpabet)] = 'ˈ{0}'.format(ipa)
 			self.to_ipa['{0}2'.format(arpabet)] = 'ˌ{0}'.format(ipa)
-		elif data['type'] == SCHWA:
+		elif data['Type'] == 'schwa':
 			self.to_ipa[arpabet] = ipa # missing stress
 			self.to_ipa['{0}0'.format(arpabet)] = ipa
 
@@ -63,27 +97,27 @@ class ArpabetPhonemeSet:
 	def __init__(self, capitalization):
 		if capitalization == 'upper':
 			self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
-			self.conversion = str.upper
-			self.parse_phoneme = str # already upper case
+			self.conversion = ustr.upper
+			self.parse_phoneme = ustr # already upper case
 		elif capitalization == 'lower':
 			self.re_phonemes = re.compile(r' (?=[a-z][a-z]?[0-9]?)')
-			self.conversion = str.lower
-			self.parse_phoneme = str.upper
+			self.conversion = ustr.lower
+			self.parse_phoneme = ustr.upper
 		else:
 			raise ValueError('Unsupported capitalization value: {0}'.format(capitalization))
 		self.valid_phonemes = set()
 		self.missing_stress_marks = set()
 
 	def add(self, data):
-		phoneme = self.conversion(data['arpabet'])
-		if data['type'] == CONSONANT:
+		phoneme = self.conversion(data['Arpabet'])
+		if data['Type'] == 'consonant':
 			self.valid_phonemes.add(phoneme)
-		elif data['type'] == VOWEL:
+		elif data['Type'] == 'vowel':
 			self.missing_stress_marks.add(phoneme)
 			self.valid_phonemes.add('{0}0'.format(phoneme))
 			self.valid_phonemes.add('{0}1'.format(phoneme))
 			self.valid_phonemes.add('{0}2'.format(phoneme))
-		elif data['type'] == SCHWA:
+		elif data['Type'] == 'schwa':
 			self.valid_phonemes.add(phoneme)
 			self.valid_phonemes.add('{0}0'.format(phoneme))
 
@@ -112,53 +146,12 @@ accents = {
 	'ipa': lambda: IpaPhonemeSet(),
 }
 
-phoneme_table = [
-	{'arpabet': 'AA',  'ipa': 'ɑ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AE',  'ipa': 'æ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AH',  'ipa': 'ʌ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AO',  'ipa': 'ɔ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AW',  'ipa': 'aʊ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'AX',  'ipa': 'ə',  'type': SCHWA,     'accent': ['festlex']},
-	{'arpabet': 'AY',  'ipa': 'aɪ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'B',   'ipa': 'b',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'CH',  'ipa': 't͡ʃ', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'D',   'ipa': 'd',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'DH',  'ipa': 'ð',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'EH',  'ipa': 'ɛ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'ER',  'ipa': 'ɝ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'EY',  'ipa': 'eɪ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'F',   'ipa': 'f',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'G',   'ipa': 'ɡ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'HH',  'ipa': 'h',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'IH',  'ipa': 'ɪ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'IY',  'ipa': 'i',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'JH',  'ipa': 'd͡ʒ', 'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'K',   'ipa': 'k',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'L',   'ipa': 'l',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'M',   'ipa': 'm',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'N',   'ipa': 'n',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'NG',  'ipa': 'ŋ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'OW',  'ipa': 'oʊ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'OY',  'ipa': 'ɔɪ̯', 'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'P',   'ipa': 'p',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'R',   'ipa': 'ɹ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'S',   'ipa': 's',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'SH',  'ipa': 'ʃ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'T',   'ipa': 't',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'TH',  'ipa': 'θ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'UH',  'ipa': 'ʊ',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'UW',  'ipa': 'u',  'type': VOWEL,     'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'V',   'ipa': 'v',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'W',   'ipa': 'w',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'Y',   'ipa': 'j',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'Z',   'ipa': 'z',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-	{'arpabet': 'ZH',  'ipa': 'ʒ',  'type': CONSONANT, 'accent': ['cmudict', 'festlex']},
-]
+phoneme_table = list(read_phonetable(os.path.join(root, 'phones.csv')))
 
 def load_phonemes(accent):
 	phonemeset = accents[accent]()
 	for p in phoneme_table:
-		if accent in p['accent'] or accent.startswith('ipa'):
+		if accent in p['Accents'] or accent.startswith('ipa'):
 			phonemeset.add(p)
 	return phonemeset
 

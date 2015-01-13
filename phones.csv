@@ -1,0 +1,60 @@
+# Phone Table for supported phones in cmudict-style dictionaries
+#
+# Copyright (C) 2015 Reece H. Dunn
+#
+# This file is part of cmudict-tools.
+#
+# cmudict-tools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cmudict-tools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>.
+#
+Arpabet,IPA,Type,Accents
+AA,ɑ,vowel,cmudict;festlex
+AE,æ,vowel,cmudict;festlex
+AH,ʌ,vowel,cmudict;festlex
+AO,ɔ,vowel,cmudict;festlex
+AW,aʊ̯,vowel,cmudict;festlex
+AX,ə,schwa,festlex
+AY,aɪ̯,vowel,cmudict;festlex
+B,b,consonant,cmudict;festlex
+CH,t͡ʃ,consonant,cmudict;festlex
+D,d,consonant,cmudict;festlex
+DH,ð,consonant,cmudict;festlex
+EH,ɛ,vowel,cmudict;festlex
+ER,ɝ,vowel,cmudict;festlex
+EY,eɪ̯,vowel,cmudict;festlex
+F,f,consonant,cmudict;festlex
+G,ɡ,consonant,cmudict;festlex
+HH,h,consonant,cmudict;festlex
+IH,ɪ,vowel,cmudict;festlex
+IY,i,vowel,cmudict;festlex
+JH,d͡ʒ,consonant,cmudict;festlex
+K,k,consonant,cmudict;festlex
+L,l,consonant,cmudict;festlex
+M,m,consonant,cmudict;festlex
+N,n,consonant,cmudict;festlex
+NG,ŋ,consonant,cmudict;festlex
+OW,oʊ̯,vowel,cmudict;festlex
+OY,ɔɪ̯,vowel,cmudict;festlex
+P,p,consonant,cmudict;festlex
+R,ɹ,consonant,cmudict;festlex
+S,s,consonant,cmudict;festlex
+SH,ʃ,consonant,cmudict;festlex
+T,t,consonant,cmudict;festlex
+TH,θ,consonant,cmudict;festlex
+UH,ʊ,vowel,cmudict;festlex
+UW,u,vowel,cmudict;festlex
+V,v,consonant,cmudict;festlex
+W,w,consonant,cmudict;festlex
+Y,j,consonant,cmudict;festlex
+Z,z,consonant,cmudict;festlex
+ZH,ʒ,consonant,cmudict;festlex
