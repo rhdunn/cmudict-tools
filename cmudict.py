@@ -70,12 +70,13 @@ def festlex_context(context):
 	return context
 
 class IpaPhonemeSet:
-	def __init__(self):
+	def __init__(self, accent):
 		self.to_ipa = {}
+		self.accent = accent
 
 	def add(self, data):
 		arpabet = data['Arpabet']
-		ipa = to_utf8(data['IPA'])
+		ipa = to_utf8(data[self.accent])
 		if data['Type'] == 'consonant':
 			self.to_ipa[arpabet] = ipa
 		elif data['Type'] == 'vowel':
@@ -143,7 +144,8 @@ class ArpabetPhonemeSet:
 accents = {
 	'cmudict': lambda: ArpabetPhonemeSet('upper'),
 	'festlex': lambda: ArpabetPhonemeSet('lower'),
-	'ipa': lambda: IpaPhonemeSet(),
+	'ipa-GenAm': lambda: IpaPhonemeSet('GenAm'),
+	'ipa-RP': lambda: IpaPhonemeSet('RP'),
 }
 
 phoneme_table = list(read_phonetable(os.path.join(root, 'phones.csv')))
