@@ -144,6 +144,7 @@ class ArpabetPhonemeSet:
 		return ' '.join([self.conversion(p) for p in phonemes])
 
 accents = {
+	'cepstral-en_US': lambda: ArpabetPhonemeSet('lower'),
 	'cmudict': lambda: ArpabetPhonemeSet('upper'),
 	'festlex': lambda: ArpabetPhonemeSet('lower'),
 	'GenAm': lambda: ArpabetPhonemeSet('upper'),
