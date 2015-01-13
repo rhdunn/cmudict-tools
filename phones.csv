@@ -1,60 +1,60 @@
-Arpabet,IPA,Type,Accents,LexicalSet
-#,,,,"Phone Table for supported phones in cmudict-style dictionaries"
-#,,,,
-#,,,,"Copyright (C) 2015 Reece H. Dunn"
-#,,,,
-#,,,,"This file is part of cmudict-tools."
-#,,,,
-#,,,,"cmudict-tools is free software: you can redistribute it and/or modify"
-#,,,,"it under the terms of the GNU General Public License as published by"
-#,,,,"the Free Software Foundation, either version 3 of the License, or"
-#,,,,"(at your option) any later version."
-#,,,,
-#,,,,"cmudict-tools is distributed in the hope that it will be useful,"
-#,,,,"but WITHOUT ANY WARRANTY; without even the implied warranty of"
-#,,,,"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
-#,,,,"GNU General Public License for more details."
-#,,,,
-#,,,,"You should have received a copy of the GNU General Public License"
-#,,,,"along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>."
-#,,,,
-AA,ɑ,vowel,cmudict;festlex,PALM
-AE,æ,vowel,cmudict;festlex,TRAP
-AH,ʌ,vowel,cmudict;festlex,STRUT
-AO,ɔ,vowel,cmudict;festlex,THOUGHT
-AW,aʊ̯,vowel,cmudict;festlex,MOUTH
-AX,ə,schwa,festlex,COMMA
-AY,aɪ̯,vowel,cmudict;festlex,PRICE
-B,b,consonant,cmudict;festlex,
-CH,t͡ʃ,consonant,cmudict;festlex,
-D,d,consonant,cmudict;festlex,
-DH,ð,consonant,cmudict;festlex,
-EH,ɛ,vowel,cmudict;festlex,DRESS
-ER,ɝ,vowel,cmudict;festlex,NURSE
-EY,eɪ̯,vowel,cmudict;festlex,FACE
-F,f,consonant,cmudict;festlex,
-G,ɡ,consonant,cmudict;festlex,
-HH,h,consonant,cmudict;festlex,
-IH,ɪ,vowel,cmudict;festlex,KIT
-IY,i,vowel,cmudict;festlex,FLEECE
-JH,d͡ʒ,consonant,cmudict;festlex,
-K,k,consonant,cmudict;festlex,
-L,l,consonant,cmudict;festlex,
-M,m,consonant,cmudict;festlex,
-N,n,consonant,cmudict;festlex,
-NG,ŋ,consonant,cmudict;festlex,
-OW,oʊ̯,vowel,cmudict;festlex,GOAT
-OY,ɔɪ̯,vowel,cmudict;festlex,CHOICE
-P,p,consonant,cmudict;festlex,
-R,ɹ,consonant,cmudict;festlex,
-S,s,consonant,cmudict;festlex,
-SH,ʃ,consonant,cmudict;festlex,
-T,t,consonant,cmudict;festlex,
-TH,θ,consonant,cmudict;festlex,
-UH,ʊ,vowel,cmudict;festlex,FOOT
-UW,u,vowel,cmudict;festlex,GOOSE
-V,v,consonant,cmudict;festlex,
-W,w,consonant,cmudict;festlex,
-Y,j,consonant,cmudict;festlex,
-Z,z,consonant,cmudict;festlex,
-ZH,ʒ,consonant,cmudict;festlex,
+Arpabet,IPA,Type,Accents,Lexical Set,Example,Example Transcription
+#,,,,,,"Phone Table for supported phones in cmudict-style dictionaries"
+#,,,,,,
+#,,,,,,"Copyright (C) 2015 Reece H. Dunn"
+#,,,,,,
+#,,,,,,"This file is part of cmudict-tools."
+#,,,,,,
+#,,,,,,"cmudict-tools is free software: you can redistribute it and/or modify"
+#,,,,,,"it under the terms of the GNU General Public License as published by"
+#,,,,,,"the Free Software Foundation, either version 3 of the License, or"
+#,,,,,,"(at your option) any later version."
+#,,,,,,
+#,,,,,,"cmudict-tools is distributed in the hope that it will be useful,"
+#,,,,,,"but WITHOUT ANY WARRANTY; without even the implied warranty of"
+#,,,,,,"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+#,,,,,,"GNU General Public License for more details."
+#,,,,,,
+#,,,,,,"You should have received a copy of the GNU General Public License"
+#,,,,,,"along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>."
+#,,,,,,
+AA,ɑ,vowel,cmudict;festlex,PALM,odd,AA D
+AE,æ,vowel,cmudict;festlex,TRAP,at,AE T
+AH,ʌ,vowel,cmudict;festlex,STRUT,hut,HH AH T
+AO,ɔ,vowel,cmudict;festlex,THOUGHT,ought,AO T
+AW,aʊ̯,vowel,cmudict;festlex,MOUTH,cow,K AW
+AX,ə,schwa,festlex,COMMA,,
+AY,aɪ̯,vowel,cmudict;festlex,PRICE,hide,HH AY D
+B,b,consonant,cmudict;festlex,,be,B IY
+CH,t͡ʃ,consonant,cmudict;festlex,,cheese,CH IY Z
+D,d,consonant,cmudict;festlex,,dee,D IY
+DH,ð,consonant,cmudict;festlex,,thee,DH IY
+EH,ɛ,vowel,cmudict;festlex,DRESS,Ed,EH D
+ER,ɝ,vowel,cmudict;festlex,NURSE,hurt,HH ER T
+EY,eɪ̯,vowel,cmudict;festlex,FACE,ate,EY T
+F,f,consonant,cmudict;festlex,,fee,F IY
+G,ɡ,consonant,cmudict;festlex,,green,G R IY N
+HH,h,consonant,cmudict;festlex,,he,H IY
+IH,ɪ,vowel,cmudict;festlex,KIT,it,IH T
+IY,i,vowel,cmudict;festlex,FLEECE,eat,IY T
+JH,d͡ʒ,consonant,cmudict;festlex,,gee,JH IY
+K,k,consonant,cmudict;festlex,,key,K IY
+L,l,consonant,cmudict;festlex,,lee,L IY
+M,m,consonant,cmudict;festlex,,me,M IY
+N,n,consonant,cmudict;festlex,,knee,N IY
+NG,ŋ,consonant,cmudict;festlex,,ping,P IH NG
+OW,oʊ̯,vowel,cmudict;festlex,GOAT,oat,OW T
+OY,ɔɪ̯,vowel,cmudict;festlex,CHOICE,toy,T OY
+P,p,consonant,cmudict;festlex,,pee,P IY
+R,ɹ,consonant,cmudict;festlex,,read,R IY D
+S,s,consonant,cmudict;festlex,,sea,S IY
+SH,ʃ,consonant,cmudict;festlex,,she,SH IY
+T,t,consonant,cmudict;festlex,,tea,T IY
+TH,θ,consonant,cmudict;festlex,,theta,TH EY T AH
+UH,ʊ,vowel,cmudict;festlex,FOOT,hood,HH UH D
+UW,u,vowel,cmudict;festlex,GOOSE,two,T UW
+V,v,consonant,cmudict;festlex,,vee,V IY
+W,w,consonant,cmudict;festlex,,we,W IY
+Y,j,consonant,cmudict;festlex,,yield,Y IY L D
+Z,z,consonant,cmudict;festlex,,zee,Z IY
+ZH,ʒ,consonant,cmudict;festlex,,seizure,S IY ZH ER
