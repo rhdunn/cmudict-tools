@@ -144,13 +144,15 @@ class ArpabetPhonemeSet:
 		return ' '.join([self.conversion(p) for p in phonemes])
 
 accents = {
-	'cepstral-en_US': lambda: ArpabetPhonemeSet('lower'),
-	'cmudict': lambda: ArpabetPhonemeSet('upper'),
-	'festlex': lambda: ArpabetPhonemeSet('lower'),
-	'GenAm': lambda: ArpabetPhonemeSet('upper'),
-	'ipa-GenAm': lambda: IpaPhonemeSet('GenAm'),
-	'ipa-RP': lambda: IpaPhonemeSet('RP'),
-	'RP': lambda: ArpabetPhonemeSet('upper'),
+	# general purpose accents
+	'en-GB': lambda: ArpabetPhonemeSet('upper'),
+	'en-GB-x-ipa': lambda: IpaPhonemeSet('en-GB'),
+	'en-US': lambda: ArpabetPhonemeSet('upper'),
+	'en-US-x-ipa': lambda: IpaPhonemeSet('en-US'),
+	# dictionary/TTS specific accents
+	'en-US-x-cepstral': lambda: ArpabetPhonemeSet('lower'),
+	'en-US-x-cmu': lambda: ArpabetPhonemeSet('upper'),
+	'en-US-x-festvox': lambda: ArpabetPhonemeSet('lower'),
 }
 
 phoneme_table = list(read_phonetable(os.path.join(root, 'phones.csv')))
@@ -158,13 +160,13 @@ phoneme_table = list(read_phonetable(os.path.join(root, 'phones.csv')))
 def load_phonemes(accent):
 	phonemeset = accents[accent]()
 	for p in phoneme_table:
-		if accent in p['Accents'] or accent.startswith('ipa'):
+		if accent in p['Accents'] or accent.endswith('-ipa'):
 			phonemeset.add(p)
 	return phonemeset
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-weide': {
-		'accent': 'cmudict',
+		'accent': 'en-US-x-cmu',
 		# formatting:
 		'comment': '##{3}',
 		'entry': '{0}  {2}',
@@ -177,7 +179,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'context-parser': int,
 	},
 	'cmudict': {
-		'accent': 'cmudict',
+		'accent': 'en-US-x-cmu',
 		# formatting:
 		'comment': ';;;{3}',
 		'entry': '{0}  {2}',
@@ -190,7 +192,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'context-parser': int,
 	},
 	'cmudict-new': {
-		'accent': 'cmudict',
+		'accent': 'en-US-x-cmu',
 		# formatting:
 		'comment': ';;;{3}',
 		'entry': '{0} {2}',
@@ -203,7 +205,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'context-parser': int,
 	},
 	'festlex': {
-		'accent': 'festlex',
+		'accent': 'en-US-x-festvox',
 		# formatting:
 		'comment': ';;{3}',
 		'entry': '("{0}" nil ({2}))',
