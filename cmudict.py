@@ -108,21 +108,23 @@ class ArpabetPhonemeSet:
 			self.parse_phoneme = ustr.upper
 		else:
 			raise ValueError('Unsupported capitalization value: {0}'.format(capitalization))
-		self.valid_phonemes = set()
+		self.to_arpabet = {}
 		self.missing_stress_marks = set()
 
 	def add(self, data):
 		phoneme = self.conversion(data['Arpabet'])
+		normalized = self.conversion(data['Normalized'] if data['Normalized'] else phoneme)
 		if data['Type'] == 'consonant':
-			self.valid_phonemes.add(phoneme)
+			self.to_arpabet[phoneme] = normalized
 		elif data['Type'] == 'vowel':
 			self.missing_stress_marks.add(phoneme)
-			self.valid_phonemes.add('{0}0'.format(phoneme))
-			self.valid_phonemes.add('{0}1'.format(phoneme))
-			self.valid_phonemes.add('{0}2'.format(phoneme))
+			self.to_arpabet[phoneme] = normalized
+			self.to_arpabet['{0}0'.format(phoneme)] = u'{0}0'.format(normalized)
+			self.to_arpabet['{0}1'.format(phoneme)] = u'{0}1'.format(normalized)
+			self.to_arpabet['{0}2'.format(phoneme)] = u'{0}2'.format(normalized)
 		elif data['Type'] == 'schwa':
-			self.valid_phonemes.add(phoneme)
-			self.valid_phonemes.add('{0}0'.format(phoneme))
+			self.to_arpabet[phoneme] = normalized
+			self.to_arpabet['{0}0'.format(phoneme)] = u'{0}0'.format(normalized)
 
 	def parse(self, phonemes, checks):
 		for phoneme in self.re_phonemes.split(phonemes.strip()):
@@ -134,11 +136,12 @@ class ArpabetPhonemeSet:
 			if phoneme in self.missing_stress_marks:
 				if 'missing-stress' in checks:
 					yield None, 'Vowel phoneme "{0}" missing stress marker'.format(phoneme)
-			elif not phoneme in self.valid_phonemes:
+			elif not phoneme in self.to_arpabet.keys():
 				if 'invalid-phonemes' in checks:
 					yield None, 'Invalid phoneme "{0}"'.format(phoneme)
+					continue # ignore phoneme
 
-			yield self.parse_phoneme(phoneme), None
+			yield self.to_arpabet[phoneme], None
 
 	def format(self, phonemes):
 		return ' '.join([self.conversion(p) for p in phonemes])

@@ -1,69 +1,69 @@
-Arpabet,en-US,en-GB,Type,Accents,Lexical Set,Example,Example Transcription,Comments
-,,,,,,,,"Phone Table for supported phones in cmudict-style dictionaries"
-,,,,,,,,
-,,,,,,,,"Copyright (C) 2015 Reece H. Dunn"
-,,,,,,,,
-,,,,,,,,"This file is part of cmudict-tools."
-,,,,,,,,
-,,,,,,,,"cmudict-tools is free software: you can redistribute it and/or modify"
-,,,,,,,,"it under the terms of the GNU General Public License as published by"
-,,,,,,,,"the Free Software Foundation, either version 3 of the License, or"
-,,,,,,,,"(at your option) any later version."
-,,,,,,,,
-,,,,,,,,"cmudict-tools is distributed in the hope that it will be useful,"
-,,,,,,,,"but WITHOUT ANY WARRANTY; without even the implied warranty of"
-,,,,,,,,"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
-,,,,,,,,"GNU General Public License for more details."
-,,,,,,,,
-,,,,,,,,"You should have received a copy of the GNU General Public License"
-,,,,,,,,"along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>."
-AA,ɑ,ɑː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,PALM,odd,AA1 D,
-AE,æ,æ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,TRAP,at,AE1 T,
-AH,ʌ,ʌ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,STRUT,hut,HH AH1 T,
-AO,ɔ,ɔː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,THOUGHT,ought,AO1 T,
-AW,aʊ̯,aʊ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,MOUTH,cow,K AW1,
-AX,ə,ə,schwa,en-US;en-GB;en-US-x-fextvox,COMMA,ago,AX G OW1,
-AXR,ɚ,,schwa,en-US,LETTER,bigger,B IH1 G AXR,
-AY,aɪ̯,aɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,PRICE,hide,HH AY1 D,
-B,b,b,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,be,B IY1,
-CH,t͡ʃ,t͡ʃ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,cheese,CH IY1 Z,
-D,d,d,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,dee,D IY1,
-DH,ð,ð,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,thee,DH IY1,
-EA,ɛ,ɛə̯,vowel,en-US;en-GB,SQUARE,pair,P EA1 R,
-EH,ɛ,ɛ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,DRESS,Ed,EH1 D,
-ER,ɝ,əː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,NURSE,hurt,HH ER1 T,
-EY,eɪ̯,eɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,FACE,ate,EY1 T,
-F,f,f,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,fee,F IY1,
-G,ɡ,ɡ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,green,G R IY1 N,
-HH,h,h,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox,,he,HH IY1,
-H,,,consonant,en-US-x-cepstral,,he,H IY1,
-HW,ʍ,ʍ,consonant,en-US;en-GB,WHINE,when,HW EH1 N,
-I,,,vowel,en-US-x-cepstral,FLEECE,eat,I1 T,
-IA,i,ɪə̯,vowel,en-US;en-GB,NEAR,peer,P IA1 R,
-IH,ɪ,ɪ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,KIT,it,IH1 T,
-IY,i,iː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox,FLEECE,eat,IY1 T,
-J,,,consonant,en-US-x-cepstral,,yield,J IY1 L D,
-JH,d͡ʒ,d͡ʒ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,gee,JH IY1,
-K,k,k,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,key,K IY1,
-L,l,l,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,lee,L IY1,
-M,m,m,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,me,M IY1,
-N,n,n,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,knee,N IY1,
-NG,ŋ,ŋ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,ping,P IH1 NG,
-OA,oʊ̯,ɔə̯,vowel,en-US;en-GB,FORCE,boar,B OA1 R,
-OH,,ɒ,vowel,en-GB,LOT,cot,K OH1 T,
-OW,oʊ̯,əʊ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,GOAT,oat,OW1 T,
-OY,ɔɪ̯,ɔɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,CHOICE,toy,T OY1,
-P,p,p,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,pee,P IY1,
-R,ɹ,ɹ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,reed,R IY1 D,
-S,s,s,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,sea,S IY1,
-SH,ʃ,ʃ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,she,SH IY1,
-T,t,t,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,tea,T IY1,
-TH,θ,θ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,theta,TH EY1 T AH0,
-UA,ʊ,ʊə̯,vowel,en-US;en-GB,CURE,poor,P UA1 R,
-UH,ʊ,ʊ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,FOOT,hood,HH UH1 D,
-UW,u,uː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,GOOSE,two,T UW1,
-V,v,v,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,vee,V IY1,
-W,w,w,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,WINE,we,W IY1,
-Y,j,j,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox,,yield,Y IY1 L D,
-Z,z,z,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,zee,Z IY1,
-ZH,ʒ,ʒ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,seizure,S IY1 ZH ER0,
+Arpabet,Normalized,en-US,en-GB,Type,Accents,Lexical Set,Example,Example Transcription,Comments
+,,,,,,,,,"Phone Table for supported phones in cmudict-style dictionaries"
+,,,,,,,,,
+,,,,,,,,,"Copyright (C) 2015 Reece H. Dunn"
+,,,,,,,,,
+,,,,,,,,,"This file is part of cmudict-tools."
+,,,,,,,,,
+,,,,,,,,,"cmudict-tools is free software: you can redistribute it and/or modify"
+,,,,,,,,,"it under the terms of the GNU General Public License as published by"
+,,,,,,,,,"the Free Software Foundation, either version 3 of the License, or"
+,,,,,,,,,"(at your option) any later version."
+,,,,,,,,,
+,,,,,,,,,"cmudict-tools is distributed in the hope that it will be useful,"
+,,,,,,,,,"but WITHOUT ANY WARRANTY; without even the implied warranty of"
+,,,,,,,,,"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+,,,,,,,,,"GNU General Public License for more details."
+,,,,,,,,,
+,,,,,,,,,"You should have received a copy of the GNU General Public License"
+,,,,,,,,,"along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>."
+AA,,ɑ,ɑː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,PALM,odd,AA1 D,
+AE,,æ,æ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,TRAP,at,AE1 T,
+AH,,ʌ,ʌ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,STRUT,hut,HH AH1 T,
+AO,,ɔ,ɔː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,THOUGHT,ought,AO1 T,
+AW,,aʊ̯,aʊ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,MOUTH,cow,K AW1,
+AX,,ə,ə,schwa,en-US;en-GB;en-US-x-fextvox,COMMA,ago,AX G OW1,
+AXR,,ɚ,,schwa,en-US,LETTER,bigger,B IH1 G AXR,
+AY,,aɪ̯,aɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,PRICE,hide,HH AY1 D,
+B,,b,b,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,be,B IY1,
+CH,,t͡ʃ,t͡ʃ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,cheese,CH IY1 Z,
+D,,d,d,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,dee,D IY1,
+DH,,ð,ð,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,thee,DH IY1,
+EA,,ɛ,ɛə̯,vowel,en-US;en-GB,SQUARE,pair,P EA1 R,
+EH,,ɛ,ɛ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,DRESS,Ed,EH1 D,
+ER,,ɝ,əː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,NURSE,hurt,HH ER1 T,
+EY,,eɪ̯,eɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,FACE,ate,EY1 T,
+F,,f,f,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,fee,F IY1,
+G,,ɡ,ɡ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,green,G R IY1 N,
+HH,,h,h,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox,,he,HH IY1,
+H,HH,,,consonant,en-US-x-cepstral,,he,H IY1,
+HW,,ʍ,ʍ,consonant,en-US;en-GB,WHINE,when,HW EH1 N,
+I,IY,,,vowel,en-US-x-cepstral,FLEECE,eat,I1 T,
+IA,,i,ɪə̯,vowel,en-US;en-GB,NEAR,peer,P IA1 R,
+IH,,ɪ,ɪ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,KIT,it,IH1 T,
+IY,,i,iː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox,FLEECE,eat,IY1 T,
+J,Y,,,consonant,en-US-x-cepstral,,yield,J IY1 L D,
+JH,,d͡ʒ,d͡ʒ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,gee,JH IY1,
+K,,k,k,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,key,K IY1,
+L,,l,l,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,lee,L IY1,
+M,,m,m,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,me,M IY1,
+N,,n,n,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,knee,N IY1,
+NG,,ŋ,ŋ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,ping,P IH1 NG,
+OA,,oʊ̯,ɔə̯,vowel,en-US;en-GB,FORCE,boar,B OA1 R,
+OH,,,ɒ,vowel,en-GB,LOT,cot,K OH1 T,
+OW,,oʊ̯,əʊ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,GOAT,oat,OW1 T,
+OY,,ɔɪ̯,ɔɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,CHOICE,toy,T OY1,
+P,,p,p,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,pee,P IY1,
+R,,ɹ,ɹ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,reed,R IY1 D,
+S,,s,s,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,sea,S IY1,
+SH,,ʃ,ʃ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,she,SH IY1,
+T,,t,t,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,tea,T IY1,
+TH,,θ,θ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,theta,TH EY1 T AH0,
+UA,,ʊ,ʊə̯,vowel,en-US;en-GB,CURE,poor,P UA1 R,
+UH,,ʊ,ʊ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,FOOT,hood,HH UH1 D,
+UW,,u,uː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,GOOSE,two,T UW1,
+V,,v,v,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,vee,V IY1,
+W,,w,w,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,WINE,we,W IY1,
+Y,,j,j,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox,,yield,Y IY1 L D,
+Z,,z,z,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,zee,Z IY1,
+ZH,,ʒ,ʒ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-fextvox;en-US-x-cepstral,,seizure,S IY1 ZH ER0,
