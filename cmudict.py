@@ -75,6 +75,8 @@ class IpaPhonemeSet:
 		self.accent = accent
 
 	def add(self, data):
+		if not data[self.accent]:
+			return # not supported in this accent
 		arpabet = data['Arpabet']
 		ipa = to_utf8(data[self.accent])
 		if data['Type'] == 'consonant':

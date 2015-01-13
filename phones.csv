@@ -24,17 +24,20 @@ AH,ʌ,ʌ,vowel,GenAm;RP;cmudict;festlex,STRUT,hut,HH AH1 T
 AO,ɔ,ɔː,vowel,GenAm;RP;cmudict;festlex,THOUGHT,ought,AO1 T
 AW,aʊ̯,aʊ̯,vowel,GenAm;RP;cmudict;festlex,MOUTH,cow,K AW1
 AX,ə,ə,schwa,GenAm;RP;festlex,COMMA,ago,AX G OW1
+AXR,ɚ,,schwa,GenAm,LETTER,bigger,B IH1 G AXR
 AY,aɪ̯,aɪ̯,vowel,GenAm;RP;cmudict;festlex,PRICE,hide,HH AY1 D
 B,b,b,consonant,GenAm;RP;cmudict;festlex,,be,B IY1
 CH,t͡ʃ,t͡ʃ,consonant,GenAm;RP;cmudict;festlex,,cheese,CH IY1 Z
 D,d,d,consonant,GenAm;RP;cmudict;festlex,,dee,D IY1
 DH,ð,ð,consonant,GenAm;RP;cmudict;festlex,,thee,DH IY1
+EA,ɛ,ɛə̯,vowel,GenAm;RP,SQUARE,pair,P EA1 R
 EH,ɛ,ɛ,vowel,GenAm;RP;cmudict;festlex,DRESS,Ed,EH1 D
 ER,ɝ,əː,vowel,GenAm;RP;cmudict;festlex,NURSE,hurt,HH ER1 T
 EY,eɪ̯,eɪ̯,vowel,GenAm;RP;cmudict;festlex,FACE,ate,EY1 T
 F,f,f,consonant,GenAm;RP;cmudict;festlex,,fee,F IY1
 G,ɡ,ɡ,consonant,GenAm;RP;cmudict;festlex,,green,G R IY1 N
 HH,h,h,consonant,GenAm;RP;cmudict;festlex,,he,H IY1
+IA,i,ɪə̯,vowel,GenAm;RP,NEAR,peer,P IA1 R
 IH,ɪ,ɪ,vowel,GenAm;RP;cmudict;festlex,KIT,it,IH1 T
 IY,i,iː,vowel,GenAm;RP;cmudict;festlex,FLEECE,eat,IY1 T
 JH,d͡ʒ,d͡ʒ,consonant,GenAm;RP;cmudict;festlex,,gee,JH IY1
@@ -43,6 +46,8 @@ L,l,l,consonant,GenAm;RP;cmudict;festlex,,lee,L IY1
 M,m,m,consonant,GenAm;RP;cmudict;festlex,,me,M IY1
 N,n,n,consonant,GenAm;RP;cmudict;festlex,,knee,N IY1
 NG,ŋ,ŋ,consonant,GenAm;RP;cmudict;festlex,,ping,P IH1 NG
+OA,oʊ̯,ɔə̯,vowel,GenAm;RP,FORCE,boar,B OA1 R
+OH,,ɒ,vowel,RP,LOT,cot,K OH1 T
 OW,oʊ̯,əʊ̯,vowel,GenAm;RP;cmudict;festlex,GOAT,oat,OW1 T
 OY,ɔɪ̯,ɔɪ̯,vowel,GenAm;RP;cmudict;festlex,CHOICE,toy,T OY1
 P,p,p,consonant,GenAm;RP;cmudict;festlex,,pee,P IY1
@@ -51,6 +56,7 @@ S,s,s,consonant,GenAm;RP;cmudict;festlex,,sea,S IY1
 SH,ʃ,ʃ,consonant,GenAm;RP;cmudict;festlex,,she,SH IY1
 T,t,t,consonant,GenAm;RP;cmudict;festlex,,tea,T IY1
 TH,θ,θ,consonant,GenAm;RP;cmudict;festlex,,theta,TH EY1 T AH0
+UA,ʊ,ʊə̯,vowel,GenAm;RP,CURE,poor,P UA1 R
 UH,ʊ,ʊ,vowel,GenAm;RP;cmudict;festlex,FOOT,hood,HH UH1 D
 UW,u,uː,vowel,GenAm;RP;cmudict;festlex,GOOSE,two,T UW1
 V,v,v,consonant,GenAm;RP;cmudict;festlex,,vee,V IY1
