@@ -54,10 +54,10 @@ else:
 def read_phonetable(filename):
 	columns = None
 	for entry in read_csv(filename):
-		if len(entry) == 0 or entry[0].startswith('#'):
-			continue
 		entry = [ None if x == '' else x for x in entry ]
-		if columns:
+		if entry[0] == None:
+			pass # Comment only line
+		elif columns:
 			data = dict(zip(columns, entry))
 			data['Accents'] = data['Accents'].split(';')
 			yield data
