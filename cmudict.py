@@ -415,7 +415,7 @@ def parse_cmudict(filename, checks, order_from):
 			(line, format, word, context, phonemes, comment, error)
 	"""
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
-	re_entry = re.compile(r'^([^ a-zA-Z]?[a-zA-Z0-9\'\.\-\_]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
+	re_entry = re.compile(r'^([^ a-zA-Z\x80-\xFF]?[a-zA-Z0-9\'\.\-\_\x80-\xFF]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
 	for line in read_file(filename):
 		if line == '':
