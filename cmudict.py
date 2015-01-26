@@ -40,6 +40,10 @@ if sys.version_info[0] == 2:
 		with open(filename, 'rb') as f:
 			for entry in csv.reader(f):
 				yield [x.decode('utf-8') for x in entry]
+
+	def printf(fmt, encoding, *args):
+		output = unicode(fmt).format(*args)
+		print(output.encode(encoding))
 else:
 	ustr = str
 
@@ -50,6 +54,11 @@ else:
 		with open(filename, 'rb') as f:
 			for entry in csv.reader(codecs.iterdecode(f, 'utf-8')):
 				yield entry
+
+	def printf(fmt, encoding, *args):
+		output = fmt.format(*args)
+		sys.stdout.buffer.write(output.encode(encoding))
+		sys.stdout.buffer.write(b'\n')
 
 def read_phonetable(filename):
 	columns = None
@@ -334,7 +343,7 @@ def format(dict_format, entries, accent=None, encoding='windows-1252'):
 		components = []
 		if word:
 			components.append('entry')
-			word = fmt['word'](word).encode(encoding)
+			word = fmt['word'](word)
 		if context:
 			components.append('context')
 		if comment != None:
@@ -344,7 +353,7 @@ def format(dict_format, entries, accent=None, encoding='windows-1252'):
 		if len(components) == 0:
 			print()
 		else:
-			print(fmt['-'.join(components)].format(word, context, phonemes, comment))
+			printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
 
 def read_file(filename, encoding='windows-1252'):
 	with codecs.open(filename, encoding=encoding) as f:
