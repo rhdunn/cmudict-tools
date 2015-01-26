@@ -55,13 +55,13 @@ class HelpWarningsAction(argparse.Action):
 		sys.exit(0)
 
 def parse(args):
-	parser = cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from, accent=args.source_accent)
+	parser = cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from, accent=args.source_accent, encoding=args.input_encoding)
 	if args.sort:
 		return cmudict.sort(parser, args.sort)
 	return parser
 
 def print_dict(args):
-	cmudict.format(args.format, parse(args), accent=args.accent)
+	cmudict.format(args.format, parse(args), accent=args.accent, encoding=args.output_encoding)
 
 def debug(args):
 	for entry in parse(args):
@@ -86,6 +86,8 @@ parser.add_argument('--format', default='cmudict', choices=cmudict.dict_formats.
 parser.add_argument('--sort', default=None, choices=['weide', 'air'])
 parser.add_argument('--order-from', default=0, type=int)
 parser.add_argument('--help-warnings', action=HelpWarningsAction)
+parser.add_argument('--input-encoding', default='windows-1252')
+parser.add_argument('--output-encoding', default='windows-1252')
 parser.add_argument('command', choices=commands.keys())
 parser.add_argument('filename')
 args = parser.parse_args()
