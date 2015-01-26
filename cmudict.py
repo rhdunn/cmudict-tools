@@ -205,7 +205,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'entry-context-comment': '{0}({1})  {2} #{3}',
 		'word': lambda word: word.upper(),
 		# parsing:
-		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$',
+		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_\x80-\xFF]*$',
 		'context-parser': int,
 	},
 	'cmudict': {
@@ -218,7 +218,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'entry-context-comment': '{0}({1})  {2} #{3}',
 		'word': lambda word: word.upper(),
 		# parsing:
-		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_]*$',
+		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_\x80-\xFF]*$',
 		'context-parser': int,
 	},
 	'cmudict-new': {
@@ -231,7 +231,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'entry-context-comment': '{0}({1}) {2} #{3}',
 		'word': lambda word: word.lower(),
 		# parsing:
-		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$',
+		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
 		'context-parser': int,
 	},
 	'festlex': {
@@ -244,7 +244,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'entry-context-comment': '("{0}" {1} ({2})) ;{3}',
 		'word': lambda word: word.lower(),
 		# parsing:
-		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_]*$',
+		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
 		'context-parser': festlex_context,
 	},
 }
@@ -493,12 +493,11 @@ def parse(filename, warnings=[], order_from=0, accent=None, encoding='windows-12
 			if not accent:
 				accent = fmt['accent']
 			phonemeset = load_phonemes(accent)
-			re_word = re.compile(fmt['word-validation'])
 			context_parser = fmt['context-parser']
 
 		# word validation checks
 
-		if not re_word.match(word) and 'word-casing' in checks:
+		if fmt['word'](word) != word and 'word-casing' in checks:
 			yield None, None, None, None, u'Incorrect word casing in entry: "{0}"'.format(line)
 
 		if previous_word and word < previous_word and 'unsorted' in checks:
