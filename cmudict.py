@@ -322,7 +322,7 @@ def sort(entries, mode):
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
 
-def format(dict_format, entries, accent=None):
+def format(dict_format, entries, accent=None, encoding='windows-1252'):
 	fmt = dict_formats[dict_format]
 	if not accent:
 		accent = fmt['accent']
@@ -334,7 +334,7 @@ def format(dict_format, entries, accent=None):
 		components = []
 		if word:
 			components.append('entry')
-			word = fmt['word'](word)
+			word = fmt['word'](word).encode(encoding)
 		if context:
 			components.append('context')
 		if comment != None:
@@ -346,8 +346,8 @@ def format(dict_format, entries, accent=None):
 		else:
 			print(fmt['-'.join(components)].format(word, context, phonemes, comment))
 
-def read_file(filename):
-	with open(filename) as f:
+def read_file(filename, encoding='windows-1252'):
+	with codecs.open(filename, encoding=encoding) as f:
 		for line in f:
 			yield line.replace('\n', '')
 
@@ -371,7 +371,7 @@ def warnings_to_checks(warnings):
 			raise ValueError('Invalid warning: {0}'.format(warning))
 	return checks
 
-def parse_festlex(filename, checks, order_from):
+def parse_festlex(filename, checks, order_from, encoding):
 	"""
 		Parse the entries in a festlex formatted dictionary (e.g. festlex-cmu).
 
@@ -382,7 +382,7 @@ def parse_festlex(filename, checks, order_from):
 	re_linecomment = re.compile(r'^;;(.*)$')
 	re_entry = re.compile(r'^\("([^"]+)" ([a-zA-Z0-9_]+) \(([^\)]+)\)\)[ \t]*(;(.*))?[ \t]*$')
 	format = 'festlex'
-	for line in read_file(filename):
+	for line in read_file(filename, encoding=encoding):
 		if line == '':
 			yield line, format, None, None, None, None, None
 			continue
@@ -407,7 +407,7 @@ def parse_festlex(filename, checks, order_from):
 
 		yield line, format, word, context, phonemes, comment, None
 
-def parse_cmudict(filename, checks, order_from):
+def parse_cmudict(filename, checks, order_from, encoding):
 	"""
 		Parse the entries in the cmudict file.
 
@@ -417,7 +417,7 @@ def parse_cmudict(filename, checks, order_from):
 	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z\x80-\xFF]?[a-zA-Z0-9\'\.\-\_\x80-\xFF]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
-	for line in read_file(filename):
+	for line in read_file(filename, encoding=encoding):
 		if line == '':
 			yield line, format, None, None, None, None, None
 			continue
@@ -429,7 +429,7 @@ def parse_cmudict(filename, checks, order_from):
 
 		m = re_entry.match(line)
 		if not m:
-			yield line, format, None, None, None, None, 'Unsupported entry: "{0}"'.format(line)
+			yield line, format, None, None, None, None, u'Unsupported entry: "{0}"'.format(line)
 			continue
 
 		word = m.group(1)
@@ -448,14 +448,14 @@ def parse_cmudict(filename, checks, order_from):
 				spacing = ' '
 
 		if word_phoneme_space != spacing and 'entry-spacing' in checks:
-			yield line, format, None, None, None, None, 'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
+			yield line, format, None, None, None, None, u'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
 
 		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
-			yield line, format, None, None, None, None, 'Trailing whitespace in entry: "{0}"'.format(line)
+			yield line, format, None, None, None, None, u'Trailing whitespace in entry: "{0}"'.format(line)
 
 		yield line, format, word, context, phonemes, comment, None
 
-def parse(filename, warnings=[], order_from=0, accent=None):
+def parse(filename, warnings=[], order_from=0, accent=None, encoding='windows-1252'):
 	checks = warnings_to_checks(warnings)
 	previous_word = None
 	re_word = None
@@ -470,7 +470,7 @@ def parse(filename, warnings=[], order_from=0, accent=None):
 	else:
 		dict_parser = parse_cmudict
 
-	for line, format, word, context, phonemes, comment, error in dict_parser(filename, checks, order_from):
+	for line, format, word, context, phonemes, comment, error in dict_parser(filename, checks, order_from, encoding):
 		if error:
 			yield None, None, None, None, error
 			continue
@@ -490,10 +490,10 @@ def parse(filename, warnings=[], order_from=0, accent=None):
 		# word validation checks
 
 		if not re_word.match(word) and 'word-casing' in checks:
-			yield None, None, None, None, 'Incorrect word casing in entry: "{0}"'.format(line)
+			yield None, None, None, None, u'Incorrect word casing in entry: "{0}"'.format(line)
 
 		if previous_word and word < previous_word and 'unsorted' in checks:
-			yield None, None, None, None, 'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
+			yield None, None, None, None, u'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
 
 		# context parsing and validation checks
 
@@ -502,14 +502,14 @@ def parse(filename, warnings=[], order_from=0, accent=None):
 				context = context_parser(context)
 		except ValueError:
 			if 'context-values' in checks:
-				yield None, None, None, None, 'Invalid context format "{0}" in entry: "{1}"'.format(context, line)
+				yield None, None, None, None, u'Invalid context format "{0}" in entry: "{1}"'.format(context, line)
 
 		# phoneme validation checks
 
 		arpabet_phonemes = []
 		for phoneme, error in phonemeset.parse(phonemes, checks):
 			if error:
-				yield None, None, None, None, '{0} in entry: "{1}"'.format(error, line)
+				yield None, None, None, None, u'{0} in entry: "{1}"'.format(error, line)
 			else:
 				arpabet_phonemes.append(phoneme)
 
@@ -518,9 +518,9 @@ def parse(filename, warnings=[], order_from=0, accent=None):
 		key = word.upper()
 		position = order_from if context is None else context
 
-		entry_line = '{0}({1}) {2}'.format(word, context, arpabet_phonemes)
+		entry_line = u'{0}({1}) {2}'.format(word, context, arpabet_phonemes)
 		if entry_line in lines and 'duplicate-entries' in checks:
-			yield None, None, None, None, 'Duplicate entry: "{2}"'.format(position, expect_position, line)
+			yield None, None, None, None, u'Duplicate entry: "{2}"'.format(position, expect_position, line)
 		elif isinstance(position, int):
 			pronunciation = ' '.join(arpabet_phonemes)
 			if key in entries:
@@ -529,11 +529,11 @@ def parse(filename, warnings=[], order_from=0, accent=None):
 				expect_position = order_from
 				pronunciations = []
 			if position != expect_position and 'context-ordering' in checks:
-				yield None, None, None, None, 'Incorrect context ordering "{0}" (expected: "{1}") in entry: "{2}"'.format(position, expect_position, line)
+				yield None, None, None, None, u'Incorrect context ordering "{0}" (expected: "{1}") in entry: "{2}"'.format(position, expect_position, line)
 			expect_position = expect_position + 1
 			if pronunciation in pronunciations:
 				if 'duplicate-pronunciations' in checks:
-					yield None, None, None, None, 'Existing pronunciation in entry: "{2}"'.format(position, expect_position, line)
+					yield None, None, None, None, u'Existing pronunciation in entry: "{2}"'.format(position, expect_position, line)
 			else:
 				pronunciations.append(pronunciation)
 			entries[key] = (expect_position, pronunciations)
