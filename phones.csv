@@ -53,6 +53,7 @@ M,,m,m,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-
 N,,n,n,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,knee,N IY1,
 NG,,ŋ,ŋ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,ping,P IH1 NG,
 OA,OH,,,vowel,en-GB-x-cepstral,LOT,cot,K OA1 T,
+OA,,oʊ̯,ɔə̯,vowel,en-US;en-GB,FORCE,hoarse,H OA1 R S,
 OH,,,ɒ,vowel,en-GB,LOT,cot,K OH1 T,
 OW,,oʊ̯,əʊ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,GOAT,oat,OW1 T,
 OY,,ɔɪ̯,ɔɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,CHOICE,toy,T OY1,
