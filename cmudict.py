@@ -389,7 +389,7 @@ def parse_festlex(filename, checks, order_from, encoding):
 	"""
 
 	re_linecomment = re.compile(r'^;;(.*)$')
-	re_entry = re.compile(r'^\("([^"]+)" ([a-zA-Z0-9_]+) \(([^\)]+)\)\)[ \t]*(;(.*))?[ \t]*$')
+	re_entry = re.compile(r'^\("([^"]+)" ([a-zA-Z0-9_]+) \(([^\)]+)\)[ \t]*\)[ \t]*(;(.*))?[ \t]*$')
 	format = 'festlex'
 	for line in read_file(filename, encoding=encoding):
 		if line == '':
