@@ -30,9 +30,14 @@ B,,b,b,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-
 CH,,t͡ʃ,t͡ʃ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,cheese,CH IY1 Z,
 D,,d,d,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,dee,D IY1,
 DH,,ð,ð,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,thee,DH IY1,
+DX,,ɾ,ɾ,consonant,en-US;en-GB,,button,B AH1 DX AH0 N
 E@,EA,,,vowel,en-GB-x-cepstral,SQUARE,pair,P E@1 R,
 EA,,ɛ,ɛə̯,vowel,en-US;en-GB,SQUARE,pair,P EA1 R,
 EH,,ɛ,ɛ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,DRESS,Ed,EH1 D,
+EL,,l̩,l̩,consonant,en-US;en-GB,,bottle,B AO1 T EL
+EM,,m̩,m̩,consonant,en-US;en-GB,,rhythmn,R IH1 DH EM
+EN,,n̩,n̩,consonant,en-US;en-GB,,button,B UH1 T EN
+ENG,,ŋ̍,ŋ̍,consonant,en-US;en-GB,washington,W AO1 SH ENG T AH0 N
 ER,,ɝ,əː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,NURSE,hurt,HH ER1 T,
 EY,,eɪ̯,eɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,FACE,ate,EY1 T,
 F,,f,f,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,fee,F IY1,
@@ -52,12 +57,14 @@ L,,l,l,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-
 M,,m,m,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,me,M IY1,
 N,,n,n,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,knee,N IY1,
 NG,,ŋ,ŋ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,ping,P IH1 NG,
+NX,,ɾ̃,ɾ̃,consonant,en-US;en-GB,,winter,W IH1 NX AXR
 OA,OH,,,vowel,en-GB-x-cepstral,LOT,cot,K OA1 T,
 OA,,oʊ̯,ɔə̯,vowel,en-US;en-GB,FORCE,hoarse,H OA1 R S,
 OH,,,ɒ,vowel,en-GB,LOT,cot,K OH1 T,
 OW,,oʊ̯,əʊ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,GOAT,oat,OW1 T,
 OY,,ɔɪ̯,ɔɪ̯,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,CHOICE,toy,T OY1,
 P,,p,p,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,pee,P IY1,
+Q,,ʔ,ʔ,consonant,en-US;en-GB,,uh-oh,Q AH2 Q OW1
 R,,ɹ,ɹ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,reed,R IY1 D,
 S,,s,s,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,sea,S IY1,
 SH,,ʃ,ʃ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral,,she,SH IY1,
