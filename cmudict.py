@@ -183,6 +183,7 @@ accents = {
 	'en-US-x-cepstral': lambda: ArpabetPhonemeSet('lower'),
 	'en-US-x-cmu': lambda: ArpabetPhonemeSet('upper'),
 	'en-US-x-festvox': lambda: ArpabetPhonemeSet('lower'),
+	'en-US-x-timit': lambda: ArpabetPhonemeSet('lower'),
 }
 
 phoneme_table = list(read_phonetable(os.path.join(root, 'phones.csv')))
