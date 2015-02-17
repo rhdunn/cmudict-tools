@@ -17,6 +17,7 @@ Arpabet,Normalized,en-US,en-GB,Type,Accents,Lexical Set,Example,Example Transcri
 ,,,,,,,,,
 ,,,,,,,,,"You should have received a copy of the GNU General Public License"
 ,,,,,,,,,"along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>."
+-,,.,.,consonant,en-GB;en-US,,,,syllable break
 A,AA,,,vowel,en-GB-x-cepstral,PALM,odd,A1 D,
 AA,,ɑ,ɑː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-US-x-timit,PALM,odd,AA1 D,
 AE,,æ,æ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral;en-US-x-timit,TRAP,at,AE1 T,

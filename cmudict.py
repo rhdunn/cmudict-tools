@@ -108,11 +108,11 @@ class IpaPhonemeSet:
 class ArpabetPhonemeSet:
 	def __init__(self, capitalization):
 		if capitalization == 'upper':
-			self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?)')
+			self.re_phonemes = re.compile(r' (?=([A-Z][A-Z]?[0-9]?|\-))')
 			self.conversion = ustr.upper
 			self.parse_phoneme = ustr # already upper case
 		elif capitalization == 'lower':
-			self.re_phonemes = re.compile(r' (?=[a-z][a-z]?[0-9]?)')
+			self.re_phonemes = re.compile(r' (?=([a-z][a-z]?[0-9]?|\-))')
 			self.conversion = ustr.lower
 			self.parse_phoneme = ustr.upper
 		else:
