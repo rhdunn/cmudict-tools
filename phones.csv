@@ -51,6 +51,7 @@ HH,,h,h,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-timit,,he,HH I
 HV,,ɦ,ɦ,consonant,en-US;en-GB;en-US-x-timit,,ahead,AX HV EH1 D,
 HW,,ʍ,ʍ,consonant,en-US;en-GB,WHINE,when,HW EH1 N,
 I,IY,,,vowel,en-US-x-cepstral;en-GB-x-cepstral,FLEECE,eat,I1 T,
+I,,i,i,vowel,en-GB,FLEECE,happy,HH AE1 P I0,Short FLEECE vowel.
 I@,IA,,,vowel,en-GB-x-cepstral,NEAR,peer,P I@1 R,
 IA,,i,ɪə̯,vowel,en-US;en-GB,NEAR,peer,P IA1 R,
 IH,,ɪ,ɪ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral;en-US-x-timit,KIT,it,IH1 T,
@@ -79,6 +80,7 @@ SH,,ʃ,ʃ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-
 T,,t,t,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral;en-US-x-timit,,tea,T IY1,
 TCL,,t̚,t̚,consonant,en-US-x-timit,,tea,TCL T IY1,
 TH,,θ,θ,consonant,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral;en-US-x-timit,,theta,TH EY1 T AH0,
+U,,u,u,vowel,en-GB,GOOSE,to,T U1,Short GOOSE vowel.
 UA,,ʊ,ʊə̯,vowel,en-US;en-GB,CURE,poor,P UA1 R,
 UH,,ʊ,ʊ,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral;en-US-x-timit,FOOT,hood,HH UH1 D,
 UW,,u,uː,vowel,en-US;en-GB;en-US-x-cmu;en-US-x-festvox;en-US-x-cepstral;en-GB-x-cepstral;en-US-x-timit,GOOSE,two,T UW1,
