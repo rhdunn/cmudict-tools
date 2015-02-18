@@ -58,6 +58,12 @@ check "cmudict-weide format parsing" tests/cmudict-weide.json ${ARGS} tests/cmud
 check "cmudict-new format parsing"   tests/cmudict-new.json   ${ARGS} tests/cmudict-new
 check "festlex format parsing"       tests/festlex.json       ${ARGS} tests/festlex.scm
 
+# Phone Tests #################################################################
+
+ARGS="print -Wall -Wno-unsorted --format=json"
+check "syllable breaks [en-GB]" tests/phone-syllables.json ${ARGS} --source-accent=en-GB tests/phone-syllables
+check "syllable breaks [en-US]" tests/phone-syllables.json ${ARGS} --source-accent=en-US tests/phone-syllables
+
 # Summary #####################################################################
 
 if [[ `grep -P "^testing .* \\.\\.\\. fail$" ${LOG_FILE}` ]] ; then
