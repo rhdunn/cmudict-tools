@@ -1,0 +1,5 @@
+;;; This is a comment.
+north N AO1 R TH
+north(1) N AO1 TH # Non-rhotic pronunciation.
+force F OW1 R S # Archaic/regional pronunciation.
+force(1) F AO1 R S

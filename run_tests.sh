@@ -58,6 +58,14 @@ check "cmudict-weide format parsing" tests/cmudict-weide.json ${ARGS} tests/cmud
 check "cmudict-new format parsing"   tests/cmudict-new.json   ${ARGS} tests/cmudict-new
 check "festlex format parsing"       tests/festlex.json       ${ARGS} tests/festlex.scm
 
+# Formatter Tests #############################################################
+
+ARGS="print -Wall -Wno-unsorted"
+check "cmudict formatting" tests/format-cmudict ${ARGS} --format=cmudict tests/format-cmudict
+check "cmudict-weide formatting" tests/format-cmudict-weide ${ARGS} --format=cmudict-weide tests/format-cmudict
+check "cmudict-new formatting" tests/format-cmudict-new ${ARGS} --format=cmudict-new tests/format-cmudict
+check "festlex formatting" tests/format-festlex.scm ${ARGS} --format=festlex tests/format-cmudict
+
 # Phone Tests #################################################################
 
 ARGS="print -Wall -Wno-unsorted --format=json"
