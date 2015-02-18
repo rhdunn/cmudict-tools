@@ -1,5 +1,8 @@
 [
 {"comment": " This is a line comment."},
+{"comment": " This is a metadata comment.", "metadata": {"key1": ["value1"], "key2": ["value2"]}},
+{"comment": " @@ key=value @@ This is not a metadata comment."},
+{"comment": "", "metadata": {"key3": ["value3", "value4"]}},
 {},
 {"error-message": "Unsupported entry: \"(\"invalid_entry_only_word\")\""},
 {"error-message": "Unsupported entry: \"(\"invalid_entry_no_pronunciation\" nil)\""},
@@ -9,6 +12,8 @@
 {"pronunciation": ["th", "r", "iy1"], "word": "c"},
 {"pronunciation": ["f", "ao1", "r"], "word": "d"},
 {"pronunciation": ["f", "ay1", "v"], "word": "e"},
+{"comment": " metadata", "metadata": {"key1": ["value1"]}, "pronunciation": ["s", "ih1", "k", "s"], "word": "f"},
+{"comment": " @@ key1=value1 @@ not-metadata", "pronunciation": ["s", "eh1", "v", "ah0", "n"], "word": "g"},
 {"error-message": "Incorrect word casing in entry: \"(\"goNe\" nil (g ao1 n))\""},
 {"pronunciation": ["g", "ao1", "n"], "word": "goNe"},
 {"error-message": "Incorrect word casing in entry: \"(\"UPPER\" nil (uh1 p er0))\""},

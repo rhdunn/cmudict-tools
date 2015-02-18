@@ -17,3 +17,20 @@ single space (` `). The vowels have an additional stress marker, which can be:
 
 An entry may have a comment. These comments start with `#` and span to the end
 of the line.
+
+## Metadata
+
+Metadata is not supported in the official CMU dictionary format. However, the
+cmudict-tools project interprets specifically formatted comments as metadata.
+This allows additional information to be provided in a way that is compatible
+with existing cmudict tools.
+
+Metadata occurs in line comments for file-based metadata, or entry comments for
+entry-based metadata. The metadata section of the comment starts and ends with
+`@@`. The `@@` must be at the start of the comment (i.e. no spaces or other
+characters) for it to be recognised as metadata. Any text after the metadata is
+treated as a regular comment.
+
+The content within the metadata block is a sequence of space-separated
+`key=value` pairs. A key can occur multiple times, in which case the key will
+have both values.

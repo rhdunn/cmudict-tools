@@ -348,6 +348,11 @@ def format_text(dict_format, entries, accent=None, encoding='windows-1252'):
 		if context:
 			components.append('context')
 		if comment != None:
+			if metadata != None:
+				meta = []
+				for key, values in sorted(metadata.items()):
+					meta.extend(['{0}={1}'.format(key, value) for value in values])
+				comment = '@@ {0} @@{1}'.format(' '.join(meta), comment)
 			components.append('comment')
 		if phonemes:
 			phonemes = phonemeset.format(phonemes)
@@ -402,6 +407,18 @@ def warnings_to_checks(warnings):
 			raise ValueError('Invalid warning: {0}'.format(warning))
 	return checks
 
+def parse_comment_string(comment):
+	metadata = None
+	if comment.startswith('@@'):
+		_, metastring, comment = comment.split('@@')
+		metadata = {}
+		for key, value in [x.split('=') for x in metastring.strip().split()]:
+			if key in metadata.keys():
+				metadata[key].append(value)
+			else:
+				metadata[key] = [value]
+	return comment, metadata
+
 def parse_festlex(filename, checks, order_from, encoding):
 	"""
 		Parse the entries in a festlex formatted dictionary (e.g. festlex-cmu).
@@ -420,7 +437,8 @@ def parse_festlex(filename, checks, order_from, encoding):
 
 		m = re_linecomment.match(line)
 		if m:
-			yield line, format, None, None, None, m.group(1), None, None
+			comment, metadata = parse_comment_string(m.group(1))
+			yield line, format, None, None, None, comment, metadata, None
 			continue
 
 		m = re_entry.match(line)
@@ -432,11 +450,14 @@ def parse_festlex(filename, checks, order_from, encoding):
 		context = m.group(2)
 		phonemes = m.group(3)
 		comment = m.group(5)
+		metadata = None
+		if comment:
+			comment, metadata = parse_comment_string(comment)
 
 		if context == 'nil':
 			context = None
 
-		yield line, format, word, context, phonemes, comment, None, None
+		yield line, format, word, context, phonemes, comment, metadata, None
 
 def parse_cmudict(filename, checks, order_from, encoding):
 	"""
@@ -461,7 +482,8 @@ def parse_cmudict(filename, checks, order_from, encoding):
 				spacing = '  '
 			elif format != 'cmudict-weide':
 				yield line, format, None, None, None, None, None, u'Old-style comment: "{0}"'.format(line)
-			yield line, format, None, None, None, m.group(1), None, None
+			comment, metadata = parse_comment_string(m.group(1))
+			yield line, format, None, None, None, comment, metadata, None
 			continue
 
 		m = re_linecomment_air.match(line)
@@ -471,7 +493,8 @@ def parse_cmudict(filename, checks, order_from, encoding):
 				spacing = '  '
 			elif format == 'cmudict-weide':
 				yield line, format, None, None, None, None, None, u'New-style comment: "{0}"'.format(line)
-			yield line, format, None, None, None, m.group(1), None, None
+			comment, metadata = parse_comment_string(m.group(1))
+			yield line, format, None, None, None, comment, metadata, None
 			continue
 
 		m = re_entry.match(line)
@@ -484,6 +507,9 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		word_phoneme_space = m.group(4)
 		phonemes = m.group(5)
 		comment = m.group(7) or None # 6 = with comment marker: `#...`
+		metadata = None
+		if comment:
+			comment, metadata = parse_comment_string(comment)
 
 		if not format or format == 'cmudict-air': # detect the dictionary format ...
 			cmudict_fmt = re.compile(dict_formats['cmudict']['word-validation'])
@@ -500,7 +526,7 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
 			yield line, format, None, None, None, None, None, u'Trailing whitespace in entry: "{0}"'.format(line)
 
-		yield line, format, word, context, phonemes, comment, None, None
+		yield line, format, word, context, phonemes, comment, metadata, None
 
 def parse(filename, warnings=[], order_from=0, accent=None, encoding='windows-1252'):
 	checks = warnings_to_checks(warnings)
@@ -523,7 +549,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, encoding='windows-12
 			continue
 
 		if not word: # line comment or blank line
-			yield None, None, None, comment, None, None
+			yield None, None, None, comment, metadata, None
 			continue
 
 		if not fmt:
@@ -589,4 +615,4 @@ def parse(filename, warnings=[], order_from=0, accent=None, encoding='windows-12
 
 		# return the parsed entry
 
-		yield word, context, arpabet_phonemes, comment, None, None
+		yield word, context, arpabet_phonemes, comment, metadata, None
