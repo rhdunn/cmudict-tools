@@ -36,10 +36,10 @@ check() {
 # validation checks.
 
 ARGS="print -Wall -Wno-unsorted --format=json"
-check "cmudict format parsing"       tests/cmudict.json     ${ARGS} tests/cmudict
-check "cmudict-weide format parsing" tests/cmudict.json     ${ARGS} tests/cmudict-weide
-check "cmudict-new format parsing"   tests/cmudict-new.json ${ARGS} tests/cmudict-new
-check "festlex format parsing"       tests/festlex.json     ${ARGS} tests/festlex.scm
+check "cmudict format parsing"       tests/cmudict.json       ${ARGS} tests/cmudict
+check "cmudict-weide format parsing" tests/cmudict-weide.json ${ARGS} tests/cmudict-weide
+check "cmudict-new format parsing"   tests/cmudict-new.json   ${ARGS} tests/cmudict-new
+check "festlex format parsing"       tests/festlex.json       ${ARGS} tests/festlex.scm
 
 # Summary #####################################################################
 

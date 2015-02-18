@@ -1,5 +1,7 @@
 [
 {"comment": " This is a line comment."},
+{"error-message": "Old-style comment: \"## This is an old comment.\""},
+{"comment": " This is an old comment."},
 {},
 {"error-message": "Unsupported entry: \"!!invalid_entry\""},
 {"pronunciation": ["W", "AA1", "N"], "word": "a"},

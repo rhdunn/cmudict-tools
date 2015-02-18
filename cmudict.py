@@ -445,7 +445,8 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		The return value is of the form:
 			(line, format, word, context, phonemes, comment, error)
 	"""
-	re_linecomment = re.compile(r'^(##|;;;)(.*)$')
+	re_linecomment_weide = re.compile(r'^##(.*)$')
+	re_linecomment_air   = re.compile(r'^;;;(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z\x80-\xFF]?[a-zA-Z0-9\'\.\-\_\x80-\xFF]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
 	for line in read_file(filename, encoding=encoding):
@@ -453,9 +454,24 @@ def parse_cmudict(filename, checks, order_from, encoding):
 			yield line, format, None, None, None, None, None, None
 			continue
 
-		m = re_linecomment.match(line)
+		m = re_linecomment_weide.match(line)
 		if m:
-			yield line, format, None, None, None, m.group(2), None, None
+			if not format: # detect the dictionary format ...
+				format = 'cmudict-weide'
+				spacing = '  '
+			elif format != 'cmudict-weide':
+				yield line, format, None, None, None, None, None, u'Old-style comment: "{0}"'.format(line)
+			yield line, format, None, None, None, m.group(1), None, None
+			continue
+
+		m = re_linecomment_air.match(line)
+		if m:
+			if not format: # detect the dictionary format ...
+				format = 'cmudict-air'
+				spacing = '  '
+			elif format == 'cmudict-weide':
+				yield line, format, None, None, None, None, None, u'New-style comment: "{0}"'.format(line)
+			yield line, format, None, None, None, m.group(1), None, None
 			continue
 
 		m = re_entry.match(line)
@@ -469,7 +485,7 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		phonemes = m.group(5)
 		comment = m.group(7) or None # 6 = with comment marker: `#...`
 
-		if not format: # detect the dictionary format ...
+		if not format or format == 'cmudict-air': # detect the dictionary format ...
 			cmudict_fmt = re.compile(dict_formats['cmudict']['word-validation'])
 			if cmudict_fmt.match(word):
 				format = 'cmudict'
