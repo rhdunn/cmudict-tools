@@ -26,6 +26,7 @@ import os
 import sys
 import re
 import csv
+import json
 import codecs
 
 root = os.path.dirname(os.path.realpath(__file__))
@@ -355,15 +356,24 @@ def format_text(dict_format, entries, accent=None, encoding='windows-1252'):
 		else:
 			printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
 
-def format_csv(dict_format, entries, accent=None, encoding='windows-1252'):
-	out = csv.writer(sys.stdout)
-	out.writerow(['Word', 'Context', 'Pronunciation', 'Comment', 'Metadata', 'ErrorMessage'])
+def format_json(dict_format, entries, accent=None, encoding='windows-1252'):
+	fields = ['word', 'context', 'pronunciation', 'comment', 'metadata', 'error-message']
+	need_comma = False
+	printf('[\n', encoding)
 	for entry in entries:
-		out.writerow(entry)
+		data = dict([(k, v) for k, v in zip(fields, entry) if v != None])
+		if need_comma:
+			printf(',\n', encoding)
+		printf('{0}', encoding, json.dumps(data))
+		need_comma = True
+	if need_comma:
+		printf('\n]\n', encoding)
+	else:
+		printf(']\n', encoding)
 
 def format(dict_format, entries, accent=None, encoding='windows-1252'):
-	if dict_format in ['csv']:
-		format_csv(dict_format, entries, accent, encoding)
+	if dict_format in ['json']:
+		format_json(dict_format, entries, accent, encoding)
 	else:
 		format_text(dict_format, entries, accent, encoding)
 

@@ -75,7 +75,7 @@ commands = {
 }
 
 formats = cmudict.dict_formats.keys()
-formats.extend(['csv'])
+formats.extend(['json'])
 
 parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.')
 parser.add_argument('-W', dest='warnings', action='append', default=[])
