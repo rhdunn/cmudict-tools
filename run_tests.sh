@@ -58,6 +58,11 @@ check "cmudict-weide format parsing" tests/cmudict-weide.json ${ARGS} tests/cmud
 check "cmudict-new format parsing"   tests/cmudict-new.json   ${ARGS} tests/cmudict-new
 check "festlex format parsing"       tests/festlex.json       ${ARGS} tests/festlex.scm
 
+# File-Based Metadata #########################################################
+
+ARGS="print -Wall -Wno-unsorted --format=json"
+check "file metadata format key" tests/filemeta-format.json ${ARGS} tests/filemeta-format
+
 # Formatter Tests #############################################################
 
 ARGS="print -Wall -Wno-unsorted"

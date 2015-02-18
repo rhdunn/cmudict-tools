@@ -34,3 +34,10 @@ treated as a regular comment.
 The content within the metadata block is a sequence of space-separated
 `key=value` pairs. A key can occur multiple times, in which case the key will
 have both values.
+
+### File-Based Metadata
+
+#### format
+
+The `format` metadata key overrides the auto-detected file format. It only
+applies to the cmudict-based formats.

@@ -487,6 +487,12 @@ def parse_cmudict(filename, checks, order_from, encoding):
 			comment_format = 'cmudict-air'
 
 		if comment is not None:
+			if metadata and 'format' in metadata.keys():
+				format = metadata['format'][0]
+				if format == 'cmudict-new':
+					spacing = ' '
+				else:
+					spacing = '  '
 			if not format: # detect the dictionary format ...
 				format = comment_format
 				if format == 'cmudict-new':
