@@ -64,28 +64,24 @@ def parse(args):
 def print_dict(args):
 	cmudict.format(args.format, parse(args), accent=args.accent, encoding=args.output_encoding)
 
-def debug(args):
-	out = csv.writer(sys.stdout)
-	out.writerow(['Word', 'Context', 'Pronunciation', 'Comment', 'ErrorMessage'])
-	for entry in parse(args):
-		out.writerow(entry)
-
 def validate(args):
 	for word, context, phonemes, comment, error in parse(args):
 		if error:
 			print(error, file=sys.stderr)
 
 commands = {
-	'debug':    debug,
 	'validate': validate,
 	'print':    print_dict,
 }
+
+formats = cmudict.dict_formats.keys()
+formats.extend(['csv'])
 
 parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.')
 parser.add_argument('-W', dest='warnings', action='append', default=[])
 parser.add_argument('--source-accent', default=None, choices=cmudict.accents.keys())
 parser.add_argument('--accent', default=None, choices=cmudict.accents.keys())
-parser.add_argument('--format', default='cmudict', choices=cmudict.dict_formats.keys())
+parser.add_argument('--format', default='cmudict', choices=formats)
 parser.add_argument('--sort', default=None, choices=['weide', 'air'])
 parser.add_argument('--order-from', default=0, type=int)
 parser.add_argument('--help-warnings', action=HelpWarningsAction)

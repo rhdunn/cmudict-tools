@@ -332,7 +332,7 @@ def sort(entries, mode):
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
 
-def format(dict_format, entries, accent=None, encoding='windows-1252'):
+def format_text(dict_format, entries, accent=None, encoding='windows-1252'):
 	fmt = dict_formats[dict_format]
 	if not accent:
 		accent = fmt['accent']
@@ -355,6 +355,18 @@ def format(dict_format, entries, accent=None, encoding='windows-1252'):
 			print()
 		else:
 			printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
+
+def format_csv(dict_format, entries, accent=None, encoding='windows-1252'):
+	out = csv.writer(sys.stdout)
+	out.writerow(['Word', 'Context', 'Pronunciation', 'Comment', 'ErrorMessage'])
+	for entry in entries:
+		out.writerow(entry)
+
+def format(dict_format, entries, accent=None, encoding='windows-1252'):
+	if dict_format in ['csv']:
+		format_csv(dict_format, entries, accent, encoding)
+	else:
+		format_text(dict_format, entries, accent, encoding)
 
 def read_file(filename, encoding='windows-1252'):
 	with codecs.open(filename, encoding=encoding) as f:
