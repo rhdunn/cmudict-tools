@@ -1,0 +1,16 @@
+[
+{"comment": " This is a line comment."},
+{},
+{"error-message": "Unsupported entry: \"(\"invalid_entry_only_word\")\""},
+{"error-message": "Unsupported entry: \"(\"invalid_entry_no_pronunciation\" nil)\""},
+{"error-message": "Unsupported entry: \"(\"invalid_entry_empty_pronunciation\" nil ())\""},
+{"pronunciation": ["w", "aa1", "n"], "word": "a"},
+{"comment": " This is an entry comment.", "pronunciation": ["t", "uw1"], "word": "b"},
+{"pronunciation": ["th", "r", "iy1"], "word": "c"},
+{"pronunciation": ["f", "ao1", "r"], "word": "d"},
+{"pronunciation": ["f", "ay1", "v"], "word": "e"},
+{"error-message": "Incorrect word casing in entry: \"(\"goNe\" nil (g ao1 n))\""},
+{"pronunciation": ["g", "ao1", "n"], "word": "goNe"},
+{"error-message": "Incorrect word casing in entry: \"(\"UPPER\" nil (uh1 p er0))\""},
+{"pronunciation": ["uh1", "p", "er0"], "word": "UPPER"}
+]

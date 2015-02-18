@@ -1,0 +1,10 @@
+;;; This is a line comment.
+
+!!invalid_entry
+a W AA1 N
+b T UW1 # This is an entry comment.
+c  TH R IY1
+d	F AO1 R
+e F AY1 V  
+goNe G AO1 N
+UPPER UH1 P ER0

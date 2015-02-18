@@ -1,0 +1,20 @@
+[
+{"comment": " This is a line comment."},
+{},
+{"error-message": "Unsupported entry: \"!!INVALID_ENTRY\""},
+{"pronunciation": ["W", "AA1", "N"], "word": "A"},
+{"comment": " This is an entry comment.", "pronunciation": ["T", "UW1"], "word": "B"},
+{"error-message": "Entry needs 2 spaces between word and phoneme: \"C TH R IY1\""},
+{"pronunciation": ["TH", "R", "IY1"], "word": "C"},
+{"error-message": "Entry needs 2 spaces between word and phoneme: \"D   F AO1 R\""},
+{"pronunciation": ["F", "AO1", "R"], "word": "D"},
+{"error-message": "Entry needs 2 spaces between word and phoneme: \"E\t\tF AY1 V\""},
+{"pronunciation": ["F", "AY1", "V"], "word": "E"},
+{"error-message": "Trailing whitespace in entry: \"F  S IH1 K S \""},
+{"pronunciation": ["S", "IH1", "K", "S"], "word": "F"},
+{"pronunciation": ["S", "EH1", "V", "AH0", "N"], "word": "F", "context": 1},
+{"error-message": "Incorrect word casing in entry: \"GOnE  G AO1 N\""},
+{"pronunciation": ["G", "AO1", "N"], "word": "GOnE"},
+{"error-message": "Incorrect word casing in entry: \"lower  L OW1 ER0\""},
+{"pronunciation": ["L", "OW1", "ER0"], "word": "lower"}
+]

@@ -1,0 +1,17 @@
+[
+{"comment": " This is a line comment."},
+{},
+{"error-message": "Unsupported entry: \"!!invalid_entry\""},
+{"pronunciation": ["W", "AA1", "N"], "word": "a"},
+{"comment": " This is an entry comment.", "pronunciation": ["T", "UW1"], "word": "b"},
+{"error-message": "Entry needs 1 spaces between word and phoneme: \"c  TH R IY1\""},
+{"pronunciation": ["TH", "R", "IY1"], "word": "c"},
+{"error-message": "Entry needs 1 spaces between word and phoneme: \"d\tF AO1 R\""},
+{"pronunciation": ["F", "AO1", "R"], "word": "d"},
+{"error-message": "Trailing whitespace in entry: \"e F AY1 V  \""},
+{"pronunciation": ["F", "AY1", "V"], "word": "e"},
+{"error-message": "Incorrect word casing in entry: \"goNe G AO1 N\""},
+{"pronunciation": ["G", "AO1", "N"], "word": "goNe"},
+{"error-message": "Incorrect word casing in entry: \"UPPER UH1 P ER0\""},
+{"pronunciation": ["UH1", "P", "ER0"], "word": "UPPER"}
+]

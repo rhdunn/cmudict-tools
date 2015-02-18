@@ -1,2 +1,4 @@
 .*.swp
 *.pyc
+
+run_tests.log
