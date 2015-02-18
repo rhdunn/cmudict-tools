@@ -43,7 +43,7 @@ if sys.version_info[0] == 2:
 
 	def printf(fmt, encoding, *args):
 		output = unicode(fmt).format(*args)
-		print(output.encode(encoding))
+		sys.stdout.write(output.encode(encoding))
 else:
 	ustr = str
 
@@ -58,7 +58,6 @@ else:
 	def printf(fmt, encoding, *args):
 		output = fmt.format(*args)
 		sys.stdout.buffer.write(output.encode(encoding))
-		sys.stdout.buffer.write(b'\n')
 
 def read_phonetable(filename):
 	columns = None
@@ -199,11 +198,11 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-weide': {
 		'accent': 'en-US-x-cmu',
 		# formatting:
-		'comment': '##{3}',
-		'entry': '{0}  {2}',
-		'entry-comment': '{0}  {2} #{3}',
-		'entry-context': '{0}({1})  {2}',
-		'entry-context-comment': '{0}({1})  {2} #{3}',
+		'comment': '##{3}\n',
+		'entry': '{0}  {2}\n',
+		'entry-comment': '{0}  {2} #{3}\n',
+		'entry-context': '{0}({1})  {2}\n',
+		'entry-context-comment': '{0}({1})  {2} #{3}\n',
 		'word': lambda word: word.upper(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_\x80-\xFF]*$',
@@ -212,11 +211,11 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict': {
 		'accent': 'en-US-x-cmu',
 		# formatting:
-		'comment': ';;;{3}',
-		'entry': '{0}  {2}',
-		'entry-comment': '{0}  {2} #{3}',
-		'entry-context': '{0}({1})  {2}',
-		'entry-context-comment': '{0}({1})  {2} #{3}',
+		'comment': ';;;{3}\n',
+		'entry': '{0}  {2}\n',
+		'entry-comment': '{0}  {2} #{3}\n',
+		'entry-context': '{0}({1})  {2}\n',
+		'entry-context-comment': '{0}({1})  {2} #{3}\n',
 		'word': lambda word: word.upper(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_\x80-\xFF]*$',
@@ -225,11 +224,11 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-new': {
 		'accent': 'en-US-x-cmu',
 		# formatting:
-		'comment': ';;;{3}',
-		'entry': '{0} {2}',
-		'entry-context': '{0}({1}) {2}',
-		'entry-comment': '{0} {2} #{3}',
-		'entry-context-comment': '{0}({1}) {2} #{3}',
+		'comment': ';;;{3}\n',
+		'entry': '{0} {2}\n',
+		'entry-context': '{0}({1}) {2}\n',
+		'entry-comment': '{0} {2} #{3}\n',
+		'entry-context-comment': '{0}({1}) {2} #{3}\n',
 		'word': lambda word: word.lower(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
@@ -238,11 +237,11 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'festlex': {
 		'accent': 'en-US-x-festvox',
 		# formatting:
-		'comment': ';;{3}',
-		'entry': '("{0}" nil ({2}))',
-		'entry-context': '("{0}" {1} ({2}))',
-		'entry-comment': '("{0}" nil ({2})) ;{3}',
-		'entry-context-comment': '("{0}" {1} ({2})) ;{3}',
+		'comment': ';;{3}\n',
+		'entry': '("{0}" nil ({2}))\n',
+		'entry-context': '("{0}" {1} ({2}))\n',
+		'entry-comment': '("{0}" nil ({2})) ;{3}\n',
+		'entry-context-comment': '("{0}" {1} ({2})) ;{3}\n',
 		'word': lambda word: word.lower(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
