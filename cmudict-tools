@@ -24,6 +24,7 @@ from __future__ import print_function
 import cmudict
 import sys
 import argparse
+import csv
 
 class HelpWarningsAction(argparse.Action):
 	def __init__(self, option_strings, dest):
@@ -64,8 +65,10 @@ def print_dict(args):
 	cmudict.format(args.format, parse(args), accent=args.accent, encoding=args.output_encoding)
 
 def debug(args):
+	out = csv.writer(sys.stdout)
+	out.writerow(['Word', 'Context', 'Pronunciation', 'Comment', 'ErrorMessage'])
 	for entry in parse(args):
-		print(entry)
+		out.writerow(entry)
 
 def validate(args):
 	for word, context, phonemes, comment, error in parse(args):
