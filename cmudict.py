@@ -475,25 +475,28 @@ def parse_cmudict(filename, checks, order_from, encoding):
 			yield line, format, None, None, None, None, None, None
 			continue
 
+		comment = None
 		m = re_linecomment_weide.match(line)
 		if m:
-			if not format: # detect the dictionary format ...
-				format = 'cmudict-weide'
-				spacing = '  '
-			elif format != 'cmudict-weide':
-				yield line, format, None, None, None, None, None, u'Old-style comment: "{0}"'.format(line)
 			comment, metadata = parse_comment_string(m.group(1))
-			yield line, format, None, None, None, comment, metadata, None
-			continue
+			comment_format = 'cmudict-weide'
 
 		m = re_linecomment_air.match(line)
 		if m:
-			if not format: # detect the dictionary format ...
-				format = 'cmudict-air'
-				spacing = '  '
-			elif format == 'cmudict-weide':
-				yield line, format, None, None, None, None, None, u'New-style comment: "{0}"'.format(line)
 			comment, metadata = parse_comment_string(m.group(1))
+			comment_format = 'cmudict-air'
+
+		if comment is not None:
+			if not format: # detect the dictionary format ...
+				format = comment_format
+				if format == 'cmudict-new':
+					spacing = ' '
+				else:
+					spacing = '  '
+			if format != 'cmudict-weide' and comment_format == 'cmudict-weide':
+				yield line, format, None, None, None, None, None, u'Old-style comment: "{0}"'.format(line)
+			elif format == 'cmudict-weide' and comment_format == 'cmudict-air':
+				yield line, format, None, None, None, None, None, u'New-style comment: "{0}"'.format(line)
 			yield line, format, None, None, None, comment, metadata, None
 			continue
 
