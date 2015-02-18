@@ -364,7 +364,7 @@ def format_json(dict_format, entries, accent=None, encoding='windows-1252'):
 		data = dict([(k, v) for k, v in zip(fields, entry) if v != None])
 		if need_comma:
 			printf(',\n', encoding)
-		printf('{0}', encoding, json.dumps(data))
+		printf('{0}', encoding, json.dumps(data, sort_keys=True))
 		need_comma = True
 	if need_comma:
 		printf('\n]\n', encoding)

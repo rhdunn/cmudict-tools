@@ -14,7 +14,7 @@
 {"pronunciation": ["F", "AY1", "V"], "word": "E"},
 {"error-message": "Trailing whitespace in entry: \"F  S IH1 K S \""},
 {"pronunciation": ["S", "IH1", "K", "S"], "word": "F"},
-{"pronunciation": ["S", "EH1", "V", "AH0", "N"], "word": "F", "context": 1},
+{"context": 1, "pronunciation": ["S", "EH1", "V", "AH0", "N"], "word": "F"},
 {"error-message": "Incorrect word casing in entry: \"GOnE  G AO1 N\""},
 {"pronunciation": ["G", "AO1", "N"], "word": "GOnE"},
 {"error-message": "Incorrect word casing in entry: \"lower  L OW1 ER0\""},
