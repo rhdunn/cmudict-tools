@@ -189,7 +189,9 @@ phonesets = {
 
 def load_phonemes(accent, phoneset):
 	phones = phonesets[phoneset]()
-	for p in read_phonetable(os.path.join(root, 'accents', '{0}.csv'.format(accent))):
+	if not accent.endswith('.csv'):
+		accent = os.path.join(root, 'accents', '{0}.csv'.format(accent))
+	for p in read_phonetable(accent):
 		if phoneset in p['Phone Sets']:
 			phones.add(p)
 	return phones

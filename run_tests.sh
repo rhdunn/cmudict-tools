@@ -91,6 +91,10 @@ ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json --source-ac
 check "cmu phones in other case" tests/phone_en-US-x-cmu_othercase.json ${ARGS} --source-phoneset=cmu tests/phone_arpabet.lower
 check "festvox phones in other case" tests/phone_en-US-x-festvox_othercase.json ${ARGS} --source-phoneset=festvox tests/phone_arpabet.upper
 
+ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json --source-phoneset=arpabet"
+check "accents/en-US.csv accent, arpabet phones" tests/phone_en-US-x-arpabet.json ${ARGS} --source-accent=accents/en-US.csv tests/phone_arpabet.upper
+check "accents/en-GB-x-rp.csv accent, arpabet phones" tests/phone_en-GB-x-rp-arpabet.json ${ARGS} --source-accent=accents/en-GB-x-rp.csv tests/phone_arpabet.upper
+
 # Summary #####################################################################
 
 if [[ `grep -P "^testing .* \\.\\.\\. fail$" ${LOG_FILE}` ]] ; then
