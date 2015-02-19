@@ -52,7 +52,7 @@ I,,i,vowel,arpabet;ipa,FLEECE,happy,HH AE1 P I0,Short FLEECE vowel.
 I@,IA,,vowel,cepstral,NEAR,peer,P I@1 R,
 IA,,ɪə̯,vowel,arpabet;ipa,NEAR,peer,P IA1 R,
 IH,,ɪ,vowel,arpabet;ipa;cepstral,KIT,it,IH1 T,
-IX,,ɨ,vowel,arpabet;ipa,,debted,D EH1 T IX0 D,
+IX,,ɨ,schwa,arpabet;ipa,,debted,D EH1 T IX0 D,
 IY,,iː,vowel,arpabet;ipa,FLEECE,eat,IY1 T,
 J,Y,,consonant,cepstral,,yield,J IY1 L D,
 JH,,d͡ʒ,consonant,arpabet;ipa;cepstral,,gee,JH IY1,

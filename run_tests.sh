@@ -76,6 +76,9 @@ check "festlex formatting" tests/format-festlex.scm ${ARGS} --format=festlex tes
 ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
 check "en-US phones" tests/phone_en-US-x-arpabet.json ${ARGS} --source-accent=en-US tests/phone_arpabet.upper
 
+ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
+check "en-GB phones" tests/phone_en-GB-x-rp-arpabet.json ${ARGS} --source-accent=en-GB tests/phone_arpabet.upper
+
 ARGS="print -Wall -Wno-unsorted --format=json"
 check "syllable breaks [en-GB]" tests/phone-syllables.json ${ARGS} --source-accent=en-GB tests/phone-syllables
 check "syllable breaks [en-US]" tests/phone-syllables.json ${ARGS} --source-accent=en-US tests/phone-syllables
