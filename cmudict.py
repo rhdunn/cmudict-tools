@@ -156,7 +156,7 @@ class ArpabetPhonemeSet:
 			elif not phoneme in self.to_arpabet.keys():
 				if 'invalid-phonemes' in checks:
 					yield None, 'Invalid phoneme "{0}"'.format(phoneme)
-					yield ustr(phoneme).upper(), None
+					yield self.conversion(phoneme), None
 					continue
 
 			yield self.to_arpabet[phoneme], None
