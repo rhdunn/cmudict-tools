@@ -68,7 +68,7 @@ def read_phonetable(filename):
 			pass # Comment only line
 		elif columns:
 			data = dict(zip(columns, entry))
-			data['Accents'] = data['Accents'].split(';')
+			data['Phone Sets'] = data['Phone Sets'].split(';')
 			yield data
 		else:
 			columns = entry
@@ -172,28 +172,34 @@ class ArpabetPhonemeSet:
 	def format(self, phonemes):
 		return ' '.join(self.to_local_phonemes(phonemes))
 
-accents = {
-	# general purpose accents
-	'en-GB': lambda: ArpabetPhonemeSet('upper'),
-	'en-GB-x-ipa': lambda: IpaPhonemeSet('en-GB'),
-	'en-US': lambda: ArpabetPhonemeSet('upper'),
-	'en-US-x-ipa': lambda: IpaPhonemeSet('en-US'),
-	# dictionary/TTS specific accents
-	'en-GB-x-cepstral': lambda: ArpabetPhonemeSet('lower'),
-	'en-US-x-cepstral': lambda: ArpabetPhonemeSet('lower'),
-	'en-US-x-cmu': lambda: ArpabetPhonemeSet('upper'),
-	'en-US-x-festvox': lambda: ArpabetPhonemeSet('lower'),
-	'en-US-x-timit': lambda: ArpabetPhonemeSet('lower'),
+phonesets = {
+	'arpabet':  lambda: ArpabetPhonemeSet('upper'),
+	'cepstral': lambda: ArpabetPhonemeSet('lower'),
+	'cmu':      lambda: ArpabetPhonemeSet('upper'),
+	'festvox':  lambda: ArpabetPhonemeSet('lower'),
+	'ipa':      lambda: IpaPhonemeSet('IPA'),
+	'timit':    lambda: ArpabetPhonemeSet('lower'),
 }
 
-phoneme_table = list(read_phonetable(os.path.join(root, 'phones.csv')))
+accents = {
+	'en-GB':            ('en-GB-x-rp', 'arpabet'),
+	'en-GB-x-cepstral': ('en-GB-x-rp', 'cepstral'),
+	'en-GB-x-ipa':      ('en-GB-x-rp', 'ipa'),
+	'en-US':            ('en-US',      'arpabet'),
+	'en-US-x-cepstral': ('en-US',      'cepstral'),
+	'en-US-x-cmu':      ('en-US',      'cmu'),
+	'en-US-x-festvox':  ('en-US',      'festvox'),
+	'en-US-x-ipa':      ('en-US',      'ipa'),
+	'en-US-x-timit':    ('en-US',      'timit'),
+}
 
 def load_phonemes(accent):
-	phonemeset = accents[accent]()
-	for p in phoneme_table:
-		if accent in p['Accents'] or accent.endswith('-ipa'):
-			phonemeset.add(p)
-	return phonemeset
+	accent, phoneset = accents[accent]
+	phones = phonesets[phoneset]()
+	for p in read_phonetable(os.path.join(root, 'accents', '{0}.csv'.format(accent))):
+		if phoneset in p['Phone Sets']:
+			phones.add(p)
+	return phones
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-weide': {

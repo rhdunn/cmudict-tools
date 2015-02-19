@@ -1,0 +1,85 @@
+Arpabet,Normalized,IPA,Type,Phone Sets,Lexical Set,Example,Example Transcription,Comments
+,,,,,,,,American English arpabet phone table
+,,,,,,,,
+,,,,,,,,Copyright (C) 2015 Reece H. Dunn
+,,,,,,,,
+,,,,,,,,This file is part of cmudict-tools.
+,,,,,,,,
+,,,,,,,,cmudict-tools is free software: you can redistribute it and/or modify
+,,,,,,,,it under the terms of the GNU General Public License as published by
+,,,,,,,,"the Free Software Foundation, either version 3 of the License, or"
+,,,,,,,,(at your option) any later version.
+,,,,,,,,
+,,,,,,,,"cmudict-tools is distributed in the hope that it will be useful,"
+,,,,,,,,but WITHOUT ANY WARRANTY; without even the implied warranty of
+,,,,,,,,MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+,,,,,,,,GNU General Public License for more details.
+,,,,,,,,
+,,,,,,,,You should have received a copy of the GNU General Public License
+,,,,,,,,"along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>."
+-,,.,consonant,arpabet;ipa,,,,syllable break
+AA,,ɑ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,PALM,odd,AA1 D,
+AE,,æ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,TRAP,at,AE1 T,
+AH,,ʌ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,STRUT,hut,HH AH1 T,
+AO,,ɔ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,THOUGHT,ought,AO1 T,
+AW,,aʊ̯,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,MOUTH,cow,K AW1,
+AX,,ə,schwa,arpabet;ipa;festvox;timit,COMMA,ago,AX G OW1,
+AXR,,ɚ,schwa,arpabet;ipa;timit,LETTER,bigger,B IH1 G AXR,
+AY,,aɪ̯,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,PRICE,hide,HH AY1 D,
+B,,b,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,be,B IY1,
+BCL,,b̚,consonant,timit,,be,BCL B IY1,b closure
+CH,,t͡ʃ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,cheese,CH IY1 Z,
+D,,d,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,dee,D IY1,
+DCL,,d̚,consonant,timit,,dee,DCL D IY1,d closure
+DH,,ð,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,thee,DH IY1,
+DX,,ɾ,consonant,arpabet;ipa,,button;en-US-x-timit,B AH1 DX AH0 N,
+EA,,ɛ,vowel,arpabet;ipa,SQUARE,pair,P EA1 R,
+EH,,ɛ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,DRESS,Ed,EH1 D,
+EL,,l̩,consonant,arpabet;ipa;timit,,bottle,B AO1 T EL,
+EM,,m̩,consonant,arpabet;ipa;timit,,rhythmn,R IH1 DH EM,
+EN,,n̩,consonant,arpabet;ipa;timit,,button,B UH1 T EN,
+ENG,,ŋ̍,consonant,arpabet;ipa;timit,,washington,W AO1 SH ENG T AH0 N,
+ER,,ɝ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,NURSE,hurt,HH ER1 T,
+EY,,eɪ̯,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,FACE,ate,EY1 T,
+F,,f,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,fee,F IY1,
+G,,ɡ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,green,G R IY1 N,
+GCL,,ɡ̚,consonant,timit,,green,GCL G R IY1 N,
+H,HH,,consonant,cepstral,,he,H IY1,
+HH,,h,consonant,arpabet;ipa;festvox;timit,,he,HH IY1,
+HV,,ɦ,consonant,arpabet;ipa;timit,,ahead,AX HV EH1 D,
+HW,,ʍ,consonant,arpabet;ipa,WHINE,when,HW EH1 N,
+I,IY,,vowel,cepstral,FLEECE,eat,I1 T,
+IA,,i,vowel,arpabet;ipa,NEAR,peer,P IA1 R,
+IH,,ɪ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,KIT,it,IH1 T,
+IX,,ɨ,vowel,arpabet;ipa;timit,,debted,D EH1 T IX0 D,
+IY,,i,vowel,arpabet;ipa;cmu;festvox;timit,FLEECE,eat,IY1 T,
+J,Y,,consonant,cepstral,,yield,J IY1 L D,
+JH,,d͡ʒ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,gee,JH IY1,
+K,,k,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,key,K IY1,
+KCL,,k̚,consonant,timit,,key,KCL K IY1,
+L,,l,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,lee,L IY1,
+M,,m,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,me,M IY1,
+N,,n,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,knee,N IY1,
+NG,,ŋ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,ping,P IH1 NG,
+NX,,ɾ̃,consonant,arpabet;ipa;timit,,winter,W IH1 NX AXR,
+OA,,oʊ̯,vowel,arpabet;ipa,FORCE,hoarse,H OA1 R S,
+OW,,oʊ̯,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,GOAT,oat,OW1 T,
+OY,,ɔɪ̯,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,CHOICE,toy,T OY1,
+P,,p,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,pee,P IY1,
+PCL,,p̚,consonant,timit,,pee,PCL P IY1,
+Q,,ʔ,consonant,arpabet;ipa;timit,,uh-oh,Q AH2 Q OW1,
+R,,ɹ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,reed,R IY1 D,
+S,,s,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,sea,S IY1,
+SH,,ʃ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,she,SH IY1,
+T,,t,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,tea,T IY1,
+TCL,,t̚,consonant,timit,,tea,TCL T IY1,
+TH,,θ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,theta,TH EY1 T AH0,
+UA,,ʊ,vowel,arpabet;ipa,CURE,poor,P UA1 R,
+UH,,ʊ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,FOOT,hood,HH UH1 D,
+UW,,u,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,GOOSE,two,T UW1,
+UX,,ʉ,vowel,arpabet;ipa;timit,,toot,T UX1 T,
+V,,v,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,vee,V IY1,
+W,,w,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,WINE,we,W IY1,
+Y,,j,consonant,arpabet;ipa;cmu;timit,,yield,Y IY1 L D,
+Z,,z,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,zee,Z IY1,
+ZH,,ʒ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,seizure,S IY1 ZH ER0,

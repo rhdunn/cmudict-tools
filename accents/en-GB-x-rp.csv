@@ -1,0 +1,86 @@
+Arpabet,Normalized,IPA,Type,Phone Sets,Lexical Set,Example,Example Transcription,Comments
+,,,,,,,,British English (Received Pronunciation) arpabet phone table
+,,,,,,,,
+,,,,,,,,Copyright (C) 2015 Reece H. Dunn
+,,,,,,,,
+,,,,,,,,This file is part of cmudict-tools.
+,,,,,,,,
+,,,,,,,,cmudict-tools is free software: you can redistribute it and/or modify
+,,,,,,,,it under the terms of the GNU General Public License as published by
+,,,,,,,,"the Free Software Foundation, either version 3 of the License, or"
+,,,,,,,,(at your option) any later version.
+,,,,,,,,
+,,,,,,,,"cmudict-tools is distributed in the hope that it will be useful,"
+,,,,,,,,but WITHOUT ANY WARRANTY; without even the implied warranty of
+,,,,,,,,MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+,,,,,,,,GNU General Public License for more details.
+,,,,,,,,
+,,,,,,,,You should have received a copy of the GNU General Public License
+,,,,,,,,"along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>."
+-,,.,consonant,arpabet;ipa,,,,syllable break
+A,AA,,vowel,cepstral,PALM,odd,A1 D,
+AA,,ɑː,vowel,arpabet;ipa,PALM,odd,AA1 D,
+AE,,æ,vowel,arpabet;ipa;cepstral,TRAP,at,AE1 T,
+AH,,ʌ,vowel,arpabet;ipa;cepstral,STRUT,hut,HH AH1 T,
+AO,,ɔː,vowel,arpabet;ipa;cepstral,THOUGHT,ought,AO1 T,
+AW,,aʊ̯,vowel,arpabet;ipa;cepstral,MOUTH,cow,K AW1,
+AX,,ə,schwa,arpabet;ipa,COMMA,ago,AX G OW1,
+AXR,,,schwa,arpabet;ipa,LETTER,bigger,B IH1 G AXR,
+AY,,aɪ̯,vowel,arpabet;ipa;cepstral,PRICE,hide,HH AY1 D,
+B,,b,consonant,arpabet;ipa;cepstral,,be,B IY1,
+CH,,t͡ʃ,consonant,arpabet;ipa;cepstral,,cheese,CH IY1 Z,
+D,,d,consonant,arpabet;ipa;cepstral,,dee,D IY1,
+DH,,ð,consonant,arpabet;ipa;cepstral,,thee,DH IY1,
+DX,,ɾ,consonant,arpabet;ipa,,button,B AH1 DX AH0 N,
+E@,EA,,vowel,cepstral,SQUARE,pair,P E@1 R,
+EA,,ɛə̯,vowel,arpabet;ipa,SQUARE,pair,P EA1 R,
+EH,,ɛ,vowel,arpabet;ipa;cepstral,DRESS,Ed,EH1 D,
+EL,,l̩,consonant,arpabet;ipa,,bottle,B AO1 T EL,
+EM,,m̩,consonant,arpabet;ipa,,rhythmn,R IH1 DH EM,
+EN,,n̩,consonant,arpabet;ipa,,button,B UH1 T EN,
+ENG,,ŋ̍,consonant,arpabet;ipa,,washington,W AO1 SH ENG T AH0 N,
+ER,,əː,vowel,arpabet;ipa;cepstral,NURSE,hurt,HH ER1 T,
+EY,,eɪ̯,vowel,arpabet;ipa;cepstral,FACE,ate,EY1 T,
+F,,f,consonant,arpabet;ipa;cepstral,,fee,F IY1,
+G,,ɡ,consonant,arpabet;ipa;cepstral,,green,G R IY1 N,
+H,HH,,consonant,cepstral,,he,H IY1,
+HH,,h,consonant,arpabet;ipa;cepstral,,he,HH IY1,
+HV,,ɦ,consonant,arpabet;ipa,,ahead,AX HV EH1 D,
+HW,,ʍ,consonant,arpabet;ipa,WHINE,when,HW EH1 N,
+I,IY,,vowel,cepstral,FLEECE,eat,I1 T,
+I,,i,vowel,arpabet;ipa,FLEECE,happy,HH AE1 P I0,Short FLEECE vowel.
+I@,IA,,vowel,cepstral,NEAR,peer,P I@1 R,
+IA,,ɪə̯,vowel,arpabet;ipa,NEAR,peer,P IA1 R,
+IH,,ɪ,vowel,arpabet;ipa;cepstral,KIT,it,IH1 T,
+IX,,ɨ,vowel,arpabet;ipa,,debted,D EH1 T IX0 D,
+IY,,iː,vowel,arpabet;ipa,FLEECE,eat,IY1 T,
+J,Y,,consonant,cepstral,,yield,J IY1 L D,
+JH,,d͡ʒ,consonant,arpabet;ipa;cepstral,,gee,JH IY1,
+K,,k,consonant,arpabet;ipa;cepstral,,key,K IY1,
+L,,l,consonant,arpabet;ipa;cepstral,,lee,L IY1,
+M,,m,consonant,arpabet;ipa;cepstral,,me,M IY1,
+N,,n,consonant,arpabet;ipa;cepstral,,knee,N IY1,
+NG,,ŋ,consonant,arpabet;ipa;cepstral,,ping,P IH1 NG,
+NX,,ɾ̃,consonant,arpabet;ipa,,winter,W IH1 NX AXR,
+OA,OH,,vowel,cepstral,LOT,cot,K OA1 T,
+OA,,ɔə̯,vowel,arpabet;ipa,FORCE,hoarse,H OA1 R S,
+OH,,ɒ,vowel,arpabet;ipa,LOT,cot,K OH1 T,
+OW,,əʊ̯,vowel,arpabet;ipa;cepstral,GOAT,oat,OW1 T,
+OY,,ɔɪ̯,vowel,arpabet;ipa;cepstral,CHOICE,toy,T OY1,
+P,,p,consonant,arpabet;ipa;cepstral,,pee,P IY1,
+Q,,ʔ,consonant,arpabet;ipa,,uh-oh,Q AH2 Q OW1,
+R,,ɹ,consonant,arpabet;ipa;cepstral,,reed,R IY1 D,
+S,,s,consonant,arpabet;ipa;cepstral,,sea,S IY1,
+SH,,ʃ,consonant,arpabet;ipa;cepstral,,she,SH IY1,
+T,,t,consonant,arpabet;ipa;cepstral,,tea,T IY1,
+TH,,θ,consonant,arpabet;ipa;cepstral,,theta,TH EY1 T AH0,
+U,,u,vowel,arpabet;ipa,GOOSE,to,T U1,Short GOOSE vowel.
+UA,,ʊə̯,vowel,arpabet;ipa,CURE,poor,P UA1 R,
+UH,,ʊ,vowel,arpabet;ipa;cepstral,FOOT,hood,HH UH1 D,
+UW,,uː,vowel,arpabet;ipa;cepstral,GOOSE,two,T UW1,
+UX,,ʉ,vowel,arpabet;ipa,,toot,T UX1 T,
+V,,v,consonant,arpabet;ipa;cepstral,,vee,V IY1,
+W,,w,consonant,arpabet;ipa;cepstral,WINE,we,W IY1,
+Y,,j,consonant,arpabet;ipa,,yield,Y IY1 L D,
+Z,,z,consonant,arpabet;ipa;cepstral,,zee,Z IY1,
+ZH,,ʒ,consonant,arpabet;ipa;cepstral,,seizure,S IY1 ZH ER0,
