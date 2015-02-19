@@ -82,6 +82,7 @@ check "en-US-x-timit phones" tests/phone_en-US-x-timit.json ${ARGS} --source-acc
 
 ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
 check "en-GB phones" tests/phone_en-GB-x-rp-arpabet.json ${ARGS} --source-accent=en-GB tests/phone_arpabet.upper
+check "en-GB-x-cepstral phones" tests/phone_en-GB-x-rp-cepstral.json ${ARGS} --source-accent=en-GB-x-cepstral tests/phone_arpabet.lower
 
 # Summary #####################################################################
 
