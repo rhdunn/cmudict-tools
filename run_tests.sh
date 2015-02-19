@@ -77,6 +77,7 @@ ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
 check "en-US phones" tests/phone_en-US-x-arpabet.json ${ARGS} --source-accent=en-US tests/phone_arpabet.upper
 check "en-US-x-cmu phones" tests/phone_en-US-x-cmu.json ${ARGS} --source-accent=en-US-x-cmu tests/phone_arpabet.upper
 check "en-US-x-festvox phones" tests/phone_en-US-x-festvox.json ${ARGS} --source-accent=en-US-x-festvox tests/phone_arpabet.lower
+check "en-US-x-timit phones" tests/phone_en-US-x-timit.json ${ARGS} --source-accent=en-US-x-timit tests/phone_arpabet.lower
 
 ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
 check "en-GB phones" tests/phone_en-GB-x-rp-arpabet.json ${ARGS} --source-accent=en-GB tests/phone_arpabet.upper

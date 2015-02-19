@@ -32,7 +32,7 @@ CH,,t͡ʃ,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,cheese,CH IY1 Z,
 D,,d,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,dee,D IY1,
 DCL,,d̚,consonant,timit,,dee,DCL D IY1,d closure
 DH,,ð,consonant,arpabet;ipa;cmu;festvox;cepstral;timit,,thee,DH IY1,
-DX,,ɾ,consonant,arpabet;ipa,,button;en-US-x-timit,B AH1 DX AH0 N,
+DX,,ɾ,consonant,arpabet;ipa;timit,,button;en-US-x-timit,B AH1 DX AH0 N,
 EA,,ɛ,vowel,arpabet;ipa,SQUARE,pair,P EA1 R,
 EH,,ɛ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,DRESS,Ed,EH1 D,
 EL,,l̩,consonant,arpabet;ipa;timit,,bottle,B AO1 T EL,
