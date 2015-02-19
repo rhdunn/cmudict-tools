@@ -65,7 +65,7 @@ def print_dict(args):
 	cmudict.format(args.format, parse(args), accent=args.accent, phoneset=args.phoneset, encoding=args.output_encoding)
 
 def validate(args):
-	for word, context, phonemes, comment, error in parse(args):
+	for word, context, phonemes, comment, metadata, error in parse(args):
 		if error:
 			print(error, file=sys.stderr)
 
