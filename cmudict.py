@@ -415,15 +415,23 @@ def warnings_to_checks(warnings):
 
 def parse_comment_string(comment):
 	metadata = None
+	errors = []
+	re_key   = re.compile(r'^[a-zA-Z0-9_\-]+$')
+	re_value = re.compile(r'^[a-zA-Z0-9_\-/]+$')
 	if comment.startswith('@@'):
 		_, metastring, comment = comment.split('@@')
 		metadata = {}
 		for key, value in [x.split('=') for x in metastring.strip().split()]:
+			if not re_key.match(key):
+				errors.append('Invalid metadata key "{0}"'.format(key))
+			if not re_value.match(value):
+				errors.append('Invalid metadata value "{0}"'.format(value))
+
 			if key in metadata.keys():
 				metadata[key].append(value)
 			else:
 				metadata[key] = [value]
-	return comment, metadata
+	return comment, metadata, errors
 
 def parse_festlex(filename, checks, order_from, encoding):
 	"""
@@ -443,7 +451,9 @@ def parse_festlex(filename, checks, order_from, encoding):
 
 		m = re_linecomment.match(line)
 		if m:
-			comment, metadata = parse_comment_string(m.group(1))
+			comment, metadata, errors = parse_comment_string(m.group(1))
+			for message in errors:
+				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
 			yield line, format, None, None, None, comment, metadata, None
 			continue
 
@@ -458,7 +468,9 @@ def parse_festlex(filename, checks, order_from, encoding):
 		comment = m.group(5)
 		metadata = None
 		if comment:
-			comment, metadata = parse_comment_string(comment)
+			comment, metadata, errors = parse_comment_string(comment)
+			for message in errors:
+				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
 
 		if context == 'nil':
 			context = None
@@ -484,15 +496,17 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		comment = None
 		m = re_linecomment_weide.match(line)
 		if m:
-			comment, metadata = parse_comment_string(m.group(1))
+			comment, metadata, errors = parse_comment_string(m.group(1))
 			comment_format = 'cmudict-weide'
 
 		m = re_linecomment_air.match(line)
 		if m:
-			comment, metadata = parse_comment_string(m.group(1))
+			comment, metadata, errors = parse_comment_string(m.group(1))
 			comment_format = 'cmudict-air'
 
 		if comment is not None:
+			for message in errors:
+				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
 			if metadata and 'format' in metadata.keys():
 				format = metadata['format'][0]
 				if format == 'cmudict-new':
@@ -524,7 +538,9 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		comment = m.group(7) or None # 6 = with comment marker: `#...`
 		metadata = None
 		if comment:
-			comment, metadata = parse_comment_string(comment)
+			comment, metadata, errors = parse_comment_string(comment)
+			for message in errors:
+				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
 
 		if not format or format == 'cmudict-air': # detect the dictionary format ...
 			cmudict_fmt = re.compile(dict_formats['cmudict']['word-validation'])
