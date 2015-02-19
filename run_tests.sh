@@ -74,19 +74,22 @@ check "festlex formatting" tests/format-festlex.scm ${ARGS} --format=festlex tes
 # Phone Tests #################################################################
 
 ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
-check "en-US phones" tests/phone_en-US-x-arpabet.json ${ARGS} --source-accent=en-US tests/phone_arpabet.upper
-check "en-US-x-cmu phones" tests/phone_en-US-x-cmu.json ${ARGS} --source-accent=en-US-x-cmu tests/phone_arpabet.upper
-check "en-US-x-cepstral phones" tests/phone_en-US-x-cepstral.json ${ARGS} --source-accent=en-US-x-cepstral tests/phone_arpabet.lower
-check "en-US-x-festvox phones" tests/phone_en-US-x-festvox.json ${ARGS} --source-accent=en-US-x-festvox tests/phone_arpabet.lower
-check "en-US-x-timit phones" tests/phone_en-US-x-timit.json ${ARGS} --source-accent=en-US-x-timit tests/phone_arpabet.lower
+check "default accent and phoneset" tests/phone_en-US-x-cmu.json ${ARGS} tests/phone_arpabet.upper
 
-ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
-check "en-GB phones" tests/phone_en-GB-x-rp-arpabet.json ${ARGS} --source-accent=en-GB tests/phone_arpabet.upper
-check "en-GB-x-cepstral phones" tests/phone_en-GB-x-rp-cepstral.json ${ARGS} --source-accent=en-GB-x-cepstral tests/phone_arpabet.lower
+ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json --source-accent=en-US"
+check "en-US accent, arpabet phones" tests/phone_en-US-x-arpabet.json ${ARGS} --source-phoneset=arpabet tests/phone_arpabet.upper
+check "en-US accent, cmu phones" tests/phone_en-US-x-cmu.json ${ARGS} --source-phoneset=cmu tests/phone_arpabet.upper
+check "en-US accent, cepstral phones" tests/phone_en-US-x-cepstral.json ${ARGS} --source-phoneset=cepstral tests/phone_arpabet.lower
+check "en-US accent, festvox phones" tests/phone_en-US-x-festvox.json ${ARGS} --source-phoneset=festvox tests/phone_arpabet.lower
+check "en-US accent, timit phones" tests/phone_en-US-x-timit.json ${ARGS} --source-phoneset=timit tests/phone_arpabet.lower
 
-ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
-check "en-US-x-cmu phones in other case" tests/phone_en-US-x-cmu_othercase.json ${ARGS} --source-accent=en-US-x-cmu tests/phone_arpabet.lower
-check "en-US-x-festvox phones in other case" tests/phone_en-US-x-festvox_othercase.json ${ARGS} --source-accent=en-US-x-festvox tests/phone_arpabet.upper
+ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json --source-accent=en-GB-x-rp"
+check "en-GB-x-rp accent, arpabet phones" tests/phone_en-GB-x-rp-arpabet.json ${ARGS} --source-phoneset=arpabet tests/phone_arpabet.upper
+check "en-GB-x-rp accent, cepstral phones" tests/phone_en-GB-x-rp-cepstral.json ${ARGS} --source-phoneset=cepstral tests/phone_arpabet.lower
+
+ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json --source-accent=en-US"
+check "cmu phones in other case" tests/phone_en-US-x-cmu_othercase.json ${ARGS} --source-phoneset=cmu tests/phone_arpabet.lower
+check "festvox phones in other case" tests/phone_en-US-x-festvox_othercase.json ${ARGS} --source-phoneset=festvox tests/phone_arpabet.upper
 
 # Summary #####################################################################
 

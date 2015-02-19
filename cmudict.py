@@ -187,20 +187,7 @@ phonesets = {
 	'timit':    lambda: ArpabetPhonemeSet('lower'),
 }
 
-accents = {
-	'en-GB':            ('en-GB-x-rp', 'arpabet'),
-	'en-GB-x-cepstral': ('en-GB-x-rp', 'cepstral'),
-	'en-GB-x-ipa':      ('en-GB-x-rp', 'ipa'),
-	'en-US':            ('en-US',      'arpabet'),
-	'en-US-x-cepstral': ('en-US',      'cepstral'),
-	'en-US-x-cmu':      ('en-US',      'cmu'),
-	'en-US-x-festvox':  ('en-US',      'festvox'),
-	'en-US-x-ipa':      ('en-US',      'ipa'),
-	'en-US-x-timit':    ('en-US',      'timit'),
-}
-
-def load_phonemes(accent):
-	accent, phoneset = accents[accent]
+def load_phonemes(accent, phoneset):
 	phones = phonesets[phoneset]()
 	for p in read_phonetable(os.path.join(root, 'accents', '{0}.csv'.format(accent))):
 		if phoneset in p['Phone Sets']:
@@ -209,7 +196,8 @@ def load_phonemes(accent):
 
 dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-weide': {
-		'accent': 'en-US-x-cmu',
+		'accent': 'en-US',
+		'phoneset': 'cmu',
 		# formatting:
 		'comment': '##{3}\n',
 		'entry': '{0}  {2}\n',
@@ -222,7 +210,8 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'context-parser': int,
 	},
 	'cmudict': {
-		'accent': 'en-US-x-cmu',
+		'accent': 'en-US',
+		'phoneset': 'cmu',
 		# formatting:
 		'comment': ';;;{3}\n',
 		'entry': '{0}  {2}\n',
@@ -235,7 +224,8 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'context-parser': int,
 	},
 	'cmudict-new': {
-		'accent': 'en-US-x-cmu',
+		'accent': 'en-US',
+		'phoneset': 'cmu',
 		# formatting:
 		'comment': ';;;{3}\n',
 		'entry': '{0} {2}\n',
@@ -248,7 +238,8 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'context-parser': int,
 	},
 	'festlex': {
-		'accent': 'en-US-x-festvox',
+		'accent': 'en-US',
+		'phoneset': 'festvox',
 		# formatting:
 		'comment': ';;{3}\n',
 		'entry': '("{0}" nil ({2}))\n',
@@ -344,11 +335,12 @@ def sort(entries, mode):
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
 
-def format_text(dict_format, entries, accent=None, encoding='windows-1252'):
+def format_text(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252'):
 	fmt = dict_formats[dict_format]
 	if not accent:
 		accent = fmt['accent']
-	phonemeset = load_phonemes(accent)
+		phoneset = fmt['phoneset']
+	phonemeset = load_phonemes(accent, phoneset)
 	for word, context, phonemes, comment, metadata, error in entries:
 		if error:
 			print(error, file=sys.stderr)
@@ -373,7 +365,7 @@ def format_text(dict_format, entries, accent=None, encoding='windows-1252'):
 		else:
 			printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
 
-def format_json(dict_format, entries, accent=None, encoding='windows-1252'):
+def format_json(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252'):
 	fields = ['word', 'context', 'pronunciation', 'comment', 'metadata', 'error-message']
 	need_comma = False
 	printf('[\n', encoding)
@@ -388,11 +380,11 @@ def format_json(dict_format, entries, accent=None, encoding='windows-1252'):
 	else:
 		printf(']\n', encoding)
 
-def format(dict_format, entries, accent=None, encoding='windows-1252'):
+def format(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252'):
 	if dict_format in ['json']:
-		format_json(dict_format, entries, accent, encoding)
+		format_json(dict_format, entries, accent, phoneset, encoding)
 	else:
-		format_text(dict_format, entries, accent, encoding)
+		format_text(dict_format, entries, accent, phoneset, encoding)
 
 def read_file(filename, encoding='windows-1252'):
 	with codecs.open(filename, encoding=encoding) as f:
@@ -549,7 +541,7 @@ def parse_cmudict(filename, checks, order_from, encoding):
 
 		yield line, format, word, context, phonemes, comment, metadata, None
 
-def parse(filename, warnings=[], order_from=0, accent=None, encoding='windows-1252'):
+def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252'):
 	checks = warnings_to_checks(warnings)
 	previous_word = None
 	re_word = None
@@ -577,7 +569,8 @@ def parse(filename, warnings=[], order_from=0, accent=None, encoding='windows-12
 			fmt = dict_formats[format]
 			if not accent:
 				accent = fmt['accent']
-			phonemeset = load_phonemes(accent)
+				phoneset = fmt['phoneset']
+			phonemeset = load_phonemes(accent, phoneset)
 			context_parser = fmt['context-parser']
 
 		# word validation checks
