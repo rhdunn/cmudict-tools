@@ -107,12 +107,11 @@ class IpaPhonemeSet:
 
 class ArpabetPhonemeSet:
 	def __init__(self, capitalization):
+		self.re_phonemes = re.compile(r' (?=[^ ])')
 		if capitalization == 'upper':
-			self.re_phonemes = re.compile(r' (?=[A-Z][A-Z]?[0-9]?|\-)')
 			self.conversion = ustr.upper
 			self.parse_phoneme = ustr # already upper case
 		elif capitalization == 'lower':
-			self.re_phonemes = re.compile(r' (?=[a-z][a-z]?[0-9]?|\-)')
 			self.conversion = ustr.lower
 			self.parse_phoneme = ustr.upper
 		else:
@@ -155,8 +154,15 @@ class ArpabetPhonemeSet:
 					yield None, 'Vowel phoneme "{0}" missing stress marker'.format(phoneme)
 			elif not phoneme in self.to_arpabet.keys():
 				if 'invalid-phonemes' in checks:
-					yield None, 'Invalid phoneme "{0}"'.format(phoneme)
-					yield self.conversion(phoneme), None
+					newphoneme = self.conversion(phoneme)
+					if newphoneme in self.missing_stress_marks:
+						if 'missing-stress' in checks:
+							yield None, 'Vowel phoneme "{0}" missing stress marker'.format(phoneme)
+					elif not newphoneme in self.to_arpabet.keys():
+						yield None, 'Invalid phoneme "{0}"'.format(phoneme)
+					else:
+						yield None, 'Incorrect phoneme casing "{0}"'.format(phoneme)
+					yield newphoneme, None
 					continue
 
 			yield self.to_arpabet[phoneme], None
