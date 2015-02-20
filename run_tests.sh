@@ -35,7 +35,7 @@ check() {
 	echo >> ${LOG_FILE}
 
 	echo -n "testing ${MESSAGE} ... " | tee -a ${LOG_FILE}
-	${PYTHON} ./cmudict-tools $@ > ${RES_FILE}
+	${PYTHON} ./cmudict-tools $@ 2>&1 | tee > ${RES_FILE}
 	diff ${OUT_FILE} ${RES_FILE} > /dev/null
 	if [[ $? -eq 0 ]] ; then
 		echo "pass" | tee -a ${LOG_FILE}
