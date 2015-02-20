@@ -397,7 +397,7 @@ def warnings_to_checks(warnings):
 	checks = default_warnings
 	for warning in warnings:
 		if warning == 'all':
-			checks = parser_warnings.keys()
+			checks = list(parser_warnings.keys())
 		elif warning == 'none':
 			checks = []
 		elif warning.startswith('no-'):

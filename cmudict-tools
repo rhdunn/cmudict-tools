@@ -74,7 +74,7 @@ commands = {
 	'print':    print_dict,
 }
 
-formats = cmudict.dict_formats.keys()
+formats = list(cmudict.dict_formats.keys())
 formats.extend(['json'])
 
 parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.')
