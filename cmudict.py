@@ -102,8 +102,13 @@ class IpaPhonemeSet:
 	def parse(self, phonemes, checks):
 		raise Exception('parse is not currently supported for IPA phonemes')
 
+	def to_local_phonemes(self, phonemes):
+		for phoneme in phonemes:
+			if phoneme in self.to_ipa.keys():
+				yield self.to_ipa[phoneme]
+
 	def format(self, phonemes):
-		return ''.join([self.to_ipa[p] for p in phonemes])
+		return ''.join(self.to_local_phonemes(phonemes))
 
 class ArpabetPhonemeSet:
 	def __init__(self, capitalization):

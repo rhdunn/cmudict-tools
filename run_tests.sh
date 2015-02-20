@@ -112,6 +112,11 @@ ARGS="print -Wnone --source-phoneset=arpabet"
 check "printing default accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
 check "printing default accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
 
+ARGS="print -Wnone --source-phoneset=arpabet --phoneset=ipa --output-encoding=utf-8"
+check "printing ipa phones, utf-8 encoding, default accent" tests/phone_en-US.ipa ${ARGS} tests/phone_arpabet.upper
+check "printing ipa phones, utf-8 encoding, en-US accent" tests/phone_en-US.ipa ${ARGS} --accent=en-US tests/phone_arpabet.upper
+check "printing ipa phones, utf-8 encoding, en-GB-x-rp accent" tests/phone_en-GB-x-rp.ipa ${ARGS} --accent=en-GB-x-rp tests/phone_arpabet.upper
+
 # Summary #####################################################################
 
 if [[ `grep -P "^testing .* \\.\\.\\. fail$" ${LOG_FILE}` ]] ; then
