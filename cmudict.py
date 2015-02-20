@@ -34,9 +34,6 @@ root = os.path.dirname(os.path.realpath(__file__))
 if sys.version_info[0] == 2:
 	ustr = unicode
 
-	def to_utf8(x):
-		return x.encode('utf-8')
-
 	def read_csv(filename):
 		with open(filename, 'rb') as f:
 			for entry in csv.reader(f):
@@ -47,9 +44,6 @@ if sys.version_info[0] == 2:
 		sys.stdout.write(output.encode(encoding))
 else:
 	ustr = str
-
-	def to_utf8(x):
-		return x
 
 	def read_csv(filename):
 		with open(filename, 'rb') as f:
@@ -87,14 +81,14 @@ class IpaPhonemeSet:
 		if not data[self.accent]:
 			return # not supported in this accent
 		arpabet = data['Arpabet']
-		ipa = to_utf8(data[self.accent])
+		ipa = data[self.accent]
 		if data['Type'] == 'consonant':
 			self.to_ipa[arpabet] = ipa
 		elif data['Type'] == 'vowel':
 			self.to_ipa[arpabet] = ipa # missing stress
 			self.to_ipa['{0}0'.format(arpabet)] = ipa
-			self.to_ipa['{0}1'.format(arpabet)] = 'ˈ{0}'.format(ipa)
-			self.to_ipa['{0}2'.format(arpabet)] = 'ˌ{0}'.format(ipa)
+			self.to_ipa['{0}1'.format(arpabet)] = u'ˈ{0}'.format(ipa)
+			self.to_ipa['{0}2'.format(arpabet)] = u'ˌ{0}'.format(ipa)
 		elif data['Type'] == 'schwa':
 			self.to_ipa[arpabet] = ipa # missing stress
 			self.to_ipa['{0}0'.format(arpabet)] = ipa
