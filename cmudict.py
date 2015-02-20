@@ -587,6 +587,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 			fmt = dict_formats[format]
 			if not accent:
 				accent = fmt['accent']
+			if not phoneset:
 				phoneset = fmt['phoneset']
 			phonemeset = load_phonemes(accent, phoneset)
 			context_parser = fmt['context-parser']

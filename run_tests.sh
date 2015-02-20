@@ -75,6 +75,7 @@ check "festlex formatting" tests/format-festlex.scm ${ARGS} --format=festlex tes
 
 ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
 check "default accent and phoneset" tests/phone_en-US-x-cmu.json ${ARGS} tests/phone_arpabet.upper
+check "default accent, arpabet phones" tests/phone_en-US-x-arpabet.json ${ARGS} --source-phoneset=arpabet tests/phone_arpabet.upper
 
 ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json --source-accent=en-US"
 check "en-US accent, arpabet phones" tests/phone_en-US-x-arpabet.json ${ARGS} --source-phoneset=arpabet tests/phone_arpabet.upper
