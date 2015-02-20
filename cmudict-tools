@@ -95,5 +95,5 @@ args = parser.parse_args()
 
 try:
 	commands[args.command](args)
-except ValueError as e:
+except cmudict.InvalidWarning as e:
 	print(e)

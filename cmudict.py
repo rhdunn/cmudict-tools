@@ -394,6 +394,10 @@ def read_file(filename, encoding='windows-1252'):
 		for line in f:
 			yield line.replace('\n', '')
 
+class InvalidWarning(ValueError):
+	def __init__(self, message):
+		ValueError.__init__(self, message)
+
 def warnings_to_checks(warnings):
 	checks = default_warnings
 	for warning in warnings:
@@ -406,12 +410,12 @@ def warnings_to_checks(warnings):
 				if warning[3:] in checks:
 					checks.remove(warning[3:])
 			else:
-				raise ValueError('Invalid warning: {0}'.format(warning))
+				raise InvalidWarning('Invalid warning: {0}'.format(warning))
 		elif warning in parser_warnings.keys():
 			if warning not in checks:
 				checks.append(warning)
 		else:
-			raise ValueError('Invalid warning: {0}'.format(warning))
+			raise InvalidWarning('Invalid warning: {0}'.format(warning))
 	return checks
 
 def parse_comment_string(comment):
