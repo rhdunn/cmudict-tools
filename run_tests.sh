@@ -120,6 +120,10 @@ ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --source-phoneset=arpabet
 check no_stderr "printing en-US accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
 check no_stderr "printing en-US accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
 
+ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --source-phoneset=arpabet"
+check no_stderr "printing default accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
+check no_stderr "printing default accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
+
 # Summary #####################################################################
 
 if [[ `grep -P "^testing .* \\.\\.\\. fail$" ${LOG_FILE}` ]] ; then
