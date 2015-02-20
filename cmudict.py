@@ -348,6 +348,8 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 		accent = fmt['accent']
 	if not phoneset:
 		phoneset = fmt['phoneset']
+	if phoneset == 'ipa':
+		encoding = 'utf-8'
 	phonemeset = load_phonemes(accent, phoneset)
 	for word, context, phonemes, comment, metadata, error in entries:
 		if error:
