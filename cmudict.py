@@ -153,8 +153,8 @@ class ArpabetPhonemeSet:
 				if 'missing-stress' in checks:
 					yield None, 'Vowel phoneme "{0}" missing stress marker'.format(phoneme)
 			elif not phoneme in self.to_arpabet.keys():
+				newphoneme = self.conversion(phoneme)
 				if 'invalid-phonemes' in checks:
-					newphoneme = self.conversion(phoneme)
 					if newphoneme in self.missing_stress_marks:
 						if 'missing-stress' in checks:
 							yield None, 'Vowel phoneme "{0}" missing stress marker'.format(phoneme)
@@ -162,8 +162,8 @@ class ArpabetPhonemeSet:
 						yield None, 'Invalid phoneme "{0}"'.format(phoneme)
 					else:
 						yield None, 'Incorrect phoneme casing "{0}"'.format(phoneme)
-					yield newphoneme, None
-					continue
+				yield newphoneme, None
+				continue
 
 			yield self.to_arpabet[phoneme], None
 

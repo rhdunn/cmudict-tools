@@ -114,6 +114,11 @@ ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json --source-ph
 check "accents/en-US.csv accent, arpabet phones" tests/phone_en-US-x-arpabet.json ${ARGS} --source-accent=accents/en-US.csv tests/phone_arpabet.upper
 check "accents/en-GB-x-rp.csv accent, arpabet phones" tests/phone_en-GB-x-rp-arpabet.json ${ARGS} --source-accent=accents/en-GB-x-rp.csv tests/phone_arpabet.upper
 
+# Validate Tests ##############################################################
+
+ARGS="print -Wnone --format=json"
+check "-Wnone" tests/phone_en-US-x-cmu_Wnone.json ${ARGS} tests/phone_arpabet.upper
+
 # Print Tests #################################################################
 
 ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --source-phoneset=arpabet --accent=en-US"
