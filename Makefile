@@ -1,4 +1,6 @@
+PYTHON=python
+
 all:
 
 check:
-	./run_tests.sh
+	PYTHON=${PYTHON} ./run_tests.sh

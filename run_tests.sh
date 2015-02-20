@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>.
 
+PYTHON=${PYTHON:-python}
 LOG_FILE=run_tests.log
 rm -rf ${LOG_FILE}
 
@@ -34,7 +35,7 @@ check() {
 	echo >> ${LOG_FILE}
 
 	echo -n "testing ${MESSAGE} ... " | tee -a ${LOG_FILE}
-	./cmudict-tools $@ > ${RES_FILE}
+	${PYTHON} ./cmudict-tools $@ > ${RES_FILE}
 	diff ${OUT_FILE} ${RES_FILE} > /dev/null
 	if [[ $? -eq 0 ]] ; then
 		echo "pass" | tee -a ${LOG_FILE}
