@@ -417,7 +417,7 @@ def parse_comment_string(comment):
 	metadata = None
 	errors = []
 	re_key   = re.compile(r'^[a-zA-Z0-9_\-]+$')
-	re_value = re.compile(r'^[a-zA-Z0-9_\-/]+$')
+	re_value = re.compile(r'^[^\x00-\x20\x7F-\xFF"]+$')
 	if comment.startswith('@@'):
 		_, metastring, comment = comment.split('@@')
 		metadata = {}
