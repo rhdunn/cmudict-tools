@@ -22,16 +22,6 @@ LOG_FILE=run_tests.log
 rm -rf ${LOG_FILE}
 
 check() {
-	case "$1" in
-		no_stderr)
-			ACTION=$1
-			shift
-			;;
-		*)
-			ACTION=default
-			;;
-	esac
-
 	MESSAGE=$1
 	OUT_FILE=$2
 	shift
@@ -45,14 +35,7 @@ check() {
 	echo >> ${LOG_FILE}
 
 	echo -n "testing ${MESSAGE} ... " | tee -a ${LOG_FILE}
-	case "${ACTION}" in
-		default)
-			${PYTHON} ./cmudict-tools $@ > ${RES_FILE}
-			;;
-		no_stderr)
-			${PYTHON} ./cmudict-tools $@ 2>/dev/null > ${RES_FILE}
-			;;
-	esac
+	${PYTHON} ./cmudict-tools $@ > ${RES_FILE}
 	diff ${OUT_FILE} ${RES_FILE} > /dev/null
 	if [[ $? -eq 0 ]] ; then
 		echo "pass" | tee -a ${LOG_FILE}
@@ -121,13 +104,13 @@ check "-Wnone" tests/phone_en-US-x-cmu_Wnone.json ${ARGS} tests/phone_arpabet.up
 
 # Print Tests #################################################################
 
-ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --source-phoneset=arpabet --accent=en-US"
-check no_stderr "printing en-US accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
-check no_stderr "printing en-US accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
+ARGS="print -Wnone --source-phoneset=arpabet --accent=en-US"
+check "printing en-US accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
+check "printing en-US accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
 
-ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --source-phoneset=arpabet"
-check no_stderr "printing default accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
-check no_stderr "printing default accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
+ARGS="print -Wnone --source-phoneset=arpabet"
+check "printing default accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
+check "printing default accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
 
 # Summary #####################################################################
 
