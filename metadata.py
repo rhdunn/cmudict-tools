@@ -189,7 +189,7 @@ def parse_rdf(filename, input_format=None):
 ##### Metadata Parsers ########################################################
 
 def parse_rdf_metadata(filename):
-	graph = parse_rdf(sys.argv[1])
+	graph = parse_rdf(filename)
 	metadata = {}
 	for scheme, _, _ in graph.select(predicate=rdf['type'], obj=skos['ConceptScheme']):
 		ref = None

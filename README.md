@@ -47,12 +47,13 @@ have both values.
 The `format` metadata key overrides the auto-detected file format. It only
 applies to the cmudict-based formats.
 
-### Entry-Based Metadata
+#### metadata
 
-The valid `(key,value)` pairs for entry-based metadata is defined in a metadata
-description file.
+The `metadata` metadata key points to a metadata description file containing
+the valid `(key,value)` pairs for entry-based metadata.
 
-To test the `(key,value)` extraction, you can run:
+To test the `(key,value)` extraction for a metadata description file, you can
+run:
 
 	python metadata.py <metadata-description-file>
 

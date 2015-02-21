@@ -403,7 +403,7 @@ def warnings_to_checks(warnings):
 			raise InvalidWarning('Invalid warning: {0}'.format(warning))
 	return checks
 
-def parse_comment_string(comment):
+def parse_comment_string(comment, values=None):
 	metadata = None
 	errors = []
 	re_key   = re.compile(r'^[a-zA-Z0-9_\-]+$')
@@ -412,10 +412,16 @@ def parse_comment_string(comment):
 		_, metastring, comment = comment.split('@@')
 		metadata = {}
 		for key, value in [x.split('=') for x in metastring.strip().split()]:
-			if not re_key.match(key):
-				errors.append('Invalid metadata key "{0}"'.format(key))
-			if not re_value.match(value):
-				errors.append('Invalid metadata value "{0}"'.format(value))
+			if values:
+				if not key in values.keys():
+					errors.append('Invalid metadata key "{0}"'.format(key))
+				elif not value in values[key]:
+					errors.append('Invalid metadata value "{0}"'.format(value))
+			else:
+				if not re_key.match(key):
+					errors.append('Invalid metadata key "{0}"'.format(key))
+				if not re_value.match(value):
+					errors.append('Invalid metadata value "{0}"'.format(value))
 
 			if key in metadata.keys():
 				metadata[key].append(value)
@@ -441,10 +447,10 @@ def parse_festlex(filename, checks, order_from, encoding):
 
 		m = re_linecomment.match(line)
 		if m:
-			comment, metadata, errors = parse_comment_string(m.group(1))
+			comment, meta, errors = parse_comment_string(m.group(1))
 			for message in errors:
 				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
-			yield line, format, None, None, None, comment, metadata, None
+			yield line, format, None, None, None, comment, meta, None
 			continue
 
 		m = re_entry.match(line)
@@ -456,16 +462,16 @@ def parse_festlex(filename, checks, order_from, encoding):
 		context = m.group(2)
 		phonemes = m.group(3)
 		comment = m.group(5)
-		metadata = None
+		meta = None
 		if comment:
-			comment, metadata, errors = parse_comment_string(comment)
+			comment, meta, errors = parse_comment_string(comment)
 			for message in errors:
 				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
 
 		if context == 'nil':
 			context = None
 
-		yield line, format, word, context, phonemes, comment, metadata, None
+		yield line, format, word, context, phonemes, comment, meta, None
 
 def parse_cmudict(filename, checks, order_from, encoding):
 	"""
@@ -478,6 +484,7 @@ def parse_cmudict(filename, checks, order_from, encoding):
 	re_linecomment_air   = re.compile(r'^;;;(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z\x80-\xFF]?[a-zA-Z0-9\'\.\-\_\x80-\xFF]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
+	entry_metadata = None
 	for line in read_file(filename, encoding=encoding):
 		if line == '':
 			yield line, format, None, None, None, None, None, None
@@ -486,23 +493,28 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		comment = None
 		m = re_linecomment_weide.match(line)
 		if m:
-			comment, metadata, errors = parse_comment_string(m.group(1))
+			comment, meta, errors = parse_comment_string(m.group(1))
 			comment_format = 'cmudict-weide'
 
 		m = re_linecomment_air.match(line)
 		if m:
-			comment, metadata, errors = parse_comment_string(m.group(1))
+			comment, meta, errors = parse_comment_string(m.group(1))
 			comment_format = 'cmudict-air'
 
 		if comment is not None:
 			for message in errors:
 				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
-			if metadata and 'format' in metadata.keys():
-				format = metadata['format'][0]
-				if format == 'cmudict-new':
-					spacing = ' '
-				else:
-					spacing = '  '
+			if meta:
+				if 'format' in meta.keys():
+					format = meta['format'][0]
+					if format == 'cmudict-new':
+						spacing = ' '
+					else:
+						spacing = '  '
+				if 'metadata' in meta.keys():
+					if not entry_metadata:
+						entry_metadata = {}
+					entry_metadata.update(metadata.parse(meta['metadata'][0]))
 			if not format: # detect the dictionary format ...
 				format = comment_format
 				if format == 'cmudict-new':
@@ -513,7 +525,7 @@ def parse_cmudict(filename, checks, order_from, encoding):
 				yield line, format, None, None, None, None, None, u'Old-style comment: "{0}"'.format(line)
 			elif format == 'cmudict-weide' and comment_format == 'cmudict-air':
 				yield line, format, None, None, None, None, None, u'New-style comment: "{0}"'.format(line)
-			yield line, format, None, None, None, comment, metadata, None
+			yield line, format, None, None, None, comment, meta, None
 			continue
 
 		m = re_entry.match(line)
@@ -526,9 +538,9 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		word_phoneme_space = m.group(4)
 		phonemes = m.group(5)
 		comment = m.group(7) or None # 6 = with comment marker: `#...`
-		metadata = None
+		meta = None
 		if comment:
-			comment, metadata, errors = parse_comment_string(comment)
+			comment, meta, errors = parse_comment_string(comment, values=entry_metadata)
 			for message in errors:
 				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
 
@@ -547,7 +559,7 @@ def parse_cmudict(filename, checks, order_from, encoding):
 		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
 			yield line, format, None, None, None, None, None, u'Trailing whitespace in entry: "{0}"'.format(line)
 
-		yield line, format, word, context, phonemes, comment, metadata, None
+		yield line, format, word, context, phonemes, comment, meta, None
 
 def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252'):
 	checks = warnings_to_checks(warnings)
@@ -564,13 +576,13 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 	else:
 		dict_parser = parse_cmudict
 
-	for line, format, word, context, phonemes, comment, metadata, error in dict_parser(filename, checks, order_from, encoding):
+	for line, format, word, context, phonemes, comment, meta, error in dict_parser(filename, checks, order_from, encoding):
 		if error:
 			yield None, None, None, None, None, error
 			continue
 
 		if not word: # line comment or blank line
-			yield None, None, None, comment, metadata, None
+			yield None, None, None, comment, meta, None
 			continue
 
 		if not fmt:
@@ -638,4 +650,4 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 
 		# return the parsed entry
 
-		yield word, context, arpabet_phonemes, comment, metadata, None
+		yield word, context, arpabet_phonemes, comment, meta, None
