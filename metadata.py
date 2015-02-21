@@ -23,6 +23,7 @@
 import os
 import re
 import sys
+import json
 import subprocess
 
 ##### RDF Object Model ########################################################
@@ -37,10 +38,18 @@ class IRI(Resource):
 	def __repr__(self):
 		return 'IRI({0})'.format(self.href)
 
+	def match(self, other):
+		if isinstance(other, IRI):
+			return self.href == other.href
+		return False
+
 class Namespace:
 	def __init__(self, prefix, base):
 		self.prefix = prefix
 		self.base = base
+
+	def __getitem__(self, name):
+		return IRI(['{0}{1}'.format(self.base, name)])
 
 foaf = Namespace('foaf', 'http://xmlns.com/foaf/0.1/')
 org  = Namespace('org',  'http://www.w3.org/ns/org#')
@@ -53,6 +62,11 @@ class BNode(Resource):
 
 	def __repr__(self):
 		return 'BNode({0})'.format(self.name)
+
+	def match(self, other):
+		if isinstance(other, BNode):
+			return self.name == other.name
+		return False
 
 class Literal:
 	def __init__(self, data):
@@ -68,12 +82,35 @@ class Literal:
 		else:
 			return 'Literal({0})'.format(self.text)
 
+	def match(self, other):
+		if isinstance(other, Literal):
+			if not self.text == other.text:
+				return False
+			if not self.lang == other.lang:
+				return False
+			if not self.datatype and not self.datatype:
+				return True
+			if not self.datatype or not self.datatype:
+				return False
+			return self.datatype.match(other.datatype)
+		return False
+
 class Graph:
 	def __init__(self):
 		self.triples = []
 
 	def add_triple(self, sub, pred, obj):
 		self.triples.append((sub, pred, obj))
+
+	def select(self, subject=None, predicate=None, obj=None):
+		for s, p, o in self.triples:
+			if subject and not s.match(subject):
+				continue
+			if predicate and not p.match(predicate):
+				continue
+			if obj and not o.match(obj):
+				continue
+			yield s, p, o
 
 ##### RDF Metadata Parser #####################################################
 
@@ -123,9 +160,27 @@ def parse_rdf(filename, input_format=None):
 		graph.add_triple(*data)
 	return graph
 
+##### Metadata Parsers ########################################################
+
+def parse(filename):
+	graph = parse_rdf(sys.argv[1])
+	metadata = {}
+	for scheme, _, _ in graph.select(predicate=rdf['type'], obj=skos['ConceptScheme']):
+		ref = None
+		for s, p, o in graph.select(subject=scheme):
+			if p.match(skos['prefLabel']):
+				ref = o.text
+				metadata[ref] = []
+		if not ref:
+			continue
+
+		for concept, _, _ in graph.select(predicate=skos['inScheme'], obj=scheme):
+			for s, p, o in graph.select(subject=concept):
+				if p.match(skos['prefLabel']):
+					metadata[ref].append(o.text)
+	return metadata
+
 ##### Command-Line Interface ##################################################
 
 if __name__ == '__main__':
-	graph = parse_rdf(sys.argv[1])
-	for s, p, o in graph.triples:
-		print((s, p, o))
+	print(json.dumps(parse(sys.argv[1]), sort_keys=True))
