@@ -25,19 +25,15 @@ from __future__ import print_function
 import os
 import sys
 import re
-import csv
 import json
 import codecs
+
+import metadata
 
 root = os.path.dirname(os.path.realpath(__file__))
 
 if sys.version_info[0] == 2:
 	ustr = unicode
-
-	def read_csv(filename):
-		with open(filename, 'rb') as f:
-			for entry in csv.reader(f):
-				yield [x.decode('utf-8') for x in entry]
 
 	def printf(fmt, encoding, *args):
 		output = unicode(fmt).format(*args)
@@ -45,27 +41,15 @@ if sys.version_info[0] == 2:
 else:
 	ustr = str
 
-	def read_csv(filename):
-		with open(filename, 'rb') as f:
-			for entry in csv.reader(codecs.iterdecode(f, 'utf-8')):
-				yield entry
-
 	def printf(fmt, encoding, *args):
 		output = fmt.format(*args)
 		sys.stdout.buffer.write(output.encode(encoding))
 
 def read_phonetable(filename):
 	columns = None
-	for entry in read_csv(filename):
-		entry = [ None if x == '' else x for x in entry ]
-		if entry[0] == None:
-			pass # Comment only line
-		elif columns:
-			data = dict(zip(columns, entry))
-			data['Phone Sets'] = data['Phone Sets'].split(';')
-			yield data
-		else:
-			columns = entry
+	for data in metadata.parse_csv(filename):
+		data['Phone Sets'] = data['Phone Sets'].split(';')
+		yield data
 
 def festlex_context(context):
 	if not context in ['dt', 'j', 'n', 'nil', 'v', 'v_p', 'vl', 'y']:

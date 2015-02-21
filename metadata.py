@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 #
-# Resource Description Framework (RDF) based metadata Python API.
+# Metadata Description File parser.
 #
 # Copyright (C) 2015 Reece H. Dunn
 #
@@ -23,8 +23,34 @@
 import os
 import re
 import sys
+import csv
 import json
+import codecs
 import subprocess
+
+##### CSV Parser ##############################################################
+
+if sys.version_info[0] == 2:
+	def read_csvdict(filename):
+		with open(filename, 'rb') as f:
+			for entry in csv.reader(f):
+				yield [x.decode('utf-8') for x in entry]
+else:
+	def read_csvdict(filename):
+		with open(filename, 'rb') as f:
+			for entry in csv.reader(codecs.iterdecode(f, 'utf-8')):
+				yield entry
+
+def parse_csv(filename):
+	columns = None
+	for entry in read_csvdict(filename):
+		entry = [ None if x == '' else x for x in entry ]
+		if entry[0] == None:
+			pass # Comment only line
+		elif columns:
+			yield dict(zip(columns, entry))
+		else:
+			columns = entry
 
 ##### RDF Object Model ########################################################
 
@@ -162,7 +188,7 @@ def parse_rdf(filename, input_format=None):
 
 ##### Metadata Parsers ########################################################
 
-def parse(filename):
+def parse_rdf_metadata(filename):
 	graph = parse_rdf(sys.argv[1])
 	metadata = {}
 	for scheme, _, _ in graph.select(predicate=rdf['type'], obj=skos['ConceptScheme']):
@@ -179,6 +205,19 @@ def parse(filename):
 				if p.match(skos['prefLabel']):
 					metadata[ref].append(o.text)
 	return metadata
+
+def parse_csv_metadata(filename):
+	metadata = {}
+	for data in parse_csv(filename):
+		if not data['Key'] in metadata.keys():
+			metadata[data['Key']] = []
+		metadata[data['Key']].append(data['Value'])
+	return metadata
+
+def parse(filename):
+	if filename.endswith('.csv'):
+		return parse_csv_metadata(filename)
+	return parse_rdf_metadata(filename)
 
 ##### Command-Line Interface ##################################################
 

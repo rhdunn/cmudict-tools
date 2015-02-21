@@ -16,9 +16,21 @@ This will output JSON text, for example:
 
 	{"key1": ["value1", "value2"], "key2": ["value3"]}
 
-A metadata description file is an RDF document (turtle, RDF/XML or N-Triples)
-using the SKOS ontology. In order to parse these documents, the `rapper` tool
-is needed.
+### CSV Metadata Description File
+
+This is a CSV document with the following minimal structure:
+
+	Key,Value
+	key1,value1
+	...
+	keyN,valueN
+
+Additional fields are ignored, but must have a unique title label.
+
+### RDF Metadata Description File
+
+This is an RDF document (turtle, RDF/XML or N-Triples) using the SKOS ontology.
+In order to parse these documents, the `rapper` tool is needed.
 
 A `key` is defined as a `skos:ConceptScheme` and a `value` as a `skos:Concept`.
 The labels are defined using `skos:prefLabel` predicates. A `value` is
