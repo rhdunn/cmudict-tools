@@ -7,8 +7,9 @@
   - [format](#format)
   - [metadata](#metadata-1)
 - [Phone Table File Format](#phone-table-file-format)
-- [CSV Metadata Description File Format](#csv-metadata-description-file-format)
-- [RDF Metadata Description File Format](#rdf-metadata-description-file-format)
+- [Metadata Description File Format](#metadata-description-file-format)
+  - [CSV Metadata](#csv-metadata)
+  - [RDF Metadata](#rdf-metadata)
 - [License](#license)
 
 ----------
@@ -180,7 +181,16 @@ For example:
 	AA,,ɑ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit
 	AE,,æ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit
 
-## CSV Metadata Description File Format
+## Metadata Description File Format
+
+| File Type | Metadata Format               | Required Applications |
+|-----------|-------------------------------|-----------------------|
+| CSV       | [CSV Metadata](#csv-metadata) |                       |
+| Turtle    | [RDF Metadata](#rdf-metadata) | `rapper`              |
+| RDF/XML   | [RDF Metadata](#rdf-metadata) | `rapper`              |
+| N-Triples | [RDF Metadata](#rdf-metadata) | `rapper`              |
+
+### CSV Metadata
 
 This is a CSV document with the first line containing the titles of each field.
 At a minimum, it needs to support the following fields:
@@ -195,10 +205,9 @@ For example:
 	...
 	keyN,valueN
 
-## RDF Metadata Description File Format
+### RDF Metadata
 
-This is an RDF document (turtle, RDF/XML or N-Triples) using the SKOS ontology.
-In order to parse these documents, the `rapper` tool is needed.
+This is an RDF document using the SKOS ontology.
 
 A `key` is defined as a `skos:ConceptScheme` and a `value` as a `skos:Concept`.
 The labels are defined using `skos:prefLabel` predicates. A `value` is
