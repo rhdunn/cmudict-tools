@@ -1,4 +1,6 @@
 .*.swp
 *.pyc
 
+README.html
+
 run_tests.log
