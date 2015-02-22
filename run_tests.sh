@@ -47,6 +47,56 @@ check() {
 	fi
 }
 
+check_metadata() {
+	PROGRAM=$1
+	MESSAGE=$2
+	OUT_FILE=$3
+	SRC_FILE=$4
+
+	case "${PROGRAM}" in
+		-)
+			PRESENT=yes
+			;;
+		*)
+			if type ${PROGRAM} >/dev/null 2>&1 ; then
+				PRESENT=yes
+			else
+				PRESENT=no
+			fi
+			;;
+	esac
+
+	RES_FILE=/tmp/cmudict_tools_test.out
+
+	echo "-------------------------------------------------------------------------------" >> ${LOG_FILE}
+	echo "command  : ./metadata.py ${SRC_FILE}" >> ${LOG_FILE}
+	echo "expected : ${OUT_FILE}" >> ${LOG_FILE}
+	echo >> ${LOG_FILE}
+
+	echo -n "testing ${MESSAGE} ... " | tee -a ${LOG_FILE}
+	if [[ x${PRESENT} == xyes ]] ; then
+		${PYTHON} ./metadata.py ${SRC_FILE} 2>&1 | tee > ${RES_FILE}
+		diff ${OUT_FILE} ${RES_FILE} > /dev/null
+		if [[ $? -eq 0 ]] ; then
+			echo "pass" | tee -a ${LOG_FILE}
+		else
+			echo "fail" | tee -a ${LOG_FILE}
+			echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" >> ${LOG_FILE}
+			diff -U0 ${OUT_FILE} ${RES_FILE} >> ${LOG_FILE}
+			echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> ${LOG_FILE}
+		fi
+	else
+		echo "skip" | tee -a ${LOG_FILE}
+	fi
+}
+
+# Metadata Description Parser Tests ###########################################
+
+check_metadata - "csv metadata parsing" tests/metadata.json tests/metadata.csv
+check_metadata rapper "rdf turtle metadata parsing using rapper" tests/metadata.json tests/metadata-turtle
+check_metadata rapper "rdf/xml metadata parsing using rapper" tests/metadata.json tests/metadata-rdfxml
+check_metadata rapper "n-triples metadata parsing using rapper" tests/metadata.json tests/metadata-ntriples
+
 # Parser Tests ################################################################
 #
 # NOTE: These tests also include validation check errors relating to parsing

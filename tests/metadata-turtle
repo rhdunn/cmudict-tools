@@ -1,0 +1,35 @@
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<#number> a skos:ConceptScheme ;
+	skos:prefLabel "number" .
+
+<#one>	a skos:Concept ;
+	skos:prefLabel "one" ;
+	skos:inScheme <#number> .
+
+<#two>	a skos:Concept ;
+	skos:prefLabel "two"@en ;
+	skos:inScheme <#number> .
+
+<#three> a skos:Concept ;
+	skos:prefLabel "three"^^xsd:string ;
+	skos:inScheme <#number> .
+
+<#ordinal> a skos:ConceptScheme ;
+	skos:prefLabel "ordinal" .
+
+<#first> a skos:Concept ;
+	skos:prefLabel "first" ;
+	skos:inScheme <#ordinal> .
+
+<#second> a skos:Concept ;
+	skos:prefLabel "second" ;
+	skos:inScheme <#ordinal> .
+
+<#col> a skos:ConceptScheme ;
+	skos:prefLabel "color" .
+
+<#R> a skos:Concept ;
+	skos:prefLabel "red" ;
+	skos:inScheme <#col> .

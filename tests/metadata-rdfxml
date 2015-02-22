@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <skos:ConceptScheme rdf:about="metadata-turtle#number">
+    <skos:prefLabel>number</skos:prefLabel>
+  </skos:ConceptScheme>
+  <skos:Concept rdf:about="metadata-turtle#one">
+    <skos:prefLabel>one</skos:prefLabel>
+    <skos:inScheme rdf:resource="metadata-turtle#number"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="metadata-turtle#two">
+    <skos:prefLabel xml:lang="en">two</skos:prefLabel>
+    <skos:inScheme rdf:resource="metadata-turtle#number"/>
+  </skos:Concept>
+  <skos:Concept rdf:about="metadata-turtle#three">
+    <skos:prefLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">three</skos:prefLabel>
+    <skos:inScheme rdf:resource="metadata-turtle#number"/>
+  </skos:Concept>
+  <rdf:Description rdf:about="metadata-turtle#ordinal">
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+    <skos:prefLabel>ordinal</skos:prefLabel>
+  </rdf:Description>
+  <rdf:Description rdf:about="metadata-turtle#first">
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <skos:prefLabel>first</skos:prefLabel>
+    <skos:inScheme rdf:resource="metadata-turtle#ordinal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="metadata-turtle#second">
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <skos:prefLabel>second</skos:prefLabel>
+    <skos:inScheme rdf:resource="metadata-turtle#ordinal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="metadata-turtle#col">
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+    <skos:prefLabel>color</skos:prefLabel>
+  </rdf:Description>
+  <rdf:Description rdf:about="metadata-turtle#R">
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <skos:prefLabel>red</skos:prefLabel>
+    <skos:inScheme rdf:resource="metadata-turtle#col"/>
+  </rdf:Description>
+</rdf:RDF>
