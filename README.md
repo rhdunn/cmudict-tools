@@ -1,5 +1,18 @@
 # CMU Pronunciation Dictionary Tools
 
+- [Usage](#usage)
+- [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
+  - [Metadata](#metadata)
+  - [File-Based Metadata](#file-based-metadata)
+    - [format](#format)
+    - [metadata](#metadata-1)
+- [Phone Table File Format](#phone-table-file-format)
+- [CSV Metadata Description File Format](#csv-metadata-description-file-format)
+- [RDF Metadata Description File Format](#rdf-metadata-description-file-format)
+- [License](#license)
+
+----------
+
 This is a collection of tools for working with the CMU Pronunciation
 Dictionary.
 
