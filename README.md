@@ -26,11 +26,15 @@ The `cmudict-tools` program has the following command-line structure:
 
 `COMMAND` can be one of:
 
+| `COMMAND`  | Description |
+|------------|-------------|
 | `print`    | Format and optionally sort the dictionary. |
 | `validate` | Only perform validation checks. |
 
 The supported `OPTIONS` are:
 
+| `OPTION`                     | Description |
+|------------------------------|-------------|
 | `-h`, `--help`               | Show a help message and exit. |
 | `-W WARNING`                 | Enable or disable the specified validation warnings. |
 | `--source-accent ACCENT`     | Use `ACCENT` to source the dictionary phonesets. |
@@ -85,6 +89,8 @@ The supported `SORT` values are:
 
 The following values are available for the `-W` option:
 
+| Warning                    | Description |
+|----------------------------|-------------|
 | `context-ordering`         | Check context values are ordered sequentially. |
 | `context-values`           | Check context values are numbers. |
 | `duplicate-entries`        | Check for matching entries (word, context, pronunciation). |
@@ -103,12 +109,16 @@ is disabled.
 The following values have a special behaviour, and cannot be used with the
 `no-` prefix:
 
-| `all`  | Enable all warnings.  |
-| `none` | Disable all warnings. |
+| Warning | Description |
+|---------|-------------|
+| `all`   | Enable all warnings.  |
+| `none`  | Disable all warnings. |
 
 The order is important, as the warning set is tracked incrementally. This
 allows things like the following combinations:
 
+| Example                     | Description                               |
+|-----------------------------|-------------------------------------------|
 | `-Wnone -Winvalid-phonemes` | Only use the `invalid-phonemes` warning.  |
 | `-Wall -Wno-missing-stress` | Use all warnings except `missing-stress`. |
 
