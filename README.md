@@ -136,16 +136,48 @@ This will output JSON text, for example:
 
 	{"key1": ["value1", "value2"], "key2": ["value3"]}
 
+## Phone Table File Format
+
+This is a CSV document with the first line containing the titles of each field.
+At a minimum, it needs to support the following fields:
+
+  *  `Arpabet` is the phone using an upper-case Arpabet transcription,
+     excluding the stress marker;
+  *  `Normalized` is the optional canonical form for phonesets that use a
+     different transcription for a given phone;
+  *  `IPA` is the International Phonetic Alphabet (IPA) transcription for the
+     phone excluding stress markers;
+  *  `Type` is the phone type (see below) of the given phone;
+  *  `Phone Sets` is a semi-colon (`;`) separated list of phonesets that
+     support this phone.
+
+The supported values for the `Type` field are:
+
+  *  `vowel` to indicate a phone that can have a stress marker;
+  *  `consonant` to indicate a phone that cannot have a stress marker;
+  *  `schwa` to indicate a phone that can either have no stress marker, or the
+     unstressed (`0`) stress marker.
+
+For example:
+
+	Arpabet,Normalized,IPA,Type,Phone Sets
+	AA,,ɑ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit
+	AE,,æ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit
+
 ## CSV Metadata Description File Format
 
-This is a CSV document with the following minimal structure:
+This is a CSV document with the first line containing the titles of each field.
+At a minimum, it needs to support the following fields:
+
+  *  `Key` is the metadata key;
+  *  `Value` is an allowed value for the metadata key.
+
+For example:
 
 	Key,Value
 	key1,value1
 	...
 	keyN,valueN
-
-Additional fields are ignored, but must have a unique title label.
 
 ## RDF Metadata Description File Format
 
