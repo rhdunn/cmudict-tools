@@ -3,9 +3,9 @@
 - [Usage](#usage)
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
   - [Metadata](#metadata)
-  - [File-Based Metadata](#file-based-metadata)
-    - [format](#format)
-    - [metadata](#metadata-1)
+- [File-Based Metadata](#file-based-metadata)
+  - [format](#format)
+  - [metadata](#metadata-1)
 - [Phone Table File Format](#phone-table-file-format)
 - [CSV Metadata Description File Format](#csv-metadata-description-file-format)
 - [RDF Metadata Description File Format](#rdf-metadata-description-file-format)
@@ -128,14 +128,17 @@ The content within the metadata block is a sequence of space-separated
 `key=value` pairs. A key can occur multiple times, in which case the key will
 have both values.
 
-### File-Based Metadata
+## File-Based Metadata
 
-#### format
+This is metadata on line comments in the given dictionary format. This metadata
+is used to control the `cmudict-tools` behaviour.
+
+### format
 
 The `format` metadata key overrides the auto-detected file format. It only
 applies to the cmudict-based formats.
 
-#### metadata
+### metadata
 
 The `metadata` metadata key points to a metadata description file containing
 the valid `(key,value)` pairs for entry-based metadata.
