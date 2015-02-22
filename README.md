@@ -1,6 +1,7 @@
 # CMU Pronunciation Dictionary Tools
 
 - [Usage](#usage)
+  - [Warnings](#warnings)
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
   - [Metadata](#metadata)
 - [File-Based Metadata](#file-based-metadata)
@@ -79,6 +80,37 @@ The supported `SORT` values are:
      entry);
   *  `none` to leave the entries in the order they are in the dictionary;
   *  `weide` to use the old-style sort order (simple ASCII character ordering).
+
+### Warnings
+
+The following values are available for the `-W` option:
+
+| `context-ordering`         | Check context values are ordered sequentially. |
+| `context-values`           | Check context values are numbers. |
+| `duplicate-entries`        | Check for matching entries (word, context, pronunciation). |
+| `duplicate-pronunciations` | Check for duplicated pronunciations for an entry. |
+| `entry-spacing`            | Check spacing between word and pronunciation. |
+| `invalid-phonemes`         | Check for invalid phonemes. |
+| `missing-stress`           | Check for missing stress markers. |
+| `phoneme-spacing`          | Check for a single space between phonemes. |
+| `trailing-whitespace`      | Check for trailing whitespaces. |
+| `unsorted`                 | Check if a word is not sorted correctly. |
+| `word-casing`              | Check for consistent word casing. |
+
+If `-Wwarn` is used, the option is enabled. If `-Wno-warn` is used, the option
+is disabled.
+
+The following values have a special behaviour, and cannot be used with the
+`no-` prefix:
+
+| `all`  | Enable all warnings.  |
+| `none` | Disable all warnings. |
+
+The order is important, as the warning set is tracked incrementally. This
+allows things like the following combinations:
+
+| `-Wnone -Winvalid-phonemes` | Only use the `invalid-phonemes` warning.  |
+| `-Wall -Wno-missing-stress` | Use all warnings except `missing-stress`. |
 
 ## CMU Pronunciation Dictionary File Format
 
