@@ -177,8 +177,12 @@ def parse_rdf(filename, input_format=None):
 
 	graph = Graph()
 
-	rapper = subprocess.Popen(['rapper', '-', filename, '--input', input_format, '--output', 'ntriples'], stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-	stdout, stderr = rapper.communicate(input=srcdata)
+	if input_format == 'ntriples':
+		stdout = srcdata
+	else:
+		rapper = subprocess.Popen(['rapper', '-', filename, '--input', input_format, '--output', 'ntriples'], stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+		stdout, stderr = rapper.communicate(input=srcdata)
+
 	for triple in stdout.decode('utf-8').split('\n'):
 		data = list(parse_ntriple(triple))
 		if len(data) == 0:

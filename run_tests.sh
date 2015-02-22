@@ -95,7 +95,7 @@ check_metadata() {
 check_metadata - "csv metadata parsing" tests/metadata.json tests/metadata.csv
 check_metadata rapper "rdf turtle metadata parsing using rapper" tests/metadata.json tests/metadata-turtle
 check_metadata rapper "rdf/xml metadata parsing using rapper" tests/metadata.json tests/metadata-rdfxml
-check_metadata rapper "n-triples metadata parsing using rapper" tests/metadata.json tests/metadata-ntriples
+check_metadata - "n-triples metadata parsing using rapper" tests/metadata.json tests/metadata-ntriples
 
 # Parser Tests ################################################################
 #
