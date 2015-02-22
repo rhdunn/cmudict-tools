@@ -3,16 +3,70 @@
 This is a collection of tools for working with the CMU Pronunciation
 Dictionary.
 
-## File Format
+## Usage
 
-There are 3 variants of the cmudict dictionary format in use:
+The `cmudict-tools` program has the following command-line structure:
 
-  *  `cmudict-weide` is the old dictionary format as maintained by Robert L.
-     Weide and others (versions 0.1 through 0.7);
-  *  `cmudict` is the current dictionary format as maintained by Alex Rudnicky
-     (versions 0.7a and later);
-  *  `cmudict-new` is the dictionary format as maintained by Nikolay V.
-     Shmyrev.
+	cmudict-tools [OPTIONS] COMMAND DICTIONARY
+
+`COMMAND` can be one of:
+
+| `print`    | Format and optionally sort the dictionary. |
+| `validate` | Only perform validation checks. |
+
+The supported `OPTIONS` are:
+
+| `-h`, `--help`               | Show a help message and exit. |
+| `-W WARNING`                 | Enable or disable the specified validation warnings. |
+| `--source-accent ACCENT`     | Use `ACCENT` to source the dictionary phonesets. |
+| `--source-phoneset PHONESET` | Use `PHONESET` to validate the phones in the dictionary. |
+| `--accent ACCENT`            | Use `ACCENT` to source the outpur phonesets. |
+| `--phoneset PHONESET`        | Use `PHONESET` to validate the phones in the output. |
+| `--format FORMAT`            | Output the dictionary entries in `FORMAT`. |
+| `--sort SORT`                | Sort the entries using `SORT` ordering. |
+| `--order-from ORDER_FROM`    | Start variants at `ORDER_FROM`, including the initial entry. |
+| `--help-warnings`            | List the available validation warnings. |
+| `--input-encoding ENCODING`  | Use `ENCODING` to read the dictionary file in (e.g. `latin1`). |
+| `--output-encoding ENCODING` | Use `ENCODING` to print the entries in (e.g. `latin1`). |
+
+The supported `DICTIONARY` (input) and `FORMAT` (output) values are:
+
+| Format          | Input | Output | Description |
+|-----------------|-------|--------|-------------|
+| `cmudict`       | yes   | yes    | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
+| `cmudict-weide` | yes   | yes    | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
+| `cmudict-new`   | yes   | yes    | The dictionary format as maintained by Nikolay V. Shmyrev. |
+| `festlex`       | yes   | yes    | The festival lexicon format for Scheme (`*.scm`) files. |
+| `json`          | no    | yes    | JSON formatted entries and validation errors. |
+
+The supported `ACCENT` values are:
+
+  *  `en-US` to use the American English phone table;
+  *  `en-GB-x-rp` to use the Received Pronunciation British English phone table;
+  *  a CSV file to use phonesets defined in that CSV file (see Phone Table File
+     Format for a description of this file format).
+
+The supported `PHONESET` values depend on the phone table used. For the `en-US`
+and `en-GB-x-rp` phone tables defined by `cmudict-tools`, the supported
+phonesets are:
+
+| Phoneset   | en-US | en-GB-x-rp | Description |
+|------------|-------|------------|-------------|
+| `arpabet`  | yes   | yes        | An expanded Arpabet-based phoneset. |
+| `cepstral` | yes   | yes        | The phoneset used by the Cepstral Text-to-Speech program. |
+| `cmu`      | yes   | no         | The phoneset used by the official cmudict dictionary. |
+| `festvox`  | yes   | no         | The phoneset used by the festlex-cmu dictionary. |
+| `ipa`      | yes   | yes        | Use an IPA (International Phonetic Alphabet) transcription. |
+| `timit`    | yes   | no         | The phoneset used by the TIMIT database. |
+
+The supported `SORT` values are:
+
+  *  `air` to use the new-style sort order (group variants next to their root
+     entry);
+  *  `none` to leave the entries in the order they are in the dictionary;
+  *  `weide` to use the old-style sort order (simple ASCII character ordering).
+
+## CMU Pronunciation Dictionary File Format
 
 A line comment starts with `;;;` and spans until the end of the current line.
 In the `cmudict-weide` format, a line comment starts with `##`.
@@ -82,7 +136,7 @@ This will output JSON text, for example:
 
 	{"key1": ["value1", "value2"], "key2": ["value3"]}
 
-## CSV Metadata Description Files
+## CSV Metadata Description File Format
 
 This is a CSV document with the following minimal structure:
 
@@ -93,7 +147,7 @@ This is a CSV document with the following minimal structure:
 
 Additional fields are ignored, but must have a unique title label.
 
-## RDF Metadata Description Files
+## RDF Metadata Description File Format
 
 This is an RDF document (turtle, RDF/XML or N-Triples) using the SKOS ontology.
 In order to parse these documents, the `rapper` tool is needed.
