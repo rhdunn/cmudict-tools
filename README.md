@@ -225,12 +225,15 @@ For example:
 
 ## Metadata Description File Format
 
-| File Type | Metadata Format               | Required Applications |
-|-----------|-------------------------------|-----------------------|
-| CSV       | [CSV Metadata](#csv-metadata) |                       |
-| Turtle    | [RDF Metadata](#rdf-metadata) | `rapper`              |
-| RDF/XML   | [RDF Metadata](#rdf-metadata) | `rapper`              |
-| N-Triples | [RDF Metadata](#rdf-metadata) | `rapper`              |
+| File Type | Metadata Format               |
+|-----------|-------------------------------|
+| CSV       | [CSV Metadata](#csv-metadata) |
+| Turtle    | [RDF Metadata](#rdf-metadata) |
+| RDF/XML   | [RDF Metadata](#rdf-metadata) |
+| N-Triples | [RDF Metadata](#rdf-metadata) |
+
+__NOTE:__ The Turtle and RDF/XML formats require the `rapper` command-line
+application. This is so those formats can be converted to the N-Triple format.
 
 ### CSV Metadata
 
