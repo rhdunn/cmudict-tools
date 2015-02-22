@@ -72,6 +72,14 @@ check "cmudict-weide formatting" tests/format-cmudict-weide ${ARGS} --format=cmu
 check "cmudict-new formatting" tests/format-cmudict-new ${ARGS} --format=cmudict-new tests/format-cmudict
 check "festlex formatting" tests/format-festlex.scm ${ARGS} --format=festlex tests/format-cmudict
 
+# Sorting Tests ###############################################################
+
+ARGS="print -Wnone"
+check "sorting: default" tests/sorting-none ${ARGS} tests/sorting-none
+check "sorting: air" tests/sorting-air ${ARGS} --sort=air tests/sorting-none
+check "sorting: none" tests/sorting-none ${ARGS} --sort=none tests/sorting-none
+check "sorting: weide" tests/sorting-weide ${ARGS} --sort=weide tests/sorting-none
+
 # Phone Tests #################################################################
 
 ARGS="print -Wnone -Winvalid-phonemes -Wmissing-stress --format=json"
