@@ -5,16 +5,32 @@ Dictionary.
 
 ## File Format
 
-A line comment starts with `;;;` and spans until the end of the current line.
+There are 3 variants of the cmudict dictionary format in use:
 
-An entry has the form `ENTRY  PRONUNCIATION`, where `ENTRY` consists of `WORD`
+  *  `cmudict-weide` is the old dictionary format as maintained by Robert L.
+     Weide and others (versions 0.1 through 0.7);
+  *  `cmudict` is the current dictionary format as maintained by Alex Rudnicky
+     (versions 0.7a and later);
+  *  `cmudict-new` is the dictionary format as maintained by Nikolay V.
+     Shmyrev.
+
+A line comment starts with `;;;` and spans until the end of the current line.
+In the `cmudict-weide` format, a line comment starts with `##`.
+
+An entry has the form `ENTRY PRONUNCIATION`, where `ENTRY` consists of `WORD`
 for the primary entry for the word, or `WORD(VARIANT)` for an alternate entry.
+The `ENTRY` and `PRONUNCIATION` are separated by two space (` `) characters and
+`ENTRY` is in upper case. In the `cmudict-new` format, `ENTRY` and
+`PRONUNCIATION` are separated by a single space (` `) character and `ENTRY` is
+in lower case.
 
 The `VARIANT` consists of a number from `1` to `9` that denotes an alternate
-entry. These are numbered consecutively from `1`.
+entry. These are numbered consecutively from `1` in the current cmudict format
+and from `2` in the `cmudict-weide` and `cmudict-new` formats.
 
 The `PRONUNCIATION` section consists of Arpabet-based phones separated by a
-single space (` `). The vowels have an additional stress marker, which can be:
+single space (` `). The casing of the phones depends on the phoneset being
+used. The vowels have an additional stress marker, which can be:
 
   *  `0` for an unstressed vowel;
   *  `1` for a primary stressed vowel;
@@ -23,10 +39,15 @@ single space (` `). The vowels have an additional stress marker, which can be:
 An entry may have a comment. These comments start with `#` and span to the end
 of the line.
 
+__NOTE:__ The various releases of the cmudict contain various formatting errors
+in several entries, where those entries deviate from the format described here.
+These will show up as validation warnings when those dictionary versions are
+run through `cmudict-tools` with the appropriate validation warnings enabled.
+
 ### Metadata
 
 Metadata is not supported in the official CMU dictionary format. However, the
-cmudict-tools project interprets specifically formatted comments as metadata.
+`cmudict-tools` project interprets specifically formatted comments as metadata.
 This allows additional information to be provided in a way that is compatible
 with existing cmudict tools.
 
