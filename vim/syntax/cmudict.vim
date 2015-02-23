@@ -137,7 +137,11 @@ syn match	cmudictPhoneAndStress contained			"[^ \t]\+" contains=cmudictPhone
 
 syn match	cmudictPronunciationErrorFirst contained	"[ \t]\+[^ \t#]\+" contains=cmudictPronunciationFirst,cmudictPhoneAndStress nextgroup=@cmudictPronunciationOrComment
 syn match	cmudictPronunciationErrorFirst contained	"[ \t]\+$"
-syn match	cmudictPronunciationFirst contained		"  [^ \t#]\+" contains=cmudictPhoneAndStress
+if cmudict_format == 'air' || cmudict_format == 'weide'
+  syn match	cmudictPronunciationFirst contained		"  [^ \t#]\+" contains=cmudictPhoneAndStress
+elseif cmudict_format == 'new'
+  syn match	cmudictPronunciationFirst contained		" [^ \t#]\+" contains=cmudictPhoneAndStress
+endif
 
 syn match	cmudictPronunciationError contained		"[ \t]\+[^ \t#]\+" contains=cmudictPronunciation,cmudictPhoneAndStress nextgroup=@cmudictPronunciationOrComment
 syn match	cmudictPronunciationError contained		"[ \t]\+$"
