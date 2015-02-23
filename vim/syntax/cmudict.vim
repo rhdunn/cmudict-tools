@@ -40,6 +40,7 @@ if cmudict_accent == 'en-US'
     syn match	cmudictPhone contained	"\<E[LMN]\>"
     syn match	cmudictPhone contained	"\<E\=NG\>"
     syn match	cmudictPhone contained	"\<H[VW]\>"
+    syn match	cmudictPhone contained	"-"
   elseif cmudict_phoneset == 'cepstral'
     syn match	cmudictPhone contained	"\<a[aehowy][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<e[hry][0-2]\>" contains=cmudictPhoneStress
@@ -99,6 +100,7 @@ elseif cmudict_accent == 'en-GB-x-rp'
     syn match	cmudictPhone contained	"\<E[LMN]\>"
     syn match	cmudictPhone contained	"\<E\=NG\>"
     syn match	cmudictPhone contained	"\<H[VW]\>"
+    syn match	cmudictPhone contained	"-"
   elseif cmudict_phoneset == 'cepstral'
     syn match	cmudictPhone contained	"\<a[ehowy]\=[0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<e[@hry][0-2]\>" contains=cmudictPhoneStress
