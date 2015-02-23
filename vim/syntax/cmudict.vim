@@ -17,6 +17,10 @@ if !exists("cmudict_phoneset")
   let cmudict_phoneset = 'cmu'
 endif
 
+if !exists("cmudict_format")
+  let cmudict_format = 'air'
+endif
+
 " phones ----------------------------------------------------------------------
 
 syn match	cmudictPhoneStress contained	"[0-9]"
@@ -138,14 +142,21 @@ syn match	cmudictMetadataKey contained		" [a-zA-Z0-9\_\-]\+=" contains=cmudictMe
 syn match	cmudictMetadataPreProc contained	"@@"
 syn match	cmudictMetadata contained		"@@.\+@@" contains=cmudictMetadataPreProc,cmudictMetadataKey
 
-syn region	cmudictCommentLine			start='^;;;' end='$' contains=cmudictMetadata
-syn region	cmudictCommentLine			start='^##' end='$' contains=cmudictMetadata
+if cmudict_format == 'air' || cmudict_format == 'new'
+  syn region	cmudictCommentLine			start='^;;;' end='$' contains=cmudictMetadata
+  syn region	cmudictCommentError			start='^##' end='$'
+elseif cmudict_format == 'weide'
+  syn region	cmudictCommentError			start='^;;;' end='$'
+  syn region	cmudictCommentLine			start='^##' end='$' contains=cmudictMetadata
+endif
+
 syn region	cmudictCommentEntry contained		start='\s\+#' end='$' contains=cmudictMetadata
 
 " syntax highlight definitions ------------------------------------------------
 
 hi def link cmudictCommentEntry			cmudictComment
 hi def link cmudictCommentLine			cmudictComment
+hi def link cmudictCommentError			Error
 hi def link cmudictComment			Comment
 hi def link cmudictEntry			Identifier
 hi def link cmudictEntryVariant			None
