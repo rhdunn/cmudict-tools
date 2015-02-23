@@ -84,7 +84,7 @@ hi def link cmudictVariant		Constant
 hi def link cmudictPhoneCmu		Type
 hi def link cmudictPhoneArpabetExt	cmudictPhoneArpabet
 hi def link cmudictPhoneLower		cmudictPhoneArpabet
-hi def link cmudictPhoneArpabet		Identifier
+hi def link cmudictPhoneArpabet		None
 hi def link cmudictPhoneStress		Constant
 hi def link cmudictPhone		Error
 hi def link cmudictMetadataOperator	None
