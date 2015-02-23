@@ -25,8 +25,8 @@ syn region	cmudictLineComment	start='^##' end='$'
 
 " Define the default highlighting.
 " Only used when an item doesn't have highlighting yet
-hi def link cmudictEntryComment		Comment
-hi def link cmudictLineComment		Comment
+hi def link cmudictEntryComment		cmudictComment
+hi def link cmudictLineComment		cmudictComment
 hi def link cmudictComment		Comment
 hi def link cmudictEntry		Identifier
 hi def link cmudictVariant		Statement
