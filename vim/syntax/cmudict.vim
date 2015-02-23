@@ -1,5 +1,5 @@
 " Vim syntax file
-" Language:	Dictionary Entries
+" Language:	CMU Pronunciation Dictionary
 " Filenames:    cmudict
 " Maintainer:	Reece H. Dunn <msclrhd@gmail.com>
 " Last Change:	2015 Feb 23
