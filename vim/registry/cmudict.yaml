@@ -1,0 +1,5 @@
+addon: cmudict
+description: "allow syntax highlighting for CMU Pronunciation Dictionary files"
+files:
+  - ftdetect/cmudictfiletype.vim  # CMU Pronunciation Dictionary file
+  - syntax/cmudict.vim
