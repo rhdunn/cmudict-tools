@@ -9,51 +9,103 @@ if exists("b:current_syntax")
   finish
 endif
 
+if !exists("cmudict_accent")
+  let cmudict_accent = 'en-US'
+endif
+
+if !exists("cmudict_phoneset")
+  let cmudict_phoneset = 'cmu'
+endif
+
 syn match	cmudictPhoneStress	"[0-9]"
 
-syn match	cmudictPhoneCmu		"\<A[AEHOWY][0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneCmu		"\<E[HRY][0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneCmu		"\<I[HY][0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneCmu		"\<O[WY][0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneCmu		"\<U[HW][0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneCmu		"\<[BDFGKLMNPRSTVWYZ]\>"
-syn match	cmudictPhoneCmu		"\<[CDHJSTZ]H\>"
-syn match	cmudictPhoneCmu		"\<NG\>"
+if cmudict_accent == 'en-US'
+  if cmudict_phoneset == 'arpabet'
+    syn match	cmudictPhoneArpabet	"\<A[AEHOWY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<E[HRY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<I[HY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<O[WY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<U[HWX][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[BDFGKLMNPQRSTVWYZ]\>"
+    syn match	cmudictPhoneArpabet	"\<[CDHJSTZ]H\>"
+    syn match	cmudictPhoneArpabet	"\<AXR\=0\=\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<IX0\=\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[DN]X\>"
+    syn match	cmudictPhoneArpabet	"\<E[LMN]\>"
+    syn match	cmudictPhoneArpabet	"\<E\=NG\>"
+    syn match	cmudictPhoneArpabet	"\<H[VW]\>"
+  elseif cmudict_phoneset == 'cepstral'
+    syn match	cmudictPhoneArpabet	"\<a[aehowy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<e[hry][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<i[h]\=[0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<o[wy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<u[hw][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[bdfghjklmnprstvwz]\>"
+    syn match	cmudictPhoneArpabet	"\<[cdjstz]h\>"
+    syn match	cmudictPhoneArpabet	"\<ng\>"
+  elseif cmudict_phoneset == 'cmu'
+    syn match	cmudictPhoneArpabet	"\<A[AEHOWY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<E[HRY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<I[HY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<O[WY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<U[HW][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[BDFGKLMNPRSTVWYZ]\>"
+    syn match	cmudictPhoneArpabet	"\<[CDHJSTZ]H\>"
+    syn match	cmudictPhoneArpabet	"\<NG\>"
+  elseif cmudict_phoneset == 'festvox'
+    syn match	cmudictPhoneArpabet	"\<a[aehowy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<e[hry][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<i[hy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<o[wy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<u[hw][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[bdfgklmnprstvwyz]\>"
+    syn match	cmudictPhoneArpabet	"\<[cdhjstz]h\>"
+    syn match	cmudictPhoneArpabet	"\<ax0\=\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<ng\>"
+  elseif cmudict_phoneset == 'timit'
+    syn match	cmudictPhoneArpabet	"\<a[aehowy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<e[hry][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<i[hy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<o[wy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<u[hwx][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[bdfgklmnpqrstvwyz]\>"
+    syn match	cmudictPhoneArpabet	"\<[cdhjstz]h\>"
+    syn match	cmudictPhoneArpabet	"\<axr\=0\=\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<ix0\=\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[dn]x\>"
+    syn match	cmudictPhoneArpabet	"\<e[lmn]\>"
+    syn match	cmudictPhoneArpabet	"\<e\=ng\>"
+    syn match	cmudictPhoneArpabet	"\<[pbtdkg]cl\>"
+    syn match	cmudictPhoneArpabet	"\<h[vw]\>"
+  endif
+elseif cmudict_accent == 'en-GB-x-rp'
+  if cmudict_phoneset == 'arpabet'
+    syn match	cmudictPhoneArpabet	"\<A[AEHOWY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<E[AHRY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<I[AHY]\=[0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<O[AHWY][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<U[AHWX]\=[0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[BDFGKLMNPQRSTVWYZ]\>"
+    syn match	cmudictPhoneArpabet	"\<[CDHJSTZ]H\>"
+    syn match	cmudictPhoneArpabet	"\<AXR\=0\=\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<IX0\=\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[DN]X\>"
+    syn match	cmudictPhoneArpabet	"\<E[LMN]\>"
+    syn match	cmudictPhoneArpabet	"\<E\=NG\>"
+    syn match	cmudictPhoneArpabet	"\<H[VW]\>"
+  elseif cmudict_phoneset == 'cepstral'
+    syn match	cmudictPhoneArpabet	"\<a[ehowy]\=[0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<e[@hry][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<i[@h]\=[0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<o[awy][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<u[hw][0-2]\>" contains=cmudictPhoneStress
+    syn match	cmudictPhoneArpabet	"\<[bdfghjklmnprstvwz]\>"
+    syn match	cmudictPhoneArpabet	"\<[cdjstz]h\>"
+    syn match	cmudictPhoneArpabet	"\<ng\>"
+  endif
+endif
 
-syn match	cmudictPhoneArpabet	"\<AXR\=0\=\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneArpabet	"\<IX0\=\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneArpabet	"\<[DN]X\>"
-syn match	cmudictPhoneArpabet	"\<Q\>"
-syn match	cmudictPhoneArpabet	"\<E[LMN]\>"
-syn match	cmudictPhoneArpabet	"\<ENG\>"
-
-syn match	cmudictPhoneArpabetExt	"\<[AIU][0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneArpabetExt	"\<[EIOU]A[0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneArpabetExt	"\<[EI]@[0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneArpabetExt	"\<OH[0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneArpabetExt	"\<UX[0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneArpabetExt	"\<[PBTDKG]CL\>"
-syn match	cmudictPhoneArpabetExt	"\<H[VW]\=\>"
-syn match	cmudictPhoneArpabetExt	"\<J\>"
-
-syn match	cmudictPhoneLower	"\<a[aehowy]\=[0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneLower	"\<e[ahry@][0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneLower	"\<i[ahy@]\=[0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneLower	"\<o[ahwy][0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneLower	"\<u[ahwx]\=[0-2]\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneLower	"\<axr\=0\=\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneLower	"\<ix0\=\>" contains=cmudictPhoneStress
-syn match	cmudictPhoneLower	"\<[bdfghjklmnpqrstvwyz]\>"
-syn match	cmudictPhoneLower	"\<[cdhjqstz]h\>"
-syn match	cmudictPhoneLower	"\<[dn]x\>"
-syn match	cmudictPhoneLower	"\<[pbtdkg]cl\>"
-syn match	cmudictPhoneLower	"\<e[lmn]\>"
-syn match	cmudictPhoneLower	"\<e\=ng\>"
-syn match	cmudictPhoneLower	"\<h[vw]\>"
-
-"syn match	cmudictPhoneSyllable	"\-"
-
-syn match	cmudictPhone		"\<[^ \t]\+\>" contains=cmudictPhoneCmu,cmudictPhoneArpabet,cmudictPhoneArpabetExt,cmudictPhoneLower,cmudictPhoneSyllable
+syn match	cmudictPhone		"\<[^ \t]\+\>" contains=cmudictPhoneArpabet
 
 syn match	cmudictMetadataOperator	"="
 syn match	cmudictMetadataKey	" [a-zA-Z0-9\_\-]\+=" contains=cmudictMetadataOperator
@@ -81,9 +133,6 @@ hi def link cmudictComment		Comment
 hi def link cmudictEntry		Identifier
 hi def link cmudictEntryVariant		None
 hi def link cmudictVariant		Constant
-hi def link cmudictPhoneCmu		Type
-hi def link cmudictPhoneArpabetExt	cmudictPhoneArpabet
-hi def link cmudictPhoneLower		cmudictPhoneArpabet
 hi def link cmudictPhoneArpabet		None
 hi def link cmudictPhoneStress		Constant
 hi def link cmudictPhone		Error

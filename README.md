@@ -146,6 +146,23 @@ explicitly enable highlighting by using the VIM command:
 
 	set ft=cmudict
 
+You can configure the *accent* and *phoneset* used by the dictionary using the
+`cmudict_accent` and `cmudict_phoneset` variables respectively. Valid values
+for these are:
+
+| `cmudict_phoneset` | `cmudict_accent="en-US"` | `cmudict_accent="en-GB-x-rp"` |
+|--------------------|--------------------------|-------------------------------|
+| `arpabet`          | yes                      | yes                           |
+| `cepstral`         | yes                      | yes                           |
+| `cmu`              | yes                      | no                            |
+| `festvox`          | yes                      | no                            |
+| `timit`            | yes                      | no                            |
+
+__NOTE:__ You need to set the variables before setting the filetype. For example:
+
+	let cmudict_phoneset="arpabet"
+	set ft=cmudict
+
 ## CMU Pronunciation Dictionary File Format
 
 A line comment starts with `;;;` and spans until the end of the current line.
