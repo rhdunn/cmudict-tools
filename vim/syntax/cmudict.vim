@@ -113,7 +113,16 @@ endif
 
 " entry -----------------------------------------------------------------------
 
-syn match	cmudictEntry					"^[^A-Za-z0-9]\=[^ \t(#]\+" nextgroup=@cmudictPronunciationOrVariant
+syn match	cmudictEntryLine				"^[^A-Za-z0-9]\=[^ \t(#]\+" contains=@cmudictEntryOrError nextgroup=@cmudictPronunciationOrVariant
+
+syn cluster	cmudictEntryOrError				contains=cmudictEntryError,cmudictEntry
+syn match	cmudictEntryError contained			"[^ \t]\+"
+
+if cmudict_format == 'air' || cmudict_format == 'weide'
+  syn match	cmudictEntry contained				"^[^A-Za-z0-9]\=[^a-z \t(#]\+"
+elseif cmudict_format == 'new'
+  syn match	cmudictEntry contained				"^[^A-Za-z0-9]\=[^A-Z \t(#]\+"
+end
 
 syn match	cmudictVariant contained			"[^()]\+"
 syn region	cmudictEntryVariant contained			start='(' end=')' contains=cmudictVariant nextgroup=cmudictPronunciationErrorFirst
@@ -158,6 +167,7 @@ hi def link cmudictCommentEntry			cmudictComment
 hi def link cmudictCommentLine			cmudictComment
 hi def link cmudictCommentError			Error
 hi def link cmudictComment			Comment
+hi def link cmudictEntryError			Error
 hi def link cmudictEntry			Identifier
 hi def link cmudictEntryVariant			None
 hi def link cmudictVariant			Constant
