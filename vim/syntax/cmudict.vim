@@ -55,16 +55,22 @@ syn match	cmudictPhoneSyllable	"\-"
 
 syn match	cmudictPhone		"\<[^ \t]\+\>" contains=cmudictPhoneCmu,cmudictPhoneArpabet,cmudictPhoneArpabetExt,cmudictPhoneLower
 
+syn match	cmudictMetadataOperator	"="
+syn match	cmudictMetadataKey	" [a-zA-Z0-9\_\-]\+=" contains=cmudictMetadataOperator
+
+syn match	cmudictMetadataPreProc	"@@"
+syn match	cmudictMetadata		"@@.\+@@" contains=cmudictMetadataPreProc,cmudictMetadataKey
+
 syn region	cmudictVariant		start='(' end=')'
 
-syn region	cmudictEntryComment	start='#' end='$'
+syn region	cmudictEntryComment	start='#' end='$' contains=cmudictMetadata
 
 syn match	cmudictEntry		"^[^A-Za-z0-9]\=[^ \t(#]\+"
 
 syn match	cmudictPronunciation	"  [a-zA-Z0-9@ \t]\+" contains=cmudictPhone
 
-syn region	cmudictLineComment	start='^;;;' end='$'
-syn region	cmudictLineComment	start='^##' end='$'
+syn region	cmudictLineComment	start='^;;;' end='$' contains=cmudictMetadata
+syn region	cmudictLineComment	start='^##' end='$' contains=cmudictMetadata
 
 " Define the default highlighting.
 " Only used when an item doesn't have highlighting yet
@@ -79,6 +85,11 @@ hi def link cmudictPhoneLower		cmudictPhoneArpabet
 hi def link cmudictPhoneArpabet		PreProc
 hi def link cmudictPhoneStress		Constant
 hi def link cmudictPhoneSyllable	Operator
+hi def link cmudictPhone		Error
+hi def link cmudictMetadataOperator	Operator
+hi def link cmudictMetadataPreProc	PreProc
+hi def link cmudictMetadataKey		Type
+hi def link cmudictMetadata		Constant
 hi def link cmudictPhone		Error
 
 let b:current_syntax = "cmudict"
