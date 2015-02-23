@@ -146,9 +146,14 @@ explicitly enable highlighting by using the VIM command:
 
 	set ft=cmudict
 
-You can configure the *accent* and *phoneset* used by the dictionary using the
-`cmudict_accent` and `cmudict_phoneset` variables respectively. Valid values
-for these are:
+The following variables are supported:
+
+| Variable           | Default Value | Description |
+|--------------------|---------------|-------------|
+| `cmudict_accent`   | `en-US`       | The accent the dictionary is specified in. |
+| `cmudict_phoneset` | `cmu`         | The phoneset used to transcribe the phones in. |
+
+The valid `cmudict_accent` and `cmudict_phoneset` values are:
 
 | `cmudict_phoneset` | `cmudict_accent="en-US"` | `cmudict_accent="en-GB-x-rp"` |
 |--------------------|--------------------------|-------------------------------|
