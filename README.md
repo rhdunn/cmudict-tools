@@ -2,6 +2,7 @@
 
 - [Usage](#usage)
   - [Warnings](#warnings)
+- [VIM Syntax File](#vim-syntax-file)
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
   - [Metadata](#metadata)
 - [File-Based Metadata](#file-based-metadata)
@@ -121,6 +122,29 @@ allows things like the following combinations:
 |-----------------------------|-------------------------------------------|
 | `-Wnone -Winvalid-phonemes` | Only use the `invalid-phonemes` warning.  |
 | `-Wall -Wno-missing-stress` | Use all warnings except `missing-stress`. |
+
+## VIM Syntax File
+
+The `cmudict-tools` project provides a syntax highlighting file for
+cmudict-style dictionaries.
+
+You can install the files to a VIM install by running:
+
+	make VIMDIR=<path-to-vim> vim
+
+Alternatively, if your system supports VIM addons (e.g. Debian Linux), you can
+install the files by running:
+
+	make vim_plugin
+
+which installs the files to `/usr/share/vim`. If the addon files are not in
+this location, you need to point `VIMDIR` to the `addons` directory and
+`VIMPLUGINDIR` to the `registry` directory.
+
+Once installed, it will automatically highlight files named `cmudict`. You can
+explicitly enable highlighting by using the VIM command:
+
+	set ft=cmudict
 
 ## CMU Pronunciation Dictionary File Format
 
