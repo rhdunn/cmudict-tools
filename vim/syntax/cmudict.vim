@@ -51,9 +51,9 @@ syn match	cmudictPhoneLower	"\<e[lmn]\>"
 syn match	cmudictPhoneLower	"\<e\=ng\>"
 syn match	cmudictPhoneLower	"\<h[vw]\>"
 
-syn match	cmudictPhoneSyllable	"\-"
+"syn match	cmudictPhoneSyllable	"\-"
 
-syn match	cmudictPhone		"\<[^ \t]\+\>" contains=cmudictPhoneCmu,cmudictPhoneArpabet,cmudictPhoneArpabetExt,cmudictPhoneLower
+syn match	cmudictPhone		"\<[^ \t]\+\>" contains=cmudictPhoneCmu,cmudictPhoneArpabet,cmudictPhoneArpabetExt,cmudictPhoneLower,cmudictPhoneSyllable
 
 syn match	cmudictMetadataOperator	"="
 syn match	cmudictMetadataKey	" [a-zA-Z0-9\_\-]\+=" contains=cmudictMetadataOperator
@@ -68,7 +68,7 @@ syn region	cmudictEntryComment	start='#' end='$' contains=cmudictMetadata
 
 syn match	cmudictEntry		"^[^A-Za-z0-9]\=[^ \t(#]\+"
 
-syn match	cmudictPronunciation	"  [a-zA-Z0-9@ \t]\+" contains=cmudictPhone
+syn match	cmudictPronunciation	"  [^#]\+" contains=cmudictPhone
 
 syn region	cmudictLineComment	start='^;;;' end='$' contains=cmudictMetadata
 syn region	cmudictLineComment	start='^##' end='$' contains=cmudictMetadata
@@ -86,7 +86,6 @@ hi def link cmudictPhoneArpabetExt	cmudictPhoneArpabet
 hi def link cmudictPhoneLower		cmudictPhoneArpabet
 hi def link cmudictPhoneArpabet		Identifier
 hi def link cmudictPhoneStress		Constant
-hi def link cmudictPhoneSyllable	Operator
 hi def link cmudictPhone		Error
 hi def link cmudictMetadataOperator	None
 hi def link cmudictMetadataPreProc	PreProc
