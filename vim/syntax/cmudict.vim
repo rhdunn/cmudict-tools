@@ -9,7 +9,8 @@ if exists("b:current_syntax")
   finish
 endif
 
-syn match	cmudictPhone		" [A-Za-z]\=[A-Za-z@]\=R\=[0-9]\="
+syn match	cmudictPhoneStress	"[0-9]"
+syn match	cmudictPhone		" [A-Za-z]\=[A-Za-z@]\=R\=[0-9]\=" contains=cmudictPhoneStress
 
 syn region	cmudictVariant		start='(' end=')'
 
@@ -29,6 +30,7 @@ hi def link cmudictLineComment		Comment
 hi def link cmudictComment		Comment
 hi def link cmudictEntry		Identifier
 hi def link cmudictVariant		Statement
+hi def link cmudictPhoneStress		Constant
 hi def link cmudictPronunciation	Error
 hi def link cmudictPhone		Type
 
