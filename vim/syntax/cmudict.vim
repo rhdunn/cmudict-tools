@@ -61,7 +61,8 @@ syn match	cmudictMetadataKey	" [a-zA-Z0-9\_\-]\+=" contains=cmudictMetadataOpera
 syn match	cmudictMetadataPreProc	"@@"
 syn match	cmudictMetadata		"@@.\+@@" contains=cmudictMetadataPreProc,cmudictMetadataKey
 
-syn region	cmudictVariant		start='(' end=')'
+syn match	cmudictVariant		"[^()]\+"
+syn region	cmudictEntryVariant	start='(' end=')' contains=cmudictVariant
 
 syn region	cmudictEntryComment	start='#' end='$' contains=cmudictMetadata
 
@@ -78,15 +79,16 @@ hi def link cmudictEntryComment		cmudictComment
 hi def link cmudictLineComment		cmudictComment
 hi def link cmudictComment		Comment
 hi def link cmudictEntry		Identifier
-hi def link cmudictVariant		Statement
+hi def link cmudictEntryVariant		None
+hi def link cmudictVariant		Constant
 hi def link cmudictPhoneCmu		Type
 hi def link cmudictPhoneArpabetExt	cmudictPhoneArpabet
 hi def link cmudictPhoneLower		cmudictPhoneArpabet
-hi def link cmudictPhoneArpabet		PreProc
+hi def link cmudictPhoneArpabet		Identifier
 hi def link cmudictPhoneStress		Constant
 hi def link cmudictPhoneSyllable	Operator
 hi def link cmudictPhone		Error
-hi def link cmudictMetadataOperator	Operator
+hi def link cmudictMetadataOperator	None
 hi def link cmudictMetadataPreProc	PreProc
 hi def link cmudictMetadataKey		Type
 hi def link cmudictMetadata		Constant
