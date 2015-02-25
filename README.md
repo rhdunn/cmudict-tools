@@ -12,6 +12,12 @@
 - [Metadata Description File Format](#metadata-description-file-format)
   - [CSV Metadata](#csv-metadata)
   - [RDF Metadata](#rdf-metadata)
+- [Configuration Options](#configuration-options)
+  - [ACCENT](#accent)
+  - [FORMAT](#format-1)
+  - [PHONESET](#phoneset)
+  - [SORT](#sort)
+  - [WARNING](#warning)
 - [License](#license)
 
 ----------
@@ -25,6 +31,23 @@ The `cmudict-tools` program has the following command-line structure:
 
 	cmudict-tools [OPTIONS] COMMAND DICTIONARY
 
+The supported `OPTIONS` are:
+
+| `OPTION`                                  | Description |
+|-------------------------------------------|-------------|
+| `-h`, `--help`                            | Show a help message and exit. |
+| `-W` [WARNING](#warning)                  | Enable or disable the specified validation warnings. |
+| `--source-accent` [ACCENT](#accent)       | Use `ACCENT` to source the dictionary phonesets. |
+| `--source-phoneset` [PHONESET](#phoneset) | Use `PHONESET` to validate the phones in the dictionary. |
+| `--accent` [ACCENT](#accent)              | Use `ACCENT` to source the outpur phonesets. |
+| `--phoneset` [PHONESET](#phoneset)        | Use `PHONESET` to validate the phones in the output. |
+| `--format` [FORMAT](#format-1)            | Output the dictionary entries in `FORMAT`. |
+| `--sort` [SORT](#sort)                    | Sort the entries using `SORT` ordering. |
+| `--order-from ORDER_FROM`                 | Start variants at `ORDER_FROM`, including the initial entry. |
+| `--help-warnings`                         | List the available validation warnings. |
+| `--input-encoding ENCODING`               | Use `ENCODING` to read the dictionary file in (e.g. `latin1`). |
+| `--output-encoding ENCODING`              | Use `ENCODING` to print the entries in (e.g. `latin1`). |
+
 `COMMAND` can be one of:
 
 | `COMMAND`  | Description |
@@ -32,96 +55,8 @@ The `cmudict-tools` program has the following command-line structure:
 | `print`    | Format and optionally sort the dictionary. |
 | `validate` | Only perform validation checks. |
 
-The supported `OPTIONS` are:
-
-| `OPTION`                     | Description |
-|------------------------------|-------------|
-| `-h`, `--help`               | Show a help message and exit. |
-| `-W WARNING`                 | Enable or disable the specified validation warnings. |
-| `--source-accent ACCENT`     | Use `ACCENT` to source the dictionary phonesets. |
-| `--source-phoneset PHONESET` | Use `PHONESET` to validate the phones in the dictionary. |
-| `--accent ACCENT`            | Use `ACCENT` to source the outpur phonesets. |
-| `--phoneset PHONESET`        | Use `PHONESET` to validate the phones in the output. |
-| `--format FORMAT`            | Output the dictionary entries in `FORMAT`. |
-| `--sort SORT`                | Sort the entries using `SORT` ordering. |
-| `--order-from ORDER_FROM`    | Start variants at `ORDER_FROM`, including the initial entry. |
-| `--help-warnings`            | List the available validation warnings. |
-| `--input-encoding ENCODING`  | Use `ENCODING` to read the dictionary file in (e.g. `latin1`). |
-| `--output-encoding ENCODING` | Use `ENCODING` to print the entries in (e.g. `latin1`). |
-
-The supported `DICTIONARY` (input) and `FORMAT` (output) values are:
-
-| Format          | Input | Output | Description |
-|-----------------|-------|--------|-------------|
-| `cmudict`       | yes   | yes    | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
-| `cmudict-weide` | yes   | yes    | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
-| `cmudict-new`   | yes   | yes    | The dictionary format as maintained by Nikolay V. Shmyrev. |
-| `festlex`       | yes   | yes    | The festival lexicon format for Scheme (`*.scm`) files. |
-| `json`          | no    | yes    | JSON formatted entries and validation errors. |
-
-The supported `ACCENT` values are:
-
-  *  `en-US` to use the American English phone table;
-  *  `en-GB-x-rp` to use the Received Pronunciation British English phone table;
-  *  a CSV file to use phonesets defined in that CSV file (see Phone Table File
-     Format for a description of this file format).
-
-The supported `PHONESET` values depend on the phone table used. For the `en-US`
-and `en-GB-x-rp` phone tables defined by `cmudict-tools`, the supported
-phonesets are:
-
-| Phoneset   | en-US | en-GB-x-rp | Description |
-|------------|-------|------------|-------------|
-| `arpabet`  | yes   | yes        | An expanded Arpabet-based phoneset. |
-| `cepstral` | yes   | yes        | The phoneset used by the Cepstral Text-to-Speech program. |
-| `cmu`      | yes   | no         | The phoneset used by the official cmudict dictionary. |
-| `festvox`  | yes   | no         | The phoneset used by the festlex-cmu dictionary. |
-| `ipa`      | yes   | yes        | Use an IPA (International Phonetic Alphabet) transcription. |
-| `timit`    | yes   | no         | The phoneset used by the TIMIT database. |
-
-The supported `SORT` values are:
-
-  *  `air` to use the new-style sort order (group variants next to their root
-     entry);
-  *  `none` to leave the entries in the order they are in the dictionary;
-  *  `weide` to use the old-style sort order (simple ASCII character ordering).
-
-### Warnings
-
-The following values are available for the `-W` option:
-
-| Warning                    | Description |
-|----------------------------|-------------|
-| `context-ordering`         | Check context values are ordered sequentially. |
-| `context-values`           | Check context values are numbers. |
-| `duplicate-entries`        | Check for matching entries (word, context, pronunciation). |
-| `duplicate-pronunciations` | Check for duplicated pronunciations for an entry. |
-| `entry-spacing`            | Check spacing between word and pronunciation. |
-| `invalid-phonemes`         | Check for invalid phonemes. |
-| `missing-stress`           | Check for missing stress markers. |
-| `phoneme-spacing`          | Check for a single space between phonemes. |
-| `trailing-whitespace`      | Check for trailing whitespaces. |
-| `unsorted`                 | Check if a word is not sorted correctly. |
-| `word-casing`              | Check for consistent word casing. |
-
-If `-Wwarn` is used, the option is enabled. If `-Wno-warn` is used, the option
-is disabled.
-
-The following values have a special behaviour, and cannot be used with the
-`no-` prefix:
-
-| Warning | Description |
-|---------|-------------|
-| `all`   | Enable all warnings.  |
-| `none`  | Disable all warnings. |
-
-The order is important, as the warning set is tracked incrementally. This
-allows things like the following combinations:
-
-| Example                     | Description                               |
-|-----------------------------|-------------------------------------------|
-| `-Wnone -Winvalid-phonemes` | Only use the `invalid-phonemes` warning.  |
-| `-Wall -Wno-missing-stress` | Use all warnings except `missing-stress`. |
+The `DICTIONARY` file is auto-detected according to one of the supported input
+[FORMAT](#format-1) values.
 
 ## VIM Syntax File
 
@@ -343,6 +278,94 @@ For example, to support `key=value` a minimal RDF Turtle file is:
 	<#> a skos:ConceptScheme ; skos:prefLabel "key" .
 
 	<#val> a skos:Concept ; skos:prefLabel "value" ; skos:inScheme <#> .
+
+## Configuration Options
+
+These are the various valid values used by the command-line options, VIM syntax
+file and file-based metadata. See the appropriate sections on how to specify
+these values.
+
+### ACCENT
+
+The supported `ACCENT` values are:
+
+  *  `en-US` to use the American English phone table;
+  *  `en-GB-x-rp` to use the Received Pronunciation British English phone table;
+  *  a CSV file to use phonesets defined in that CSV file (see Phone Table File
+     Format for a description of this file format).
+
+### FORMAT
+
+The supported `FORMAT` values are:
+
+| Format          | Input | Output | Description |
+|-----------------|-------|--------|-------------|
+| `cmudict`       | yes   | yes    | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
+| `cmudict-weide` | yes   | yes    | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
+| `cmudict-new`   | yes   | yes    | The dictionary format as maintained by Nikolay V. Shmyrev. |
+| `festlex`       | yes   | yes    | The festival lexicon format for Scheme (`*.scm`) files. |
+| `json`          | no    | yes    | JSON formatted entries and validation errors. |
+
+### PHONESET
+
+The supported `PHONESET` values depend on the phone table used. For the `en-US`
+and `en-GB-x-rp` phone tables defined by `cmudict-tools`, the supported
+phonesets are:
+
+| `PHONESET` | `ACCENT=en-US` | `ACCENT=en-GB-x-rp` | Description |
+|------------|----------------|---------------------|-------------|
+| `arpabet`  | yes            | yes                 | An expanded Arpabet-based phoneset. |
+| `cepstral` | yes            | yes                 | The phoneset used by the Cepstral Text-to-Speech program. |
+| `cmu`      | yes            | no                  | The phoneset used by the official cmudict dictionary. |
+| `festvox`  | yes            | no                  | The phoneset used by the festlex-cmu dictionary. |
+| `ipa`      | yes            | yes                 | Use an IPA (International Phonetic Alphabet) transcription. |
+| `timit`    | yes            | no                  | The phoneset used by the TIMIT database. |
+
+### SORT
+
+The supported `SORT` values are:
+
+  *  `air` to use the new-style sort order (group variants next to their root
+     entry);
+  *  `none` to leave the entries in the order they are in the dictionary;
+  *  `weide` to use the old-style sort order (simple ASCII character ordering).
+
+### WARNING
+
+The supported `WARNING` values are:
+
+| `WARNING`                  | Description |
+|----------------------------|-------------|
+| `context-ordering`         | Check context values are ordered sequentially. |
+| `context-values`           | Check context values are numbers. |
+| `duplicate-entries`        | Check for matching entries (word, context, pronunciation). |
+| `duplicate-pronunciations` | Check for duplicated pronunciations for an entry. |
+| `entry-spacing`            | Check spacing between word and pronunciation. |
+| `invalid-phonemes`         | Check for invalid phonemes. |
+| `missing-stress`           | Check for missing stress markers. |
+| `phoneme-spacing`          | Check for a single space between phonemes. |
+| `trailing-whitespace`      | Check for trailing whitespaces. |
+| `unsorted`                 | Check if a word is not sorted correctly. |
+| `word-casing`              | Check for consistent word casing. |
+
+If `warn` is used, the option is enabled. If `no-warn` is used, the option
+is disabled.
+
+The following values have a special behaviour, and cannot be used with the
+`no-` prefix:
+
+| `WARNING` | Description |
+|-----------|-------------|
+| `all`     | Enable all warnings.  |
+| `none`    | Disable all warnings. |
+
+The order is important, as the warning set is tracked incrementally. This
+allows things like the following combinations:
+
+| Example                     | Description                               |
+|-----------------------------|-------------------------------------------|
+| `-Wnone -Winvalid-phonemes` | Only use the `invalid-phonemes` warning.  |
+| `-Wall -Wno-missing-stress` | Use all warnings except `missing-stress`. |
 
 ## License
 
