@@ -26,24 +26,20 @@ elseif !exists("b:cmudict_phoneset")
 endif
 
 let format = matchstr(head, '\sformat=\zs[a-zA-Z0-9_\-]\+\ze\s')
-if format == 'cmudict'
-  let b:cmudict_format = "air"
-elseif format == 'cmudict-weide'
-  let b:cmudict_format = "weide"
-elseif format == 'cmudict-new'
-  let b:cmudict_format = "new"
+if format == 'cmudict' || format == 'cmudict-weide' || format == 'cmudict-new'
+  let b:cmudict_format = format
 elseif !exists("b:cmudict_format")
   let name = expand("<afile>")
 
   " try to detect the cmudict format using the filetype
   if !match(name, 'cmudict\.0\.[1-6][a-z]\=')
-    let b:cmudict_format = "weide"
+    let b:cmudict_format = "cmudict-weide"
   elseif !match(name, 'cmudict\.vp')
-    let b:cmudict_format = "new"
+    let b:cmudict_format = "cmudict-new"
   elseif !match(name, 'cmudict\.dict')
-    let b:cmudict_format = "new"
+    let b:cmudict_format = "cmudict-new"
   else
-    let b:cmudict_format = "air"
+    let b:cmudict_format = "cmudict"
   endif
 endif
 
@@ -146,9 +142,9 @@ syn match	cmudictEntryLine				"^[^A-Za-z0-9]\=[^ \t(#]\+" contains=@cmudictEntry
 syn cluster	cmudictEntryOrError				contains=cmudictEntryError,cmudictEntry
 syn match	cmudictEntryError contained			"[^ \t]\+"
 
-if b:cmudict_format == 'air' || b:cmudict_format == 'weide'
+if b:cmudict_format == 'cmudict' || b:cmudict_format == 'cmudict-weide'
   syn match	cmudictEntry contained				"^[^A-Za-z0-9]\=[^a-z \t(#]\+"
-elseif b:cmudict_format == 'new'
+elseif b:cmudict_format == 'cmudict-new'
   syn match	cmudictEntry contained				"^[^A-Za-z0-9]\=[^A-Z \t(#]\+"
 end
 
@@ -165,9 +161,9 @@ syn match	cmudictPhoneAndStress contained			"[^ \t]\+" contains=cmudictPhone
 
 syn match	cmudictPronunciationErrorFirst contained	"[ \t]\+[^ \t#]\+" contains=cmudictPronunciationFirst,cmudictPhoneAndStress nextgroup=@cmudictPronunciationOrComment
 syn match	cmudictPronunciationErrorFirst contained	"[ \t]\+$"
-if b:cmudict_format == 'air' || b:cmudict_format == 'weide'
+if b:cmudict_format == 'cmudict' || b:cmudict_format == 'cmudict-weide'
   syn match	cmudictPronunciationFirst contained		"  [^ \t#]\+" contains=cmudictPhoneAndStress
-elseif b:cmudict_format == 'new'
+elseif b:cmudict_format == 'cmudict-new'
   syn match	cmudictPronunciationFirst contained		" [^ \t#]\+" contains=cmudictPhoneAndStress
 endif
 
@@ -183,10 +179,10 @@ syn match	cmudictMetadataKey contained		" [a-zA-Z0-9\_\-]\+=" contains=cmudictMe
 syn match	cmudictMetadataPreProc contained	"@@"
 syn match	cmudictMetadata contained		"@@.\+@@" contains=cmudictMetadataPreProc,cmudictMetadataKey
 
-if b:cmudict_format == 'air' || b:cmudict_format == 'new'
+if b:cmudict_format == 'cmudict' || b:cmudict_format == 'cmudict-new'
   syn region	cmudictCommentLine			start='^;;;' end='$' contains=cmudictMetadata
   syn region	cmudictCommentError			start='^##' end='$'
-elseif b:cmudict_format == 'weide'
+elseif b:cmudict_format == 'cmudict-weide'
   syn region	cmudictCommentError			start='^;;;' end='$'
   syn region	cmudictCommentLine			start='^##' end='$' contains=cmudictMetadata
 endif

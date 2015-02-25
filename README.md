@@ -83,41 +83,22 @@ explicitly enable highlighting by using the VIM command:
 
 The following variables and [file-based metadata](#metadata) are supported:
 
-| Variable                        | Metadata            | Default  | Description |
-|---------------------------------|---------------------|----------|-------------|
-| `b:cmudict_accent="ACCENT"`     | `accent=ACCENT`     | `en-US`  | The accent the dictionary is specified in. |
-| `b:cmudict_phoneset="PHONESET"` | `phoneset=PHONESET` | `cmu`    | The phoneset used to transcribe the phones in. |
-| `b:cmudict_format="FORMAT"`     | `format=FORMAT`     | __auto__ | The specific format of the dictionary. |
+| Variable                                   | Metadata                         | Default  | Description |
+|--------------------------------------------|----------------------------------|----------|-------------|
+| `b:cmudict_accent`=[ACCENT](#accent)       | `accent`=[ACCENT](#accent)       | `en-US`  | The accent the dictionary is specified in. |
+| `b:cmudict_phoneset`=[PHONESET](#phoneset) | `phoneset`=[PHONESET](#phoneset) | `cmu`    | The phoneset used to transcribe the phones in. |
+| `b:cmudict_format`=[FORMAT](#format-1)     | `format`=[FORMAT](#format-1)     | __auto__ | The specific format of the dictionary. |
 
 __NOTE:__ The file-based metadata must occur within the first 5 lines of the
 file to be supported by the VIM syntax file.
 
-The valid `ACCENT` and `PHONESET` values are:
+If no [FORMAT](#format-1) is specified, its value is based on the filename as follows:
 
-| `PHONESET` | `ACCENT="en-US"` | `ACCENT="en-GB-x-rp"` |
-|------------|------------------|-----------------------|
-| `arpabet`  | yes              | yes                   |
-| `cepstral` | yes              | yes                   |
-| `cmu`      | yes              | no                    |
-| `festvox`  | yes              | no                    |
-| `timit`    | yes              | no                    |
-
-The valid `FORMAT` values are:
-
-| `b:cmudict_format` | `format`        | Description |
-|--------------------|-----------------|-------------|
-| `air`              | `cmudict`       | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
-| `weide`            | `cmudict-weide` | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
-| `new`              | `cmudict-new`   | The dictionary format as maintained by Nikolay V. Shmyrev. |
-
-If no `FORMAT` is specified, the value of `b:cmudict_format` is based on the
-filename as follows:
-
-| Filename                 | Example        | `b:cmudict_format` |
-|--------------------------|----------------|--------------------|
-| `cmudict\.0\.[1-6][a-z]` | `cmudict.0.6d` | `weide`            |
-| `cmudict\.(vp|dict)`     | `cmudict.dict` | `new`              |
-| `*`                      | `cmudict-0.7b` | `air`              |
+| Filename                 | Example        | [FORMAT](#format-1) |
+|--------------------------|----------------|---------------------|
+| `cmudict\.0\.[1-6][a-z]` | `cmudict.0.6d` | `cmudict-weide`     |
+| `cmudict\.(vp|dict)`     | `cmudict.dict` | `cmudict-new`       |
+| `*`                      | `cmudict-0.7b` | `cmudict`           |
 
 __NOTE:__ You need to set the variables before setting the filetype. For example:
 
@@ -298,13 +279,13 @@ The supported `ACCENT` values are:
 
 The supported `FORMAT` values are:
 
-| Format          | Input | Output | Description |
-|-----------------|-------|--------|-------------|
-| `cmudict`       | yes   | yes    | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
-| `cmudict-weide` | yes   | yes    | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
-| `cmudict-new`   | yes   | yes    | The dictionary format as maintained by Nikolay V. Shmyrev. |
-| `festlex`       | yes   | yes    | The festival lexicon format for Scheme (`*.scm`) files. |
-| `json`          | no    | yes    | JSON formatted entries and validation errors. |
+| Format          | Input | Output | Metadata | VIM | Description |
+|-----------------|-------|--------|----------|-----|-------------|
+| `cmudict`       | yes   | yes    | yes      | yes | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
+| `cmudict-weide` | yes   | yes    | yes      | yes | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
+| `cmudict-new`   | yes   | yes    | yes      | yes | The dictionary format as maintained by Nikolay V. Shmyrev. |
+| `festlex`       | yes   | yes    | no       | no  | The festival lexicon format for Scheme (`*.scm`) files. |
+| `json`          | no    | yes    | no       | no  | JSON formatted entries and validation errors. |
 
 ### PHONESET
 
@@ -320,6 +301,8 @@ phonesets are:
 | `festvox`  | yes            | no                  | The phoneset used by the festlex-cmu dictionary. |
 | `ipa`      | yes            | yes                 | Use an IPA (International Phonetic Alphabet) transcription. |
 | `timit`    | yes            | no                  | The phoneset used by the TIMIT database. |
+
+__NOTE:__ The VIM syntax file does not support `ipa` phoneset validation.
 
 ### SORT
 
