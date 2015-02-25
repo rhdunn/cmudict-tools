@@ -1,7 +1,6 @@
 # CMU Pronunciation Dictionary Tools
 
 - [Usage](#usage)
-  - [Warnings](#warnings)
 - [VIM Syntax File](#vim-syntax-file)
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
   - [Metadata](#metadata)
