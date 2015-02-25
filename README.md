@@ -152,7 +152,7 @@ The following variables are supported:
 |--------------------|---------------|-------------|
 | `cmudict_accent`   | `en-US`       | The accent the dictionary is specified in. |
 | `cmudict_phoneset` | `cmu`         | The phoneset used to transcribe the phones in. |
-| `cmudict_format`   | `air`         | The specific format of the dictionary. |
+| `b:cmudict_format` | __auto__      | The specific format of the dictionary. |
 
 The valid `cmudict_accent` and `cmudict_phoneset` values are:
 
@@ -164,13 +164,13 @@ The valid `cmudict_accent` and `cmudict_phoneset` values are:
 | `festvox`          | yes                      | no                            |
 | `timit`            | yes                      | no                            |
 
-The valid `cmudict_format` values are:
+The valid `b:cmudict_format` values are:
 
-| `cmudict_format` | Description |
-|------------------|-------------|
-| `air`            | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
-| `weide`          | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
-| `new`            | The dictionary format as maintained by Nikolay V. Shmyrev. |
+| `b:cmudict_format` | Description |
+|--------------------|-------------|
+| `air`              | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
+| `weide`            | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
+| `new`              | The dictionary format as maintained by Nikolay V. Shmyrev. |
 
 __NOTE:__ You need to set the variables before setting the filetype. For example:
 
