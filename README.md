@@ -146,36 +146,52 @@ explicitly enable highlighting by using the VIM command:
 
 	set ft=cmudict
 
-The following variables are supported:
+The following variables and [file-based metadata](#metadata) are supported:
 
-| Variable           | Default Value | Description |
-|--------------------|---------------|-------------|
-| `cmudict_accent`   | `en-US`       | The accent the dictionary is specified in. |
-| `cmudict_phoneset` | `cmu`         | The phoneset used to transcribe the phones in. |
-| `b:cmudict_format` | __auto__      | The specific format of the dictionary. |
+| Variable                        | Metadata            | Default  | Description |
+|---------------------------------|---------------------|----------|-------------|
+| `b:cmudict_accent="ACCENT"`     | `accent=ACCENT`     | `en-US`  | The accent the dictionary is specified in. |
+| `b:cmudict_phoneset="PHONESET"` | `phoneset=PHONESET` | `cmu`    | The phoneset used to transcribe the phones in. |
+| `b:cmudict_format="FORMAT"`     | `format=FORMAT`     | __auto__ | The specific format of the dictionary. |
 
-The valid `cmudict_accent` and `cmudict_phoneset` values are:
+__NOTE:__ The file-based metadata must occur within the first 5 lines of the
+file to be supported by the VIM syntax file.
 
-| `cmudict_phoneset` | `cmudict_accent="en-US"` | `cmudict_accent="en-GB-x-rp"` |
-|--------------------|--------------------------|-------------------------------|
-| `arpabet`          | yes                      | yes                           |
-| `cepstral`         | yes                      | yes                           |
-| `cmu`              | yes                      | no                            |
-| `festvox`          | yes                      | no                            |
-| `timit`            | yes                      | no                            |
+The valid `ACCENT` and `PHONESET` values are:
 
-The valid `b:cmudict_format` values are:
+| `PHONESET` | `ACCENT="en-US"` | `ACCENT="en-GB-x-rp"` |
+|------------|------------------|-----------------------|
+| `arpabet`  | yes              | yes                   |
+| `cepstral` | yes              | yes                   |
+| `cmu`      | yes              | no                    |
+| `festvox`  | yes              | no                    |
+| `timit`    | yes              | no                    |
 
-| `b:cmudict_format` | Description |
-|--------------------|-------------|
-| `air`              | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
-| `weide`            | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
-| `new`              | The dictionary format as maintained by Nikolay V. Shmyrev. |
+The valid `FORMAT` values are:
+
+| `b:cmudict_format` | `format`        | Description |
+|--------------------|-----------------|-------------|
+| `air`              | `cmudict`       | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
+| `weide`            | `cmudict-weide` | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
+| `new`              | `cmudict-new`   | The dictionary format as maintained by Nikolay V. Shmyrev. |
+
+If no `FORMAT` is specified, the value of `b:cmudict_format` is based on the
+filename as follows:
+
+| Filename                 | Example        | `b:cmudict_format` |
+|--------------------------|----------------|--------------------|
+| `cmudict\.0\.[1-6][a-z]` | `cmudict.0.6d` | `weide`            |
+| `cmudict\.(vp|dict)`     | `cmudict.dict` | `new`              |
+| `*`                      | `cmudict-0.7b` | `air`              |
 
 __NOTE:__ You need to set the variables before setting the filetype. For example:
 
-	let cmudict_phoneset="arpabet"
+	let b:cmudict_phoneset="arpabet"
 	set ft=cmudict
+
+Alternatively, you can set this information as file-based metadata. For example:
+
+	;;;@@ phoneset=arpabet @@
 
 ## CMU Pronunciation Dictionary File Format
 
@@ -234,7 +250,13 @@ is used to control the `cmudict-tools` behaviour.
 ### format
 
 The `format` metadata key overrides the auto-detected file format. It only
-applies to the cmudict-based formats.
+applies to the cmudict-based formats. Supported values are:
+
+| Format          | Description |
+|-----------------|-------------|
+| `cmudict`       | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
+| `cmudict-weide` | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
+| `cmudict-new`   | The dictionary format as maintained by Nikolay V. Shmyrev. |
 
 ### metadata
 

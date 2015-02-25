@@ -2,33 +2,48 @@
 " Language:	CMU Pronunciation Dictionary
 " Filenames:    cmudict
 " Maintainer:	Reece H. Dunn <msclrhd@gmail.com>
-" Last Change:	2015 Feb 23
+" Last Change:	2015 Feb 25
 
 " Quit when a (custom) syntax file was already loaded
 if exists("b:current_syntax")
   finish
 endif
 
-if !exists("cmudict_accent")
-  let cmudict_accent = 'en-US'
+let head = " ".getline(1)." ".getline(2)." ".getline(3)." ".getline(4)." ".getline(5)." "
+
+let accent = matchstr(head, '\saccent=\zs[a-zA-Z0-9_\-]\+\ze\s')
+if accent == 'en-US' || accent == 'en-GB-x-rp'
+  let b:cmudict_accent = accent
+elseif !exists("b:cmudict_accent")
+  let b:cmudict_accent = 'en-US'
 endif
 
-if !exists("cmudict_phoneset")
-  let cmudict_phoneset = 'cmu'
+let phoneset = matchstr(head, '\sphoneset=\zs[a-zA-Z0-9_\-]\+\ze\s')
+if phoneset == 'arpabet' || phoneset == 'cepstral' || phoneset == 'cmu' || phoneset == 'festvox' || phoneset == 'timit'
+  let b:cmudict_phoneset = phoneset
+elseif !exists("b:cmudict_phoneset")
+  let b:cmudict_phoneset = 'cmu'
 endif
 
-if !exists("b:cmudict_format")
+let format = matchstr(head, '\sformat=\zs[a-zA-Z0-9_\-]\+\ze\s')
+if format == 'cmudict'
+  let b:cmudict_format = "air"
+elseif format == 'cmudict-weide'
+  let b:cmudict_format = "weide"
+elseif format == 'cmudict-new'
+  let b:cmudict_format = "new"
+elseif !exists("b:cmudict_format")
   let name = expand("<afile>")
 
   " try to detect the cmudict format using the filetype
   if !match(name, 'cmudict\.0\.[1-6][a-z]\=')
-    let b:cmudict_format="weide"
+    let b:cmudict_format = "weide"
   elseif !match(name, 'cmudict\.vp')
-    let b:cmudict_format="new"
+    let b:cmudict_format = "new"
   elseif !match(name, 'cmudict\.dict')
-    let b:cmudict_format="new"
+    let b:cmudict_format = "new"
   else
-    let b:cmudict_format="air"
+    let b:cmudict_format = "air"
   endif
 endif
 
@@ -36,8 +51,8 @@ endif
 
 syn match	cmudictPhoneStress contained	"[0-9]"
 
-if cmudict_accent == 'en-US'
-  if cmudict_phoneset == 'arpabet'
+if b:cmudict_accent == 'en-US'
+  if b:cmudict_phoneset == 'arpabet'
     syn match	cmudictPhone contained	"\<A[AEHOWY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<E[HRY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<I[HY][0-2]\>" contains=cmudictPhoneStress
@@ -52,7 +67,7 @@ if cmudict_accent == 'en-US'
     syn match	cmudictPhone contained	"\<E\=NG\>"
     syn match	cmudictPhone contained	"\<H[VW]\>"
     syn match	cmudictPhone contained	"-"
-  elseif cmudict_phoneset == 'cepstral'
+  elseif b:cmudict_phoneset == 'cepstral'
     syn match	cmudictPhone contained	"\<a[aehowy][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<e[hry][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<i[h]\=[0-2]\>" contains=cmudictPhoneStress
@@ -61,7 +76,7 @@ if cmudict_accent == 'en-US'
     syn match	cmudictPhone contained	"\<[bdfghjklmnprstvwz]\>"
     syn match	cmudictPhone contained	"\<[cdjstz]h\>"
     syn match	cmudictPhone contained	"\<ng\>"
-  elseif cmudict_phoneset == 'cmu'
+  elseif b:cmudict_phoneset == 'cmu'
     syn match	cmudictPhone contained	"\<A[AEHOWY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<E[HRY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<I[HY][0-2]\>" contains=cmudictPhoneStress
@@ -70,7 +85,7 @@ if cmudict_accent == 'en-US'
     syn match	cmudictPhone contained	"\<[BDFGKLMNPRSTVWYZ]\>"
     syn match	cmudictPhone contained	"\<[CDHJSTZ]H\>"
     syn match	cmudictPhone contained	"\<NG\>"
-  elseif cmudict_phoneset == 'festvox'
+  elseif b:cmudict_phoneset == 'festvox'
     syn match	cmudictPhone contained	"\<a[aehowy][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<e[hry][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<i[hy][0-2]\>" contains=cmudictPhoneStress
@@ -80,7 +95,7 @@ if cmudict_accent == 'en-US'
     syn match	cmudictPhone contained	"\<[cdhjstz]h\>"
     syn match	cmudictPhone contained	"\<ax0\=\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<ng\>"
-  elseif cmudict_phoneset == 'timit'
+  elseif b:cmudict_phoneset == 'timit'
     syn match	cmudictPhone contained	"\<a[aehowy][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<e[hry][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<i[hy][0-2]\>" contains=cmudictPhoneStress
@@ -96,8 +111,8 @@ if cmudict_accent == 'en-US'
     syn match	cmudictPhone contained	"\<[pbtdkg]cl\>"
     syn match	cmudictPhone contained	"\<h[vw]\>"
   endif
-elseif cmudict_accent == 'en-GB-x-rp'
-  if cmudict_phoneset == 'arpabet'
+elseif b:cmudict_accent == 'en-GB-x-rp'
+  if b:cmudict_phoneset == 'arpabet'
     syn match	cmudictPhone contained	"\<A[AEHOWY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<E[AHRY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<I[AHY]\=[0-2]\>" contains=cmudictPhoneStress
@@ -112,7 +127,7 @@ elseif cmudict_accent == 'en-GB-x-rp'
     syn match	cmudictPhone contained	"\<E\=NG\>"
     syn match	cmudictPhone contained	"\<H[VW]\>"
     syn match	cmudictPhone contained	"-"
-  elseif cmudict_phoneset == 'cepstral'
+  elseif b:cmudict_phoneset == 'cepstral'
     syn match	cmudictPhone contained	"\<a[ehowy]\=[0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<e[@hry][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<i[@h]\=[0-2]\>" contains=cmudictPhoneStress
