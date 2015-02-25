@@ -5,7 +5,7 @@ let s:current_fileencodings = ''
 function! s:filetype_pre()
   let s:current_fileformats   = &g:fileformats
   let s:current_fileencodings = &g:fileencodings
-  set fileencodings=utf-8 fileformats=unix
+  set fileencodings=windows-1252 fileformats=unix
   setlocal filetype=cmudict
 endfunction
 
@@ -14,6 +14,6 @@ function! s:filetype_post()
   let &g:fileencodings = s:current_fileencodings
 endfunction
 
-au BufNewFile  cmudict setlocal filetype=cmudict fileencoding=utf-8 fileformat=unix
+au BufNewFile  cmudict setlocal filetype=cmudict fileencoding=windows-1252 fileformat=unix
 au BufRead     cmudict call s:filetype_pre()
 au BufReadPost cmudict call s:filetype_post()
