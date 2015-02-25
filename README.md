@@ -166,13 +166,8 @@ is used to control the `cmudict-tools` behaviour.
 ### format
 
 The `format` metadata key overrides the auto-detected file format. It only
-applies to the cmudict-based formats. Supported values are:
-
-| Format          | Description |
-|-----------------|-------------|
-| `cmudict`       | The current dictionary format as maintained by Alex Rudnicky (versions 0.7a and later). |
-| `cmudict-weide` | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
-| `cmudict-new`   | The dictionary format as maintained by Nikolay V. Shmyrev. |
+applies to the cmudict-based formats. See [FORMAT](#format-1) for supported
+values.
 
 ### metadata
 
