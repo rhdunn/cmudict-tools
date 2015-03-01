@@ -12,10 +12,20 @@ function! s:detect_cmudict(line)
     elseif !match(text, '^## The Carnegie Mellon Pronouncing Dictionary ')
       let b:cmudictsyntax = "cmudict"
       let b:cmudict_format = "cmudict-weide"
+    elseif !match(text, '^;;; # Copyright (C) [0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9] Carnegie Mellon University. All rights reserved.')
+      let b:cmudictsyntax = "cmudict"
     elseif !match(text, '^A  AH0$')
       let b:cmudictsyntax = "cmudict"
     elseif !match(text, '^!EXCLAMATION-POINT  EH2 K S K L AH0 M EY1 SH AH0 N P OY2 N T$')
       let b:cmudictsyntax = "cmudict"
+    elseif !match(text, "^'BOUT  B AW1 T$")
+      let b:cmudictsyntax = "cmudict"
+    elseif !match(text, '^!exclamation-point EH2 K S K L AH0 M EY1 SH AH0 N P OY2 N T$')
+      let b:cmudictsyntax = "cmudict"
+      let b:cmudict_format = "cmudict-new"
+    elseif !match(text, "^'bout B AW1 T$")
+      let b:cmudictsyntax = "cmudict"
+      let b:cmudict_format = "cmudict-new"
     endif
   endif
 endfunction
