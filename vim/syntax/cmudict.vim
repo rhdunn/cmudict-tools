@@ -29,18 +29,7 @@ let format = matchstr(head, '\sformat=\zs[a-zA-Z0-9_\-]\+\ze\s')
 if format == 'cmudict' || format == 'cmudict-weide' || format == 'cmudict-new'
   let b:cmudict_format = format
 elseif !exists("b:cmudict_format")
-  let name = expand("<afile>")
-
-  " try to detect the cmudict format using the filetype
-  if !match(name, 'cmudict\.0\.[1-6][a-z]\=')
-    let b:cmudict_format = "cmudict-weide"
-  elseif !match(name, 'cmudict\.vp')
-    let b:cmudict_format = "cmudict-new"
-  elseif !match(name, 'cmudict\.dict')
-    let b:cmudict_format = "cmudict-new"
-  else
-    let b:cmudict_format = "cmudict"
-  endif
+  let b:cmudict_format = "cmudict"
 endif
 
 " phones ----------------------------------------------------------------------
