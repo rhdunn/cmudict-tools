@@ -377,7 +377,7 @@ def format(dict_format, entries, accent=None, phoneset=None, encoding='windows-1
 def read_file(filename, encoding='windows-1252'):
 	with codecs.open(filename, encoding=encoding) as f:
 		for line in f:
-			yield line.replace('\n', '')
+			yield line.replace('\r', '').replace('\n', '')
 
 class InvalidWarning(ValueError):
 	def __init__(self, message):

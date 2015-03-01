@@ -109,6 +109,11 @@ check "cmudict-weide format parsing" tests/cmudict-weide.json ${ARGS} tests/cmud
 check "cmudict-new format parsing"   tests/cmudict-new.json   ${ARGS} tests/cmudict-new
 check "festlex format parsing"       tests/festlex.json       ${ARGS} tests/festlex.scm
 
+check "cmudict format parsing; Windows line endings"       tests/cmudict.json       ${ARGS} tests/cmudict-crlf
+check "cmudict-weide format parsing; Windows line endings" tests/cmudict-weide.json ${ARGS} tests/cmudict-weide-crlf
+check "cmudict-new format parsing; Windows line endings"   tests/cmudict-new.json   ${ARGS} tests/cmudict-new-crlf
+check "festlex format parsing; Windows line endings"       tests/festlex.json       ${ARGS} tests/festlex-crlf.scm
+
 # File-Based Metadata #########################################################
 
 ARGS="print -Wall -Wno-unsorted --format=json"

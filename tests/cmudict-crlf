@@ -1,0 +1,18 @@
+;;; This is a line comment.
+## This is an old comment.
+;;;@@ key1=value1 key2=value2 @@ This is a metadata comment.
+;;; @@ key=value @@ This is not a metadata comment.
+;;;@@ key3=value3 key3=value4 @@
+
+!!INVALID_ENTRY
+A  W AA1 N
+B  T UW1 # This is an entry comment.
+C TH R IY1
+D   F AO1 R
+E		F AY1 V
+F  S IH1 K S 
+F(1)  S EH1 V AH0 N
+G  EY1 T #@@ key1=value1 @@ metadata
+H  N AY1 N # @@ key1=value1 @@ not-metadata
+GOnE  G AO1 N
+lower  L OW1 ER0
