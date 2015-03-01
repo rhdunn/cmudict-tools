@@ -5,10 +5,14 @@ let s:current_fileencodings = ''
 function! s:detect_cmudict(line)
   if !exists("b:cmudictsyntax")
     let text = getline(a:line)
-    if !match(text, '^## The Carnegie Mellon Pronouncing Dictionary ')
+    if !match(text, '^;;; # CMUdict  --  Major Version: ')
+      let b:cmudictsyntax = "cmudict"
+    elseif !match(text, '^## The Carnegie Mellon Pronouncing Dictionary ')
       let b:cmudictsyntax = "cmudict"
       let b:cmudict_format = "cmudict-weide"
-    elseif !match(text, '^A  AH0')
+    elseif !match(text, '^A  AH0$')
+      let b:cmudictsyntax = "cmudict"
+    elseif !match(text, '^!EXCLAMATION-POINT  EH2 K S K L AH0 M EY1 SH AH0 N P OY2 N T$')
       let b:cmudictsyntax = "cmudict"
     endif
   endif
