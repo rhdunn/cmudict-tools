@@ -7,6 +7,8 @@ function! s:detect_cmudict(line)
     let text = getline(a:line)
     if !match(text, '^;;; # CMUdict  --  Major Version: ')
       let b:cmudictsyntax = "cmudict"
+    elseif !match(text, '^;;; ACRONYMS ')
+      let b:cmudictsyntax = "cmudict"
     elseif !match(text, '^## The Carnegie Mellon Pronouncing Dictionary ')
       let b:cmudictsyntax = "cmudict"
       let b:cmudict_format = "cmudict-weide"
