@@ -9,6 +9,8 @@ function! s:detect_cmudict(line)
       let b:cmudictsyntax = "cmudict"
     elseif !match(text, '^;;; ACRONYMS ')
       let b:cmudictsyntax = "cmudict"
+    elseif !match(text, '^;;; .* Pronunciation Dictionary')
+      let b:cmudictsyntax = "cmudict"
     elseif !match(text, '^## The Carnegie Mellon Pronouncing Dictionary ')
       let b:cmudictsyntax = "cmudict"
       let b:cmudict_format = "cmudict-weide"
@@ -57,3 +59,6 @@ au BufReadPost cmudict* call s:filetype_cmudict("post")
 
 au BufRead     acronym* call s:filetype_cmudict("pre")
 au BufReadPost acronym* call s:filetype_cmudict("post")
+
+au BufRead     *.dict call s:filetype_cmudict("pre")
+au BufReadPost *.dict call s:filetype_cmudict("post")
