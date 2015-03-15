@@ -55,6 +55,42 @@ class HelpWarningsAction(argparse.Action):
 		print('        Use all warnings except missing-stress.')
 		sys.exit(0)
 
+class WordSelector:
+	def __init__(self):
+		pass
+
+	def __call__(self, word, context, phonemes, comment, metadata, error):
+		return word
+
+class MetadataSelector:
+	def __init__(self, key):
+		self.key = key
+
+	def __call__(self, word, context, phonemes, comment, metadata, error):
+		if not metadata or not self.key in metadata.keys():
+			return None
+		return metadata[self.key][0]
+
+class OrSelector:
+	def __init__(self, selectors):
+		self.selectors = selectors
+
+	def __call__(self, word, context, phonemes, comment, metadata, error):
+		for selector in self.selectors:
+			ret = selector(word, context, phonemes, comment, metadata, error)
+			if ret:
+				return ret
+		return None
+
+def create_selector(selector):
+	if '|' in selector:
+		return OrSelector([create_selector(s) for s in selector.split('|')])
+	if selector.startswith('@'):
+		return MetadataSelector(selector[1:])
+	if selector == 'word':
+		return WordSelector()
+	return None
+
 def parse(args):
 	parser = cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from, accent=args.source_accent, phoneset=args.source_phoneset, encoding=args.input_encoding)
 	if args.sort:
@@ -69,9 +105,21 @@ def validate(args):
 		if error:
 			print(error, file=sys.stderr)
 
+def select(args):
+	selector = create_selector(args.select)
+	if not selector:
+		print('error: unknown select expression: `{0}`'.format(args.select))
+		return
+	for word, context, phonemes, comment, metadata, error in parse(args):
+		if not error:
+			value = selector(word, context, phonemes, comment, metadata, error)
+			if value != None:
+				print(value)
+
 commands = {
 	'validate': validate,
 	'print':    print_dict,
+	'select':   select,
 }
 
 formats = list(cmudict.dict_formats.keys())
@@ -89,7 +137,7 @@ parser.add_argument('--order-from', default=0, type=int, help='The number to sta
 parser.add_argument('--help-warnings', action=HelpWarningsAction, help='List the available validation warnings.')
 parser.add_argument('--input-encoding', default='windows-1252', help='The encoding of the dictionary file.')
 parser.add_argument('--output-encoding', default='windows-1252', help='The encoding to print the entries in.')
-parser.add_argument('command', choices=commands.keys(), help='The action to perform.')
+parser.add_argument('command', help='The action to perform.')
 parser.add_argument('filename', help='The dictionary file to perform the action on.')
 args = parser.parse_args()
 
@@ -97,6 +145,9 @@ if args.sort == 'none':
 	args.sort = None
 
 try:
+	if args.command.startswith('select='):
+		args.select = args.command[7:]
+		args.command = 'select'
 	commands[args.command](args)
 except cmudict.InvalidWarning as e:
 	print(e)

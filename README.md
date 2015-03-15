@@ -49,13 +49,28 @@ The supported `OPTIONS` are:
 
 `COMMAND` can be one of:
 
-| `COMMAND`  | Description |
-|------------|-------------|
-| `print`    | Format and optionally sort the dictionary. |
-| `validate` | Only perform validation checks. |
+| `COMMAND`         | Description |
+|-------------------|-------------|
+| `print`           | Format and optionally sort the dictionary. |
+| `validate`        | Only perform validation checks. |
+| `select=SELECTOR` | Select the item corresponding to `SELECTOR` (see below). |
 
 The `DICTIONARY` file is auto-detected according to one of the supported input
 [FORMAT](#format-1) values.
+
+The `SELECTOR` value can be:
+
+| `SELECTOR` | Description |
+|------------|-------------|
+| `word`     | Select the word field of the dictionary. |
+| `@KEY`     | Select `KEY` from the metadata section of the dictionary. |
+| `A|B`      | Select the value of `A` if present, or `B` if not, where `A` and `B` are `SELCTOR` values themselves. |
+
+__NOTE:__ The `select` command can be used to extract the data used to test
+a Porter stemmer algorithm. For example:
+
+	./cmudict-tools select=word cmudict > in.txt
+	./cmudict-tools select="@stem|word" cmudict > out.txt
 
 ## VIM Syntax File
 
