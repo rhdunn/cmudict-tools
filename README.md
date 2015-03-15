@@ -91,13 +91,11 @@ The following variables and [file-based metadata](#metadata) are supported:
 __NOTE:__ The file-based metadata must occur within the first 5 lines of the
 file to be supported by the VIM syntax file.
 
-If no [FORMAT](#format-1) is specified, its value is based on the filename as follows:
-
-| Filename                 | Example        | [FORMAT](#format-1) |
-|--------------------------|----------------|---------------------|
-| `cmudict\.0\.[1-6][a-z]` | `cmudict.0.6d` | `cmudict-weide`     |
-| `cmudict\.(vp|dict)`     | `cmudict.dict` | `cmudict-new`       |
-| `*`                      | `cmudict-0.7b` | `cmudict`           |
+If no [FORMAT](#format-1) is specified, its value is determined based on the
+content. This logic has rules for the old Weide format as well as the new
+formats (both the currently maintained dictionary and `cmudict-new` formats).
+Additionally, it detects files containing `Pronunciation Dictionary` within a
+`;;;` comment as `cmudict` documents.
 
 __NOTE:__ You need to set the variables before setting the filetype. For example:
 
