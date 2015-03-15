@@ -56,6 +56,26 @@ def festlex_context(context):
 		raise ValueError('Unknown festlex context value: {0}'.format(context))
 	return context
 
+class SetValidator:
+	def __init__(self, values):
+		self.values = values
+
+	def __call__(self, value):
+		return value in self.values
+
+class TypeValidator:
+	_types = { 's': str, 'i': int, 'f': float }
+
+	def __init__(self, value_type):
+		self.value_type = self._types[value_type]
+
+	def __call__(self, value):
+		try:
+			self.value_type(value)
+			return True
+		except ValueError:
+			return False
+
 class IpaPhonemeSet:
 	def __init__(self, accent):
 		self.to_ipa = {}
@@ -415,7 +435,7 @@ def parse_comment_string(comment, values=None):
 			if values:
 				if not key in values.keys():
 					errors.append('Invalid metadata key "{0}"'.format(key))
-				elif not value in values[key]:
+				elif not values[key](value):
 					errors.append('Invalid metadata value "{0}"'.format(value))
 			else:
 				if not re_key.match(key):
@@ -514,7 +534,13 @@ def parse_cmudict(filename, checks, order_from, encoding):
 				if 'metadata' in meta.keys():
 					if not entry_metadata:
 						entry_metadata = {}
-					entry_metadata.update(metadata.parse(meta['metadata'][0]))
+					entry = meta['metadata'][0]
+					if entry.startswith('@'):
+						t, key = entry[1:].split(':')
+						entry_metadata[key] = TypeValidator(t)
+					else:
+						for key, value in metadata.parse(entry).items():
+							entry_metadata[key] = SetValidator(value)
 			if not format: # detect the dictionary format ...
 				format = comment_format
 				if format == 'cmudict-new':

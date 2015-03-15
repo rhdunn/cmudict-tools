@@ -180,6 +180,13 @@ This will output JSON text, for example:
 
 	{"key1": ["value1", "value2"], "key2": ["value3"]}
 
+Additionally, `@type:key` can be used to specify keys that have arbitrary values
+of a regular format. Valid types are:
+
+  *  `s` for string values;
+  *  `i` for integer numbers (e.g. `274`);
+  *  `f` for floating point numbers (e.g. `56.46325`).
+
 ## Phone Table File Format
 
 This is a CSV document with the first line containing the titles of each field.
