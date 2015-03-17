@@ -539,7 +539,8 @@ def parse_cmudict(filename, checks, order_from, encoding):
 						t, key = entry[1:].split(':')
 						entry_metadata[key] = TypeValidator(t)
 					else:
-						for key, value in metadata.parse(entry).items():
+						path = os.path.join(os.path.dirname(filename), entry)
+						for key, value in metadata.parse(path).items():
 							entry_metadata[key] = SetValidator(value)
 			if not format: # detect the dictionary format ...
 				format = comment_format
