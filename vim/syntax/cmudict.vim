@@ -43,7 +43,7 @@ if b:cmudict_accent == 'en-US'
     syn match	cmudictPhone contained	"\<I[HY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<O[WY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<U[HWX][0-2]\>" contains=cmudictPhoneStress
-    syn match	cmudictPhone contained	"\<[BDFGKLMNPQRSTVWYZ]\>"
+    syn match	cmudictPhone contained	"\<[BDFGKLMNPQRSTVWXYZ]\>"
     syn match	cmudictPhone contained	"\<[CDHJSTZ]H\>"
     syn match	cmudictPhone contained	"\<AXR\=0\=\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<IX0\=\>" contains=cmudictPhoneStress
@@ -103,7 +103,7 @@ elseif b:cmudict_accent == 'en-GB-x-rp'
     syn match	cmudictPhone contained	"\<I[AHY]\=[0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<O[AHWY][0-2]\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<U[AHWX]\=[0-2]\>" contains=cmudictPhoneStress
-    syn match	cmudictPhone contained	"\<[BDFGKLMNPQRSTVWYZ]\>"
+    syn match	cmudictPhone contained	"\<[BDFGKLMNPQRSTVWXYZ]\>"
     syn match	cmudictPhone contained	"\<[CDHJSTZ]H\>"
     syn match	cmudictPhone contained	"\<AXR\=0\=\>" contains=cmudictPhoneStress
     syn match	cmudictPhone contained	"\<IX0\=\>" contains=cmudictPhoneStress
