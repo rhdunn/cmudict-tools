@@ -359,12 +359,15 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 			word = fmt['word'](word)
 		if context:
 			components.append('context')
-		if comment != None:
+		if comment != None or metadata != None:
 			if metadata != None:
 				meta = []
 				for key, values in sorted(metadata.items()):
 					meta.extend(['{0}={1}'.format(key, value) for value in values])
-				comment = '@@ {0} @@{1}'.format(' '.join(meta), comment)
+				if comment:
+					comment = '@@ {0} @@{1}'.format(' '.join(meta), comment)
+				else:
+					comment = '@@ {0} @@'.format(' '.join(meta))
 			components.append('comment')
 		if phonemes:
 			phonemes = phonemeset.format(phonemes)
