@@ -38,7 +38,7 @@ The supported `OPTIONS` are:
 | `-W` [WARNING](#warning)                  | Enable or disable the specified validation warnings. |
 | `--source-accent` [ACCENT](#accent)       | Use `ACCENT` to source the dictionary phonesets. |
 | `--source-phoneset` [PHONESET](#phoneset) | Use `PHONESET` to validate the phones in the dictionary. |
-| `--accent` [ACCENT](#accent)              | Use `ACCENT` to source the outpur phonesets. |
+| `--accent` [ACCENT](#accent)              | Use `ACCENT` to source the output phonesets. |
 | `--phoneset` [PHONESET](#phoneset)        | Use `PHONESET` to validate the phones in the output. |
 | `--format` [FORMAT](#format-1)            | Output the dictionary entries in `FORMAT`. |
 | `--sort` [SORT](#sort)                    | Sort the entries using `SORT` ordering. |
