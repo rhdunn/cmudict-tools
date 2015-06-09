@@ -3,6 +3,7 @@
 ;;;@@ key1=value1 key2=value2 @@ This is a metadata comment.
 ;;; @@ key=value @@ This is not a metadata comment.
 ;;;@@ key3=value3 key3=value4 @@
+;;;@@ metadata=@s:key1 @@
 
 !!invalid_entry
 a W AA1 N

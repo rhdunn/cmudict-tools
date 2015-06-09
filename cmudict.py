@@ -435,7 +435,7 @@ def parse_comment_string(comment, values=None):
 		_, metastring, comment = comment.split('@@')
 		metadata = {}
 		for key, value in [x.split('=') for x in metastring.strip().split()]:
-			if values:
+			if values is not None:
 				if not key in values.keys():
 					errors.append('Invalid metadata key "{0}"'.format(key))
 				elif not values[key](value):
@@ -507,7 +507,7 @@ def parse_cmudict(filename, checks, order_from, encoding):
 	re_linecomment_air   = re.compile(r'^;;;(.*)$')
 	re_entry = re.compile(r'^([^ a-zA-Z\x80-\xFF]?[a-zA-Z0-9\'\.\-\_\x80-\xFF]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
-	entry_metadata = None
+	entry_metadata = {}
 	for line in read_file(filename, encoding=encoding):
 		if line == '':
 			yield line, format, None, None, None, None, None, None
