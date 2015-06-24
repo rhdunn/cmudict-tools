@@ -137,6 +137,7 @@ class ArpabetPhonemeSet:
 		self.from_arpabet = {}
 		self.missing_stress_marks = set()
 		self.stress_types = {}
+		self.phone_types = {}
 
 	def add(self, data):
 		phoneme = self.conversion(data['Arpabet'])
@@ -155,6 +156,10 @@ class ArpabetPhonemeSet:
 			self.stress_types['{0}0'.format(normalized)] = StressType.UNSTRESSED
 			self.stress_types['{0}1'.format(normalized)] = StressType.PRIMARY_STRESS
 			self.stress_types['{0}2'.format(normalized)] = StressType.SECONDARY_STRESS
+			self.phone_types[normalized] = types
+			self.phone_types['{0}0'.format(normalized)] = types
+			self.phone_types['{0}1'.format(normalized)] = types
+			self.phone_types['{0}2'.format(normalized)] = types
 		elif 'schwa' in types:
 			self.to_arpabet[phoneme] = normalized
 			self.to_arpabet['{0}0'.format(phoneme)] = u'{0}0'.format(normalized)
@@ -162,20 +167,28 @@ class ArpabetPhonemeSet:
 			self.from_arpabet['{0}0'.format(normalized)] = u'{0}0'.format(phoneme)
 			self.stress_types[normalized] = StressType.WEAK
 			self.stress_types['{0}0'.format(normalized)] = StressType.WEAK
+			self.phone_types[normalized] = types
+			self.phone_types['{0}0'.format(normalized)] = types
 		elif 'syllabic' in types:
 			self.to_arpabet[phoneme] = normalized
 			self.from_arpabet[normalized] = phoneme
 			self.stress_types[normalized] = StressType.SYLLABIC
+			self.phone_types[normalized] = types
 		elif 'prosody' in types:
 			self.to_arpabet[phoneme] = normalized
 			self.from_arpabet[normalized] = phoneme
 			self.stress_types[normalized] = StressType.PROSODY
+			self.phone_types[normalized] = types
 		else:
 			self.to_arpabet[phoneme] = normalized
 			self.from_arpabet[normalized] = phoneme
+			self.phone_types[normalized] = types
 
 	def stress_type(self, phoneme):
 		return self.stress_types.get(phoneme, StressType.CONSONANT)
+
+	def types(self, phoneme):
+		return self.phone_types.get(phoneme, [])
 
 	def parse(self, phonemes, checks):
 		for phoneme in self.re_phonemes.split(phonemes.strip()):
@@ -688,7 +701,10 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 
 		vowels = stress_counts[StressType.UNSTRESSED] + stress_counts[StressType.PRIMARY_STRESS] + stress_counts[StressType.SECONDARY_STRESS] + stress_counts[StressType.WEAK] + stress_counts[StressType.SYLLABIC]
 
+
 		if vowels == 1 and stress_counts[StressType.WEAK] == 1: # weak forms (a, the, had, etc.)
+			pass
+		elif len(arpabet_phonemes) == 1 and 'fricative' in phonemeset.types(arpabet_phonemes[0]): # shhh, zzzz, etc.
 			pass
 		elif stress_counts[StressType.PRIMARY_STRESS] == 0:
 			if 'missing-primary-stress' in checks:
