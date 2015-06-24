@@ -704,6 +704,8 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 
 		if vowels == 1 and stress_counts[StressType.WEAK] == 1: # weak forms (a, the, had, etc.)
 			pass
+		elif vowels == 1 and stress_counts[StressType.SYLLABIC] == 1: # mmmm, hmmm, etc.
+			pass
 		elif len(arpabet_phonemes) == 1 and 'fricative' in phonemeset.types(arpabet_phonemes[0]): # shhh, zzzz, etc.
 			pass
 		elif stress_counts[StressType.PRIMARY_STRESS] == 0:
