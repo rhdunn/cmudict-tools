@@ -217,12 +217,13 @@ At a minimum, it needs to support the following fields:
   *  `Phone Sets` is a semi-colon (`;`) separated list of phonesets that
      support this phone.
 
-The supported values for the `Type` field are:
+The `Type` field supports any values. The following values are given special
+meanings:
 
-  *  `vowel` to indicate a phone that can have a stress marker;
-  *  `consonant` to indicate a phone that cannot have a stress marker;
-  *  `schwa` to indicate a phone that can either have no stress marker, or the
-     unstressed (`0`) stress marker.
+  *  `schwa` -- A weak vowel that can have an optional unstressed (`0`) stress
+     marker in pronunciations.
+
+  *  `vowel` -- A vowel that must have a stress marker in pronunciations.
 
 For example:
 

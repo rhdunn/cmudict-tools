@@ -86,9 +86,7 @@ class IpaPhonemeSet:
 			return # not supported in this accent
 		arpabet = data['Arpabet']
 		ipa = data[self.accent]
-		if data['Type'] == 'consonant':
-			self.to_ipa[arpabet] = ipa
-		elif data['Type'] == 'vowel':
+		if data['Type'] == 'vowel':
 			self.to_ipa[arpabet] = ipa # missing stress
 			self.to_ipa['{0}0'.format(arpabet)] = ipa
 			self.to_ipa['{0}1'.format(arpabet)] = u'ˈ{0}'.format(ipa)
@@ -96,6 +94,8 @@ class IpaPhonemeSet:
 		elif data['Type'] == 'schwa':
 			self.to_ipa[arpabet] = ipa # missing stress
 			self.to_ipa['{0}0'.format(arpabet)] = ipa
+		else:
+			self.to_ipa[arpabet] = ipa
 
 	def parse(self, phonemes, checks):
 		raise Exception('parse is not currently supported for IPA phonemes')
@@ -126,10 +126,7 @@ class ArpabetPhonemeSet:
 	def add(self, data):
 		phoneme = self.conversion(data['Arpabet'])
 		normalized = self.conversion(data['Normalized'] if data['Normalized'] else phoneme)
-		if data['Type'] == 'consonant':
-			self.to_arpabet[phoneme] = normalized
-			self.from_arpabet[normalized] = phoneme
-		elif data['Type'] == 'vowel':
+		if data['Type'] == 'vowel':
 			self.missing_stress_marks.add(phoneme)
 			self.to_arpabet[phoneme] = normalized
 			self.to_arpabet['{0}0'.format(phoneme)] = u'{0}0'.format(normalized)
@@ -144,6 +141,9 @@ class ArpabetPhonemeSet:
 			self.to_arpabet['{0}0'.format(phoneme)] = u'{0}0'.format(normalized)
 			self.from_arpabet[normalized] = phoneme
 			self.from_arpabet['{0}0'.format(normalized)] = u'{0}0'.format(phoneme)
+		else:
+			self.to_arpabet[phoneme] = normalized
+			self.from_arpabet[normalized] = phoneme
 
 	def parse(self, phonemes, checks):
 		for phoneme in self.re_phonemes.split(phonemes.strip()):
