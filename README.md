@@ -340,7 +340,9 @@ The supported `WARNING` values are:
 | `duplicate-pronunciations` | Check for duplicated pronunciations for an entry. |
 | `entry-spacing`            | Check spacing between word and pronunciation. |
 | `invalid-phonemes`         | Check for invalid phonemes. |
+| `missing-primary-stress`   | Check for missing primary stress markers. |
 | `missing-stress`           | Check for missing stress markers. |
+| `multiple-primary-stress`  | Check for multiple primary stress markers. |
 | `phoneme-spacing`          | Check for a single space between phonemes. |
 | `trailing-whitespace`      | Check for trailing whitespaces. |
 | `unsorted`                 | Check if a word is not sorted correctly. |

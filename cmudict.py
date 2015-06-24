@@ -85,6 +85,10 @@ class StressType:
 	CONSONANT = 'C'
 	PROSODY = 'P'
 
+	@staticmethod
+	def types():
+		return ['0', '1', '2', 'W', 'S', 'C', 'P']
+
 class IpaPhonemeSet:
 	def __init__(self, accent):
 		self.to_ipa = {}
@@ -293,7 +297,9 @@ parser_warnings = {
 	'duplicate-pronunciations': 'check for duplicated pronunciations for an entry',
 	'entry-spacing': 'check spacing between word and pronunciation',
 	'invalid-phonemes': 'check for invalid phonemes',
+	'missing-primary-stress': 'check for missing primary stress markers in pronunciations',
 	'missing-stress': 'check for missing stress markers',
+	'multiple-primary-stress': 'check for multiple primary stress markers in pronunciations',
 	'phoneme-spacing': 'check for a single space between phonemes',
 	'trailing-whitespace': 'check for trailing whitespaces',
 	'unsorted': 'check if a word is not sorted correctly',
@@ -672,11 +678,24 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 		# phoneme validation checks
 
 		arpabet_phonemes = []
+		stress_counts = dict([(t, 0) for t in StressType.types()])
 		for phoneme, error in phonemeset.parse(phonemes, checks):
 			if error:
 				yield None, None, None, None, None, u'{0} in entry: "{1}"'.format(error, line)
 			else:
 				arpabet_phonemes.append(phoneme)
+				stress_counts[phonemeset.stress_type(phoneme)] += 1
+
+		vowels = stress_counts[StressType.UNSTRESSED] + stress_counts[StressType.PRIMARY_STRESS] + stress_counts[StressType.SECONDARY_STRESS] + stress_counts[StressType.WEAK] + stress_counts[StressType.SYLLABIC]
+
+		if vowels == 1 and stress_counts[StressType.WEAK] == 1: # weak forms (a, the, had, etc.)
+			pass
+		elif stress_counts[StressType.PRIMARY_STRESS] == 0:
+			if 'missing-primary-stress' in checks:
+				yield None, None, None, None, None, u'No primary stress marker in entry: "{0}"'.format(line)
+		elif stress_counts[StressType.PRIMARY_STRESS] != 1:
+			if 'multiple-primary-stress' in checks:
+				yield None, None, None, None, None, u'Multiple primary stress markers in entry: "{0}"'.format(line)
 
 		# duplicate and context ordering checks
 
