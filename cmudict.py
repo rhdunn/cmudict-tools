@@ -76,6 +76,15 @@ class TypeValidator:
 		except ValueError:
 			return False
 
+class StressType:
+	UNSTRESSED = '0'
+	PRIMARY_STRESS = '1'
+	SECONDARY_STRESS = '2'
+	WEAK = 'W'
+	SYLLABIC = 'S'
+	CONSONANT = 'C'
+	PROSODY = 'P'
+
 class IpaPhonemeSet:
 	def __init__(self, accent):
 		self.to_ipa = {}
@@ -123,6 +132,7 @@ class ArpabetPhonemeSet:
 		self.to_arpabet = {}
 		self.from_arpabet = {}
 		self.missing_stress_marks = set()
+		self.stress_types = {}
 
 	def add(self, data):
 		phoneme = self.conversion(data['Arpabet'])
@@ -138,14 +148,30 @@ class ArpabetPhonemeSet:
 			self.from_arpabet['{0}0'.format(normalized)] = u'{0}0'.format(phoneme)
 			self.from_arpabet['{0}1'.format(normalized)] = u'{0}1'.format(phoneme)
 			self.from_arpabet['{0}2'.format(normalized)] = u'{0}2'.format(phoneme)
+			self.stress_types['{0}0'.format(normalized)] = StressType.UNSTRESSED
+			self.stress_types['{0}1'.format(normalized)] = StressType.PRIMARY_STRESS
+			self.stress_types['{0}2'.format(normalized)] = StressType.SECONDARY_STRESS
 		elif 'schwa' in types:
 			self.to_arpabet[phoneme] = normalized
 			self.to_arpabet['{0}0'.format(phoneme)] = u'{0}0'.format(normalized)
 			self.from_arpabet[normalized] = phoneme
 			self.from_arpabet['{0}0'.format(normalized)] = u'{0}0'.format(phoneme)
+			self.stress_types[normalized] = StressType.WEAK
+			self.stress_types['{0}0'.format(normalized)] = StressType.WEAK
+		elif 'syllabic' in types:
+			self.to_arpabet[phoneme] = normalized
+			self.from_arpabet[normalized] = phoneme
+			self.stress_types[normalized] = StressType.SYLLABIC
+		elif 'prosody' in types:
+			self.to_arpabet[phoneme] = normalized
+			self.from_arpabet[normalized] = phoneme
+			self.stress_types[normalized] = StressType.PROSODY
 		else:
 			self.to_arpabet[phoneme] = normalized
 			self.from_arpabet[normalized] = phoneme
+
+	def stress_type(self, phoneme):
+		return self.stress_types.get(phoneme, StressType.CONSONANT)
 
 	def parse(self, phonemes, checks):
 		for phoneme in self.re_phonemes.split(phonemes.strip()):
