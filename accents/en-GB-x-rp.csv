@@ -35,10 +35,10 @@ DX,,ɾ,stop,arpabet;ipa,,button,B AH1 DX AH0 N,Tapped D
 E@,EA,,vowel,cepstral,SQUARE,pair,P E@1 R,
 EA,,ɛə̯,vowel,arpabet;ipa,SQUARE,pair,P EA1 R,
 EH,,ɛ,vowel,arpabet;ipa;cepstral,DRESS,Ed,EH1 D,
-EL,,l̩,liquid,arpabet;ipa,,bottle,B AO1 T EL,Syllabic L
-EM,,m̩,nasal,arpabet;ipa,,rhythmn,R IH1 DH EM,Syllabic M
-EN,,n̩,nasal,arpabet;ipa,,button,B UH1 T EN,Syllabic N
-ENG,,ŋ̍,nasal,arpabet;ipa,,washington,W AO1 SH ENG T AH0 N,Syllabic NG
+EL,,l̩,liquid;syllabic,arpabet;ipa,,bottle,B AO1 T EL,Syllabic L
+EM,,m̩,nasal;syllabic,arpabet;ipa,,rhythmn,R IH1 DH EM,Syllabic M
+EN,,n̩,nasal;syllabic,arpabet;ipa,,button,B UH1 T EN,Syllabic N
+ENG,,ŋ̍,nasal;syllabic,arpabet;ipa,,washington,W AO1 SH ENG T AH0 N,Syllabic NG
 ER,,əː,vowel,arpabet;ipa;cepstral,NURSE,hurt,HH ER1 T,
 EY,,eɪ̯,vowel,arpabet;ipa;cepstral,FACE,ate,EY1 T,
 F,,f,fricative,arpabet;ipa;cepstral,,fee,F IY1,

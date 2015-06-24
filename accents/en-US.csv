@@ -35,10 +35,10 @@ DH,,ð,fricative,arpabet;ipa;cmu;festvox;cepstral;timit,,thee,DH IY1,
 DX,,ɾ,stop,arpabet;ipa;timit,,button;en-US-x-timit,B AH1 DX AH0 N,Tapped D
 EA,,ɛ,vowel,arpabet;ipa,SQUARE,pair,P EA1 R,
 EH,,ɛ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,DRESS,Ed,EH1 D,
-EL,,l̩,liquid,arpabet;ipa;timit,,bottle,B AO1 T EL,Syllabic L
-EM,,m̩,nasal,arpabet;ipa;timit,,rhythmn,R IH1 DH EM,Syllabic M
-EN,,n̩,nasal,arpabet;ipa;timit,,button,B UH1 T EN,Syllabic N
-ENG,,ŋ̍,nasal,arpabet;ipa;timit,,washington,W AO1 SH ENG T AH0 N,Syllabic NG
+EL,,l̩,liquid;syllabic,arpabet;ipa;timit,,bottle,B AO1 T EL,Syllabic L
+EM,,m̩,nasal;syllabic,arpabet;ipa;timit,,rhythmn,R IH1 DH EM,Syllabic M
+EN,,n̩,nasal;syllabic,arpabet;ipa;timit,,button,B UH1 T EN,Syllabic N
+ENG,,ŋ̍,nasal;syllabic,arpabet;ipa;timit,,washington,W AO1 SH ENG T AH0 N,Syllabic NG
 ER,,ɝ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,NURSE,hurt,HH ER1 T,
 EY,,eɪ̯,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,FACE,ate,EY1 T,
 F,,f,fricative,arpabet;ipa;cmu;festvox;cepstral;timit,,fee,F IY1,

@@ -217,8 +217,8 @@ At a minimum, it needs to support the following fields:
   *  `Phone Sets` is a semi-colon (`;`) separated list of phonesets that
      support this phone.
 
-The `Type` field supports any values. The following values are given special
-meanings:
+The `Type` field supports any values that can be separated using a `;`. The
+following values are given special meanings:
 
   *  `schwa` -- A weak vowel that can have an optional unstressed (`0`) stress
      marker in pronunciations.
