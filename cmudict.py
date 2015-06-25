@@ -248,6 +248,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-weide': {
 		'accent': 'en-US',
 		'phoneset': 'cmu',
+		'have-comments': True,
 		# formatting:
 		'comment': '##{3}\n',
 		'entry': '{0}  {2}\n',
@@ -262,6 +263,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict': {
 		'accent': 'en-US',
 		'phoneset': 'cmu',
+		'have-comments': True,
 		# formatting:
 		'comment': ';;;{3}\n',
 		'entry': '{0}  {2}\n',
@@ -276,6 +278,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'cmudict-new': {
 		'accent': 'en-US',
 		'phoneset': 'cmu',
+		'have-comments': True,
 		# formatting:
 		'comment': ';;;{3}\n',
 		'entry': '{0} {2}\n',
@@ -290,6 +293,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 	'festlex': {
 		'accent': 'en-US',
 		'phoneset': 'festvox',
+		'have-comments': True,
 		# formatting:
 		'comment': ';;{3}\n',
 		'entry': '("{0}" nil ({2}))\n',
@@ -415,7 +419,10 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 					comment = '@@ {0} @@{1}'.format(' '.join(meta), comment)
 				else:
 					comment = '@@ {0} @@'.format(' '.join(meta))
-			components.append('comment')
+			if fmt['have-comments']:
+				components.append('comment')
+			elif not word: # line comment
+				continue
 		if phonemes:
 			phonemes = phonemeset.format(phonemes)
 		if len(components) == 0:
