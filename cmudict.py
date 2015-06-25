@@ -660,6 +660,11 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 
 		if not word: # line comment or blank line
 			yield None, None, None, comment, meta, None
+			if meta and not fmt:
+				if 'accent' in meta.keys():
+					accent = meta['accent'][0]
+				if 'phoneset' in meta.keys():
+					phoneset = meta['phoneset'][0]
 			continue
 
 		if not fmt:

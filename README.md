@@ -5,15 +5,14 @@
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
   - [Metadata](#metadata)
 - [File-Based Metadata](#file-based-metadata)
-  - [format](#format)
-  - [metadata](#metadata-1)
 - [Phone Table File Format](#phone-table-file-format)
 - [Metadata Description File Format](#metadata-description-file-format)
   - [CSV Metadata](#csv-metadata)
   - [RDF Metadata](#rdf-metadata)
 - [Configuration Options](#configuration-options)
   - [ACCENT](#accent)
-  - [FORMAT](#format-1)
+  - [FORMAT](#format)
+  - [METADATA](#metadata-1)
   - [PHONESET](#phoneset)
   - [SORT](#sort)
   - [WARNING](#warning)
@@ -40,7 +39,7 @@ The supported `OPTIONS` are:
 | `--source-phoneset` [PHONESET](#phoneset) | Use `PHONESET` to validate the phones in the dictionary. |
 | `--accent` [ACCENT](#accent)              | Use `ACCENT` to source the output phonesets. |
 | `--phoneset` [PHONESET](#phoneset)        | Use `PHONESET` to validate the phones in the output. |
-| `--format` [FORMAT](#format-1)            | Output the dictionary entries in `FORMAT`. |
+| `--format` [FORMAT](#format)              | Output the dictionary entries in `FORMAT`. |
 | `--sort` [SORT](#sort)                    | Sort the entries using `SORT` ordering. |
 | `--order-from ORDER_FROM`                 | Start variants at `ORDER_FROM`, including the initial entry. |
 | `--help-warnings`                         | List the available validation warnings. |
@@ -56,7 +55,7 @@ The supported `OPTIONS` are:
 | `select=SELECTOR` | Select the item corresponding to `SELECTOR` (see below). |
 
 The `DICTIONARY` file is auto-detected according to one of the supported input
-[FORMAT](#format-1) values.
+[FORMAT](#format) values.
 
 The `SELECTOR` value can be:
 
@@ -101,12 +100,12 @@ The following variables and [file-based metadata](#metadata) are supported:
 |--------------------------------------------|----------------------------------|----------|-------------|
 | `b:cmudict_accent`=[ACCENT](#accent)       | `accent`=[ACCENT](#accent)       | `en-US`  | The accent the dictionary is specified in. |
 | `b:cmudict_phoneset`=[PHONESET](#phoneset) | `phoneset`=[PHONESET](#phoneset) | `cmu`    | The phoneset used to transcribe the phones in. |
-| `b:cmudict_format`=[FORMAT](#format-1)     | `format`=[FORMAT](#format-1)     | __auto__ | The specific format of the dictionary. |
+| `b:cmudict_format`=[FORMAT](#format)       | `format`=[FORMAT](#format)       | __auto__ | The specific format of the dictionary. |
 
 __NOTE:__ The file-based metadata must occur within the first 5 lines of the
 file to be supported by the VIM syntax file.
 
-If no [FORMAT](#format-1) is specified, its value is determined based on the
+If no [FORMAT](#format) is specified, its value is determined based on the
 content. This logic has rules for the old Weide format as well as the new
 formats (both the currently maintained dictionary and `cmudict-new` formats).
 Additionally, it detects files containing `Pronunciation Dictionary` within a
@@ -172,35 +171,16 @@ have both values.
 
 ## File-Based Metadata
 
-This is metadata on line comments in the given dictionary format. This metadata
-is used to control the `cmudict-tools` behaviour.
+This is metadata on line comments in the given dictionary format.
 
-### format
+The file-based metadata that `cmudict-tools` understands is:
 
-The `format` metadata key overrides the auto-detected file format. It only
-applies to the cmudict-based formats. See [FORMAT](#format-1) for supported
-values.
-
-### metadata
-
-The `metadata` metadata key points to a metadata description file containing
-the valid `(key,value)` pairs for entry-based metadata.
-
-To test the `(key,value)` extraction for a metadata description file, you can
-run:
-
-	python metadata.py <metadata-description-file>
-
-This will output JSON text, for example:
-
-	{"key1": ["value1", "value2"], "key2": ["value3"]}
-
-Additionally, `@type:key` can be used to specify keys that have arbitrary values
-of a regular format. Valid types are:
-
-  *  `s` for string values;
-  *  `i` for integer numbers (e.g. `274`);
-  *  `f` for floating point numbers (e.g. `56.46325`).
+| Metadata                         | Default  | Description |
+|----------------------------------|----------|-------------|
+| `accent`=[ACCENT](#accent)       | `en-US`  | The accent the dictionary is specified in. |
+| `format`=[FORMAT](#format)       | __auto__ | The specific format of the dictionary. |
+| `metadata`=[METADATA](#metadata) |          | The specification for entry-based metadata. |
+| `phoneset`=[PHONESET](#phoneset) | `cmu`    | The phoneset used to transcribe the phones in. |
 
 ## Phone Table File Format
 
@@ -301,6 +281,27 @@ The supported `FORMAT` values are:
 | `cmudict-new`   | yes   | yes    | yes      | yes | The dictionary format as maintained by Nikolay V. Shmyrev. |
 | `festlex`       | yes   | yes    | no       | no  | The festival lexicon format for Scheme (`*.scm`) files. |
 | `json`          | no    | yes    | no       | no  | JSON formatted entries and validation errors. |
+
+### METADATA
+
+The `METADATA` value points to a metadata description file containing the valid
+`(key,value)` pairs for entry-based metadata.
+
+To test the `(key,value)` extraction for a metadata description file, you can
+run:
+
+	python metadata.py <metadata-description-file>
+
+This will output JSON text, for example:
+
+	{"key1": ["value1", "value2"], "key2": ["value3"]}
+
+Additionally, `@type:key` can be used to specify keys that have arbitrary values
+of a regular format. Valid types are:
+
+  *  `s` for string values;
+  *  `i` for integer numbers (e.g. `274`);
+  *  `f` for floating point numbers (e.g. `56.46325`).
 
 ### PHONESET
 
