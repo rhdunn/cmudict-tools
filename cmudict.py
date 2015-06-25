@@ -406,21 +406,22 @@ def remove_context_entries(entries):
 			yield word, context, phonemes, comment, metadata, error
 
 def remove_stress(entries, order_from=0):
-	words = {}
+	words = Trie()
 	for word, context, phonemes, comment, metadata, error in entries:
 		if not word:
 			yield word, context, phonemes, comment, metadata, error
 			continue
 
 		phonemes = [ re.sub(r'[0-3]', '', p) for p in phonemes ]
-		if not word in words.keys():
-			words[word] = {'context': order_from, 'pronunciations': [ phonemes ]}
-		elif phonemes in words[word]['pronunciations']:
-			continue # duplicate pronunciation
+		if word in words:
+			context, pronunciations = words[word]
+			if phonemes in pronunciations:
+				continue # duplicate pronunciation
 		else:
-			words[word]['pronunciations'].append(phonemes)
-			context = words[word]['context'] + 1
-			words[word]['context'] = context
+			context = order_from
+			pronunciations = [ phonemes ]
+		pronunciations.append(phonemes)
+		words[word] = (context + 1, pronunciations)
 		yield word, context, phonemes, comment, metadata, error
 
 def format_text(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252'):
