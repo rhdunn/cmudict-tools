@@ -1,6 +1,7 @@
 # CMU Pronunciation Dictionary Tools
 
 - [Usage](#usage)
+  - [Example: Porter Stemmer](#example-porter-stemmer)
 - [VIM Syntax File](#vim-syntax-file)
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
   - [Metadata](#metadata)
@@ -65,11 +66,18 @@ The `SELECTOR` value can be:
 | `@KEY`     | Select `KEY` from the metadata section of the dictionary. |
 | `A|B`      | Select the value of `A` if present, or `B` if not, where `A` and `B` are `SELCTOR` values themselves. |
 
-__NOTE:__ The `select` command can be used to extract the data used to test
-a Porter stemmer algorithm. For example:
+### Example: Porter Stemmer
+
+The `select` command can be used to extract the data used to test a Porter
+stemmer algorithm:
 
 	./cmudict-tools select=word cmudict > in.txt
 	./cmudict-tools select="@stem|word" cmudict > out.txt
+
+This examples entries to have metadata like:
+
+	BURN  B ER1 N
+	BURNING  B ER1 N IH0 NG #@@ stem=BURN @@
 
 ## VIM Syntax File
 
