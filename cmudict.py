@@ -305,6 +305,15 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
 		'context-parser': festlex_context,
 	},
+	'sphinx': {
+		'accent': 'en-US',
+		'phoneset': 'cmu',
+		'have-comments': False,
+		# formatting:
+		'entry': '{0}\t{2}\n',
+		'entry-context': '{0}({1})\t{2}\n',
+		'word': lambda word: word.upper(),
+	},
 }
 
 parser_warnings = {

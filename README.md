@@ -280,6 +280,7 @@ The supported `FORMAT` values are:
 | `cmudict-weide` | yes   | yes    | yes      | yes | The old dictionary format as maintained by Robert L. Weide and others (versions 0.1 through 0.7). |
 | `cmudict-new`   | yes   | yes    | yes      | yes | The dictionary format as maintained by Nikolay V. Shmyrev. |
 | `festlex`       | yes   | yes    | no       | no  | The festival lexicon format for Scheme (`*.scm`) files. |
+| `sphinx`        | no    | yes    | no       | no  | The lexicon format used by sphinx4, phonetisaurus, etc. |
 | `json`          | no    | yes    | no       | no  | JSON formatted entries and validation errors. |
 
 ### METADATA

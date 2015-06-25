@@ -125,6 +125,7 @@ ARGS="print -Wall -Wno-unsorted"
 check "cmudict formatting" tests/format-cmudict ${ARGS} --format=cmudict tests/format-cmudict
 check "cmudict-weide formatting" tests/format-cmudict-weide ${ARGS} --format=cmudict-weide tests/format-cmudict
 check "cmudict-new formatting" tests/format-cmudict-new ${ARGS} --format=cmudict-new tests/format-cmudict
+check "sphinx formatting" tests/format-sphinx ${ARGS} --format=sphinx tests/format-cmudict
 check "festlex formatting" tests/format-festlex.scm ${ARGS} --format=festlex tests/format-cmudict
 
 # Sorting Tests ###############################################################
