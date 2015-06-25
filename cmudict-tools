@@ -97,6 +97,8 @@ def parse(args):
 		parser = cmudict.sort(parser, args.sort)
 	if args.remove_context_entries:
 		parser = cmudict.remove_context_entries(parser)
+	if args.remove_stress:
+		parser = cmudict.remove_stress(parser, order_from=args.order_from)
 	return parser
 
 def print_dict(args):
@@ -140,7 +142,8 @@ parser.add_argument('--help-warnings', action=HelpWarningsAction, help='List the
 parser.add_argument('--input-encoding', default='windows-1252', help='The encoding of the dictionary file.')
 parser.add_argument('--output-encoding', default='windows-1252', help='The encoding to print the entries in.')
 parser.add_argument('--remove-context-entries', default=False, action='store_true', help='Ignore entries with a context specified.')
-parser.add_argument('--remove-syllable-breaks', default=False, action='store_true', help='Remove syllable break markers in pronunciations.')
+parser.add_argument('--remove-syllable-breaks', default=False, action='store_true', help='Remove syllable break markers from pronunciations.')
+parser.add_argument('--remove-stress', default=False, action='store_true', help='Remove stress markers from pronunciations.')
 parser.add_argument('command', help='The action to perform.')
 parser.add_argument('filename', help='The dictionary file to perform the action on.')
 args = parser.parse_args()

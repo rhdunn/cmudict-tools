@@ -171,6 +171,7 @@ check "-Wnone" tests/phone_en-US-x-cmu_Wnone.json ${ARGS} tests/phone_arpabet.up
 ARGS="print -Wnone --source-phoneset=arpabet"
 check "--remove-context-entries" tests/no_context ${ARGS} --format=sphinx --remove-context-entries tests/format-cmudict
 check "--remove-syllable-breaks" tests/phone_arpabet.no_syllable_breaks ${ARGS} --remove-syllable-breaks tests/phone_arpabet.upper
+check "--remove-stress" tests/no_stress ${ARGS} --remove-stress tests/no_stress.dict
 
 # Print Tests #################################################################
 
