@@ -400,6 +400,11 @@ def sort(entries, mode):
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
 
+def remove_context_entries(entries):
+	for word, context, phonemes, comment, metadata, error in entries:
+		if not word or not context:
+			yield word, context, phonemes, comment, metadata, error
+
 def format_text(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252'):
 	fmt = dict_formats[dict_format]
 	if not accent:

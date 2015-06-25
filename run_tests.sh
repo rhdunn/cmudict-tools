@@ -166,6 +166,11 @@ check "accents/en-GB-x-rp.csv accent, arpabet phones" tests/phone_en-GB-x-rp-arp
 ARGS="print -Wnone --format=json"
 check "-Wnone" tests/phone_en-US-x-cmu_Wnone.json ${ARGS} tests/phone_arpabet.upper
 
+# Manipulation Tests ##########################################################
+
+ARGS="print -Wall -Wno-unsorted --format=sphinx"
+check "--remove-context-entries" tests/no_context ${ARGS} --remove-context-entries tests/format-cmudict
+
 # Print Tests #################################################################
 
 ARGS="print -Wnone --source-phoneset=arpabet --accent=en-US"

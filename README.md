@@ -2,6 +2,7 @@
 
 - [Usage](#usage)
   - [Example: Porter Stemmer](#example-porter-stemmer)
+  - [Example: Phonetisaurus](#example-phonetisaurus)
 - [VIM Syntax File](#vim-syntax-file)
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
   - [Metadata](#metadata)
@@ -46,6 +47,7 @@ The supported `OPTIONS` are:
 | `--help-warnings`                         | List the available validation warnings. |
 | `--input-encoding ENCODING`               | Use `ENCODING` to read the dictionary file in (e.g. `latin1`). |
 | `--output-encoding ENCODING`              | Use `ENCODING` to print the entries in (e.g. `latin1`). |
+| `--remove-context-entries`                | Ignore entries with a context specified. |
 
 `COMMAND` can be one of:
 
@@ -78,6 +80,14 @@ This examples entries to have metadata like:
 
 	BURN  B ER1 N
 	BURNING  B ER1 N IH0 NG #@@ stem=BURN @@
+
+### Example: Phonetisaurus
+
+The dictionary can be converted to a form that is usable with
+`phonetisaurus-align` by running:
+
+	./cmudict-tools --format=sphinx --remove-context-entries print cmudict > cmudict.lex
+	phonetisaurus-align --input=cmudict.lex --ofile=cmudict.corpus --seq1_del=false
 
 ## VIM Syntax File
 
