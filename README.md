@@ -48,6 +48,7 @@ The supported `OPTIONS` are:
 | `--input-encoding ENCODING`               | Use `ENCODING` to read the dictionary file in (e.g. `latin1`). |
 | `--output-encoding ENCODING`              | Use `ENCODING` to print the entries in (e.g. `latin1`). |
 | `--remove-context-entries`                | Ignore entries with a context specified. |
+| `--remove-syllable-breaks`                | Remove syllable break markers from pronunciations. |
 
 `COMMAND` can be one of:
 

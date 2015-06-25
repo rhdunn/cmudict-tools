@@ -659,7 +659,7 @@ def parse_cmudict(filename, checks, order_from, encoding):
 
 		yield line, format, word, context, phonemes, comment, meta, None
 
-def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252'):
+def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252', syllable_breaks=True):
 	checks = warnings_to_checks(warnings)
 	previous_word = None
 	re_word = None
@@ -722,6 +722,8 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 			if error:
 				yield None, None, None, None, None, u'{0} in entry: "{1}"'.format(error, line)
 			else:
+				if syllable_breaks == False and 'syllable' in phonemeset.types(phoneme):
+					continue
 				arpabet_phonemes.append(phoneme)
 				stress_counts[phonemeset.stress_type(phoneme)] += 1
 

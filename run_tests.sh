@@ -168,8 +168,9 @@ check "-Wnone" tests/phone_en-US-x-cmu_Wnone.json ${ARGS} tests/phone_arpabet.up
 
 # Manipulation Tests ##########################################################
 
-ARGS="print -Wall -Wno-unsorted --format=sphinx"
-check "--remove-context-entries" tests/no_context ${ARGS} --remove-context-entries tests/format-cmudict
+ARGS="print -Wnone --source-phoneset=arpabet"
+check "--remove-context-entries" tests/no_context ${ARGS} --format=sphinx --remove-context-entries tests/format-cmudict
+check "--remove-syllable-breaks" tests/phone_arpabet.no_syllable_breaks ${ARGS} --remove-syllable-breaks tests/phone_arpabet.upper
 
 # Print Tests #################################################################
 

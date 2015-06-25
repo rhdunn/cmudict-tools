@@ -17,7 +17,7 @@ Arpabet,Normalized,IPA,Type,Phone Sets,Lexical Set,Example,Example Transcription
 ,,,,,,,,
 ,,,,,,,,You should have received a copy of the GNU General Public License
 ,,,,,,,,"along with cmudict-tools.  If not, see <http://www.gnu.org/licenses/>."
--,,.,prosody,arpabet;ipa,,,,Syllable break
+-,,.,syllable,arpabet;ipa,,,,Syllable break
 AA,,ɑ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,PALM,odd,AA1 D,
 AE,,æ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,TRAP,at,AE1 T,
 AH,,ʌ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,STRUT,hut,HH AH1 T,
