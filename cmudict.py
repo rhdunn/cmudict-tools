@@ -408,6 +408,10 @@ def remove_context_entries(entries):
 def remove_stress(entries, order_from=0):
 	words = {}
 	for word, context, phonemes, comment, metadata, error in entries:
+		if not word:
+			yield word, context, phonemes, comment, metadata, error
+			continue
+
 		phonemes = [ re.sub(r'[0-3]', '', p) for p in phonemes ]
 		if not word in words.keys():
 			words[word] = {'context': order_from, 'pronunciations': [ phonemes ]}
