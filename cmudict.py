@@ -703,6 +703,8 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 			if meta and not fmt:
 				if 'accent' in meta.keys():
 					accent = meta['accent'][0]
+				if 'order-from' in meta.keys():
+					order_from = int(meta['order-from'][0])
 				if 'phoneset' in meta.keys():
 					phoneset = meta['phoneset'][0]
 			continue

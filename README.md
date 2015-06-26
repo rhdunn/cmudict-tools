@@ -220,6 +220,7 @@ The file-based metadata that `cmudict-tools` understands is:
 | `accent`=[ACCENT](#accent)       | `en-US`  | The accent the dictionary is specified in. |
 | `format`=[FORMAT](#format)       | __auto__ | The specific format of the dictionary. |
 | `metadata`=[METADATA](#metadata) |          | The specification for entry-based metadata. |
+| `order-from`=`ORDER_FROM`        | 0        | Start variants at `ORDER_FROM`, including the initial entry. |
 | `phoneset`=[PHONESET](#phoneset) | `cmu`    | The phoneset used to transcribe the phones in. |
 
 ## Phone Table File Format
