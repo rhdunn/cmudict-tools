@@ -374,7 +374,7 @@ class Trie:
 			current = current.setdefault(letter, {})
 		current[None] = value
 
-def sort(entries, mode):
+def sort(entries, mode, key=lambda x: x):
 	if mode is None:
 		for entry in entries:
 			yield entry
@@ -386,16 +386,16 @@ def sort(entries, mode):
 				continue
 			if mode == 'weide':
 				if context:
-					key = '{0}({1})'.format(word, context)
+					keyword = '{0}({1})'.format(word, context)
 				else:
-					key = word
+					keyword = word
 			elif mode == 'air':
 				if context:
-					key = '{0}!{1}'.format(word, context)
+					keyword = '{0}!{1}'.format(word, context)
 				else:
-					key = word
-			ordered.append((key, (word, context, phonemes, comment, metadata, error)))
-		for key, entry in sorted(ordered):
+					keyword = word
+			ordered.append((keyword, (word, context, phonemes, comment, metadata, error)))
+		for keyword, entry in sorted(ordered, key=key):
 			yield entry
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
@@ -693,7 +693,7 @@ def parse_cmudict(filename, checks, encoding):
 
 		yield line, format, word, context, phonemes, comment, meta, None
 
-def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252', syllable_breaks=True):
+def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252', syllable_breaks=True, key=lambda x: x):
 	checks = warnings_to_checks(warnings)
 	previous_word = None
 	re_word = None
@@ -738,7 +738,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 		if fmt['word'](word) != word and 'word-casing' in checks:
 			yield None, None, None, None, None, u'Incorrect word casing in entry: "{0}"'.format(line)
 
-		if previous_word and word < previous_word and 'unsorted' in checks:
+		if previous_word and key(word) < key(previous_word) and 'unsorted' in checks:
 			yield None, None, None, None, None, u'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
 
 		# context parsing and validation checks
@@ -781,7 +781,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 
 		# duplicate and context ordering checks
 
-		key = word.upper()
+		keyword = word.upper()
 		position = order_from if context is None else context
 
 		entry_line = u'{0}({1}) {2}'.format(word, context, arpabet_phonemes)
@@ -789,8 +789,8 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 			yield None, None, None, None, None, u'Duplicate entry: "{2}"'.format(position, expect_position, line)
 		elif isinstance(position, int):
 			pronunciation = ' '.join(arpabet_phonemes)
-			if key in entries:
-				expect_position, pronunciations = entries[key]
+			if keyword in entries:
+				expect_position, pronunciations = entries[keyword]
 			else:
 				expect_position = order_from
 				pronunciations = []
@@ -802,7 +802,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 					yield None, None, None, None, None, u'Existing pronunciation in entry: "{2}"'.format(position, expect_position, line)
 			else:
 				pronunciations.append(pronunciation)
-			entries[key] = (expect_position, pronunciations)
+			entries[keyword] = (expect_position, pronunciations)
 
 		lines[entry_line] = True
 		previous_word = word
