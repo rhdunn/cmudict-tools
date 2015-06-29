@@ -745,6 +745,8 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 					order_from = int(meta['order-from'][0])
 				if 'phoneset' in meta.keys():
 					phoneset = meta['phoneset'][0]
+				if 'sorting' in meta.keys():
+					sort_key = create_sort_key(meta['sorting'][0])
 			continue
 
 		if not fmt:

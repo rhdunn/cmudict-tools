@@ -223,6 +223,7 @@ The file-based metadata that `cmudict-tools` understands is:
 | `metadata`=[METADATA](#metadata) |                | The specification for entry-based metadata. |
 | `order-from`=`ORDER_FROM`        | 0              | Start variants at `ORDER_FROM`, including the initial entry. |
 | `phoneset`=[PHONESET](#phoneset) | `cmu`          | The phoneset used to transcribe the phones in. |
+| `sorting`=[SORT](#sort)          | `none`         | Sort the entries using `SORT` ordering. |
 
 ## Phone Table File Format
 
@@ -399,6 +400,9 @@ The supported `WARNING` values are:
 | `trailing-whitespace`      | Check for trailing whitespaces. |
 | `unsorted`                 | Check if a word is not sorted correctly. |
 | `word-casing`              | Check for consistent word casing. |
+
+__NOTE:__ Currently, the `unsorted` check does not recognise the `weide`
+sort order.
 
 If `warn` is used, the option is enabled. If `no-warn` is used, the option
 is disabled.
