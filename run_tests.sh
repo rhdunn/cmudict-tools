@@ -114,6 +114,12 @@ check "cmudict-weide format parsing; Windows line endings" tests/cmudict-weide.j
 check "cmudict-new format parsing; Windows line endings"   tests/cmudict-new.json   ${ARGS} tests/cmudict-new-crlf
 check "festlex format parsing; Windows line endings"       tests/festlex.json       ${ARGS} tests/festlex-crlf.scm
 
+ARGS="print -Wall -Wno-unsorted --format=cmudict"
+check "cmudict format parsing; utf-8 in, utf-8 out" tests/encoding.utf-8 ${ARGS} --input-encoding=utf-8 --output-encoding=utf-8 tests/encoding.utf-8
+check "cmudict format parsing; utf-8 in, latin1 out" tests/encoding.latin1 ${ARGS} --input-encoding=utf-8 --output-encoding=latin1 tests/encoding.utf-8
+check "cmudict format parsing; latin1 in, utf-8 out" tests/encoding.utf-8 ${ARGS} --input-encoding=latin1 --output-encoding=utf-8 tests/encoding.latin1
+check "cmudict format parsing; latin1 in, latin1 out" tests/encoding.latin1 ${ARGS} --input-encoding=latin1 --output-encoding=latin1 tests/encoding.latin1
+
 # File-Based Metadata #########################################################
 
 ARGS="print -Wall -Wno-unsorted --format=json"
