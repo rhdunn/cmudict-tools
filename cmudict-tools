@@ -92,7 +92,7 @@ def create_selector(selector):
 	return None
 
 def parse(args):
-	parser = cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from, accent=args.source_accent, phoneset=args.source_phoneset, encoding=args.input_encoding, syllable_breaks=not args.remove_syllable_breaks)
+	parser = cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from, accent=args.source_accent, phoneset=args.source_phoneset, encoding=args.input_encoding, syllable_breaks=not args.remove_syllable_breaks, sort_mode=args.sort)
 	if args.sort:
 		parser = cmudict.sort(parser, args.sort)
 	if args.remove_context_entries:
@@ -136,7 +136,7 @@ parser.add_argument('--source-phoneset', default=None, help='The phoneset used b
 parser.add_argument('--accent', default=None, help='The accent to print the pronunciations in.')
 parser.add_argument('--phoneset', default=None, help='The phoneset used to print the pronunciations.')
 parser.add_argument('--format', default='cmudict', choices=formats, help='The format to output the dictionary in.')
-parser.add_argument('--sort', default='none', choices=['air', 'none', 'weide'], help='How the entries are sorted in the output.')
+parser.add_argument('--sort', default='none', choices=['air', 'none', 'unicode', 'weide'], help='How the entries are sorted in the output.')
 parser.add_argument('--order-from', default=0, type=int, help='The number to start variants at.')
 parser.add_argument('--help-warnings', action=HelpWarningsAction, help='List the available validation warnings.')
 parser.add_argument('--input-encoding', default='windows-1252', help='The encoding of the dictionary file.')

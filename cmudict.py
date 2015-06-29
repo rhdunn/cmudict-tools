@@ -30,6 +30,25 @@ import codecs
 
 import metadata
 
+default_sort_key = lambda x: x
+
+try:
+	import icu
+
+	unicode_collator = icu.Collator.createInstance()
+	unicode_sort_key = unicode_collator.getSortKey
+except ImportError:
+	unicode_sort_key = None
+
+def create_sort_key(mode):
+	if not mode or mode in ['weide', 'air']:
+		return default_sort_key
+	elif mode in ['unicode']:
+		if not unicode_sort_key:
+			raise Exception('`unicode` sort not supported (install the `pyicu` module to use this mode)')
+		return unicode_sort_key
+	raise Exception('Unknown sort type: {0}'.format(mode))
+
 root = os.path.dirname(os.path.realpath(__file__))
 
 if sys.version_info[0] == 2:
@@ -374,11 +393,11 @@ class Trie:
 			current = current.setdefault(letter, {})
 		current[None] = value
 
-def sort(entries, mode, key=lambda x: x):
+def sort(entries, mode):
 	if mode is None:
 		for entry in entries:
 			yield entry
-	elif mode in ['weide', 'air']:
+	elif mode in ['weide', 'air', 'unicode']:
 		ordered = []
 		for word, context, phonemes, comment, metadata, error in entries:
 			if not word:
@@ -389,13 +408,16 @@ def sort(entries, mode, key=lambda x: x):
 					keyword = '{0}({1})'.format(word, context)
 				else:
 					keyword = word
-			elif mode == 'air':
+			elif mode in ['air', 'unicode']:
 				if context:
 					keyword = '{0}!{1}'.format(word, context)
 				else:
 					keyword = word
 			ordered.append((keyword, (word, context, phonemes, comment, metadata, error)))
-		for keyword, entry in sorted(ordered, key=key):
+		sort_key = create_sort_key(mode)
+		def sorting(x):
+			return sort_key(x[0])
+		for keyword, entry in sorted(ordered, key=sorting):
 			yield entry
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
@@ -693,7 +715,7 @@ def parse_cmudict(filename, checks, encoding):
 
 		yield line, format, word, context, phonemes, comment, meta, None
 
-def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252', syllable_breaks=True, key=lambda x: x):
+def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252', syllable_breaks=True, sort_mode=None):
 	checks = warnings_to_checks(warnings)
 	previous_word = None
 	re_word = None
@@ -708,6 +730,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 	else:
 		dict_parser = parse_cmudict
 
+	sort_key = create_sort_key(sort_mode)
 	for line, format, word, context, phonemes, comment, meta, error in dict_parser(filename, checks, encoding):
 		if error:
 			yield None, None, None, None, None, error
@@ -738,7 +761,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 		if fmt['word'](word) != word and 'word-casing' in checks:
 			yield None, None, None, None, None, u'Incorrect word casing in entry: "{0}"'.format(line)
 
-		if previous_word and key(word) < key(previous_word) and 'unsorted' in checks:
+		if previous_word and sort_key(word) < sort_key(previous_word) and 'unsorted' in checks:
 			yield None, None, None, None, None, u'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
 
 		# context parsing and validation checks

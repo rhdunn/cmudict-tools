@@ -369,7 +369,15 @@ The supported `SORT` values are:
 
   *  `air` to use the new-style sort order (group variants next to their root
      entry);
+
   *  `none` to leave the entries in the order they are in the dictionary;
+
+  *  `unicode` to use the new-style sort order (group variants next to their root
+     entry) with words sorted using the Unicode Collation Algorithm (UCA) to
+     provide a more natural grouping of accented characters, etc.;
+
+     __NOTE:__ This requires the `pyicu` package to be installed to be used.
+
   *  `weide` to use the old-style sort order (simple ASCII character ordering).
 
 ### WARNING
