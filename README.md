@@ -215,13 +215,14 @@ This is metadata on line comments in the given dictionary format.
 
 The file-based metadata that `cmudict-tools` understands is:
 
-| Metadata                         | Default  | Description |
-|----------------------------------|----------|-------------|
-| `accent`=[ACCENT](#accent)       | `en-US`  | The accent the dictionary is specified in. |
-| `format`=[FORMAT](#format)       | __auto__ | The specific format of the dictionary. |
-| `metadata`=[METADATA](#metadata) |          | The specification for entry-based metadata. |
-| `order-from`=`ORDER_FROM`        | 0        | Start variants at `ORDER_FROM`, including the initial entry. |
-| `phoneset`=[PHONESET](#phoneset) | `cmu`    | The phoneset used to transcribe the phones in. |
+| Metadata                         | Default        | Description |
+|----------------------------------|----------------|-------------|
+| `accent`=[ACCENT](#accent)       | `en-US`        | The accent the dictionary is specified in. |
+| `encoding`=`ENCODING`            | `windows-1252` | The character encoding the dictionary entries are encoded in. |
+| `format`=[FORMAT](#format)       | __auto__       | The specific format of the dictionary. |
+| `metadata`=[METADATA](#metadata) |                | The specification for entry-based metadata. |
+| `order-from`=`ORDER_FROM`        | 0              | Start variants at `ORDER_FROM`, including the initial entry. |
+| `phoneset`=[PHONESET](#phoneset) | `cmu`          | The phoneset used to transcribe the phones in. |
 
 ## Phone Table File Format
 

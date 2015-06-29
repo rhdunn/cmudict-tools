@@ -102,7 +102,7 @@ def parse(args):
 	return parser
 
 def print_dict(args):
-	cmudict.format(args.format, parse(args), accent=args.accent, phoneset=args.phoneset, encoding=args.output_encoding)
+	cmudict.format(args.format, parse(args), accent=args.accent, phoneset=args.phoneset, encoding=args.output_encoding, input_encoding=args.input_encoding)
 
 def validate(args):
 	for word, context, phonemes, comment, metadata, error in parse(args):
@@ -150,9 +150,6 @@ args = parser.parse_args()
 
 if args.sort == 'none':
 	args.sort = None
-
-if not args.output_encoding:
-	args.output_encoding = args.input_encoding
 
 try:
 	if args.command.startswith('select='):

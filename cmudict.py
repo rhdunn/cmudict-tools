@@ -424,7 +424,7 @@ def remove_stress(entries, order_from=0):
 		words[word] = (context + 1, pronunciations)
 		yield word, context, phonemes, comment, metadata, error
 
-def format_text(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252'):
+def format_text(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252'):
 	fmt = dict_formats[dict_format]
 	if not accent:
 		accent = fmt['accent']
@@ -452,6 +452,8 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 					comment = '@@ {0} @@{1}'.format(' '.join(meta), comment)
 				else:
 					comment = '@@ {0} @@'.format(' '.join(meta))
+				if not encoding and 'encoding' in metadata.keys():
+					encoding = metadata['encoding'][0]
 			if fmt['have-comments']:
 				components.append('comment')
 			elif not word: # line comment
@@ -460,12 +462,16 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 			phonemes = phonemeset.format(phonemes)
 		if len(components) == 0:
 			print()
-		else:
+		elif encoding:
 			printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
+		else:
+			printf(fmt['-'.join(components)], input_encoding, word, context, phonemes, comment)
 
-def format_json(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252'):
+def format_json(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252'):
 	fields = ['word', 'context', 'pronunciation', 'comment', 'metadata', 'error-message']
 	need_comma = False
+	if not encoding:
+		encoding = input_encoding
 	printf('[\n', encoding)
 	for entry in entries:
 		data = dict([(k, v) for k, v in zip(fields, entry) if v != None])
@@ -478,11 +484,11 @@ def format_json(dict_format, entries, accent=None, phoneset=None, encoding='wind
 	else:
 		printf(']\n', encoding)
 
-def format(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252'):
+def format(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252'):
 	if dict_format in ['json']:
-		format_json(dict_format, entries, accent, phoneset, encoding)
+		format_json(dict_format, entries, accent, phoneset, encoding, input_encoding)
 	else:
-		format_text(dict_format, entries, accent, phoneset, encoding)
+		format_text(dict_format, entries, accent, phoneset, encoding, input_encoding)
 
 def read_file(filename, encoding='windows-1252'):
 	with codecs.open(filename, encoding=encoding) as f:
@@ -595,7 +601,14 @@ def parse_cmudict(filename, checks, encoding):
 	re_entry = re.compile(r'^([^ a-zA-Z\x80-\xFF]?[a-zA-Z0-9\'\.\-\_\x80-\xFF]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
 	entry_metadata = {}
-	for line in read_file(filename, encoding=encoding):
+
+	with open(filename, 'rb') as f:
+		lines = re.split(b'\r?\n', f.read())
+	if len(lines[-1]) == 0:
+		lines = lines[:-1]
+
+	for line in lines:
+		line = line.decode(encoding)
 		if line == '':
 			yield line, format, None, None, None, None, None, None
 			continue
@@ -632,6 +645,8 @@ def parse_cmudict(filename, checks, encoding):
 						path = os.path.join(os.path.dirname(filename), entry)
 						for key, value in metadata.parse(path).items():
 							entry_metadata[key] = SetValidator(value)
+				if 'encoding' in meta.keys():
+					encoding = meta['encoding'][0]
 			if not format: # detect the dictionary format ...
 				format = comment_format
 				if format == 'cmudict-new':

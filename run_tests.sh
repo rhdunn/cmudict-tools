@@ -122,6 +122,9 @@ check "cmudict format parsing; latin1 in, utf-8 out" tests/encoding.utf-8 ${ARGS
 check "cmudict format parsing; latin1 in, latin1 out" tests/encoding.latin1 ${ARGS} --input-encoding=latin1 --output-encoding=latin1 tests/encoding.latin1
 check "cmudict format parsing; latin1 in, default out" tests/encoding.latin1 ${ARGS} --input-encoding=latin1 tests/encoding.latin1
 
+check "cmudict format parsing; encoding=utf-8 metadata" tests/encoding.utf-8.metadata ${ARGS} tests/encoding.utf-8.metadata
+check "cmudict format parsing; encoding=latin1 metadata" tests/encoding.latin1.metadata ${ARGS} tests/encoding.latin1.metadata
+
 # File-Based Metadata #########################################################
 
 ARGS="print -Wall -Wno-unsorted --format=json"
