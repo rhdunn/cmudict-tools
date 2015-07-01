@@ -83,7 +83,8 @@ class SetValidator:
 		return value in self.values
 
 class TypeValidator:
-	_types = { 's': str, 'i': int, 'f': float }
+	# NOTE: Accept anything for string (`s`) types.
+	_types = { 's': lambda x: x, 'i': int, 'f': float }
 
 	def __init__(self, value_type):
 		self.value_type = self._types[value_type]
@@ -469,11 +470,11 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 			if metadata != None:
 				meta = []
 				for key, values in sorted(metadata.items()):
-					meta.extend(['{0}={1}'.format(key, value) for value in values])
+					meta.extend([u'{0}={1}'.format(key, value) for value in values])
 				if comment:
-					comment = '@@ {0} @@{1}'.format(' '.join(meta), comment)
+					comment = u'@@ {0} @@{1}'.format(' '.join(meta), comment)
 				else:
-					comment = '@@ {0} @@'.format(' '.join(meta))
+					comment = u'@@ {0} @@'.format(' '.join(meta))
 				if not encoding and 'encoding' in metadata.keys():
 					encoding = metadata['encoding'][0]
 			if fmt['have-comments']:
@@ -552,14 +553,14 @@ def parse_comment_string(comment, values=None):
 		for key, value in [x.split('=') for x in metastring.strip().split()]:
 			if values is not None:
 				if not key in values.keys():
-					errors.append('Invalid metadata key "{0}"'.format(key))
+					errors.append(u'Invalid metadata key "{0}"'.format(key))
 				elif not values[key](value):
-					errors.append('Invalid metadata value "{0}"'.format(value))
+					errors.append(u'Invalid metadata value "{0}"'.format(value))
 			else:
 				if not re_key.match(key):
-					errors.append('Invalid metadata key "{0}"'.format(key))
+					errors.append(u'Invalid metadata key "{0}"'.format(key))
 				if not re_value.match(value):
-					errors.append('Invalid metadata value "{0}"'.format(value))
+					errors.append(u'Invalid metadata value "{0}"'.format(value))
 
 			if key in metadata.keys():
 				metadata[key].append(value)
@@ -696,7 +697,7 @@ def parse_cmudict(filename, checks, encoding):
 		if comment:
 			comment, meta, errors = parse_comment_string(comment, values=entry_metadata)
 			for message in errors:
-				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
+				yield line, format, None, None, None, None, None, u'{0} in entry: "{1}"'.format(message, line)
 
 		if not format or format == 'cmudict-air': # detect the dictionary format ...
 			cmudict_fmt = re.compile(dict_formats['cmudict']['word-validation'])
