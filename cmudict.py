@@ -456,6 +456,7 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 	if phoneset == 'ipa':
 		encoding = 'utf-8'
 	phonemeset = load_phonemes(accent, phoneset)
+	metaformatter = None
 	for word, context, phonemes, comment, meta, error in entries:
 		if error:
 			print(error, file=sys.stderr)
@@ -468,13 +469,18 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 			components.append('context')
 		if comment != None or meta != None:
 			if meta != None:
-				metastring = metadata.format_key_values(meta)
+				if word and metaformatter:
+					metastring = metaformatter(meta)
+				else:
+					metastring = metadata.format_key_values(meta)
+					if not encoding and 'encoding' in meta.keys():
+						encoding = meta['encoding'][0]
+					if 'metadata-format' in meta.keys():
+						_, metaformatter = metadata.dict_formats[ meta['metadata-format'][0] ]
 				if comment:
 					comment = u'@@ {0} @@{1}'.format(metastring, comment)
 				else:
 					comment = u'@@ {0} @@'.format(metastring)
-				if not encoding and 'encoding' in meta.keys():
-					encoding = meta['encoding'][0]
 			if fmt['have-comments']:
 				components.append('comment')
 			elif not word: # line comment
@@ -540,12 +546,12 @@ def warnings_to_checks(warnings):
 			raise InvalidWarning('Invalid warning: {0}'.format(warning))
 	return checks
 
-def parse_comment_string(comment, values=None):
+def parse_comment_string(comment, parser, values=None):
 	re_key   = re.compile(r'^[a-zA-Z0-9_\-]+$')
 	re_value = re.compile(r'^[^\x00-\x20\x7F-\xFF"]+$')
 	if comment.startswith('@@'):
 		_, metastring, comment = comment.split('@@')
-		meta, errors = metadata.parse_key_values(metastring, values=values)
+		meta, errors = parser(metastring, values=values)
 		return comment, meta, errors
 	return comment, None, []
 
@@ -567,7 +573,7 @@ def parse_festlex(filename, checks, encoding):
 
 		m = re_linecomment.match(line)
 		if m:
-			comment, meta, errors = parse_comment_string(m.group(1))
+			comment, meta, errors = parse_comment_string(m.group(1), metadata.parse_key_values)
 			for message in errors:
 				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
 			yield line, format, None, None, None, comment, meta, None
@@ -584,7 +590,7 @@ def parse_festlex(filename, checks, encoding):
 		comment = m.group(5)
 		meta = None
 		if comment:
-			comment, meta, errors = parse_comment_string(comment)
+			comment, meta, errors = parse_comment_string(comment, metadata.parse_key_values)
 			for message in errors:
 				yield line, format, None, None, None, None, None, '{0} in entry: "{1}"'.format(message, line)
 
@@ -605,6 +611,7 @@ def parse_cmudict(filename, checks, encoding):
 	re_entry = re.compile(r'^([^ a-zA-Z\x80-\xFF]?[a-zA-Z0-9\'\.\-\_\x80-\xFF]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
 	entry_metadata = {}
+	metaparser = metadata.parse_key_values
 
 	with open(filename, 'rb') as f:
 		lines = re.split(b'\r?\n', f.read())
@@ -620,12 +627,12 @@ def parse_cmudict(filename, checks, encoding):
 		comment = None
 		m = re_linecomment_weide.match(line)
 		if m:
-			comment, meta, errors = parse_comment_string(m.group(1))
+			comment, meta, errors = parse_comment_string(m.group(1), metadata.parse_key_values)
 			comment_format = 'cmudict-weide'
 
 		m = re_linecomment_air.match(line)
 		if m:
-			comment, meta, errors = parse_comment_string(m.group(1))
+			comment, meta, errors = parse_comment_string(m.group(1), metadata.parse_key_values)
 			comment_format = 'cmudict-air'
 
 		if comment is not None:
@@ -651,6 +658,8 @@ def parse_cmudict(filename, checks, encoding):
 							entry_metadata[key] = SetValidator(value)
 				if 'encoding' in meta.keys():
 					encoding = meta['encoding'][0]
+				if 'metadata-format' in meta.keys():
+					metaparser, _ = metadata.dict_formats[ meta['metadata-format'][0] ]
 			if not format: # detect the dictionary format ...
 				format = comment_format
 				if format == 'cmudict-new':
@@ -676,7 +685,7 @@ def parse_cmudict(filename, checks, encoding):
 		comment = m.group(7) or None # 6 = with comment marker: `#...`
 		meta = None
 		if comment:
-			comment, meta, errors = parse_comment_string(comment, values=entry_metadata)
+			comment, meta, errors = parse_comment_string(comment, metaparser, values=entry_metadata)
 			for message in errors:
 				yield line, format, None, None, None, None, None, u'{0} in entry: "{1}"'.format(message, line)
 

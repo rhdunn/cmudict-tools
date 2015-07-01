@@ -28,6 +28,8 @@ import json
 import codecs
 import subprocess
 
+dict_formats = {}
+
 ##### CSV Parser ##############################################################
 
 if sys.version_info[0] == 2:
@@ -220,6 +222,8 @@ def format_key_values(meta):
 	for key, values in sorted(meta.items()):
 		ret.extend([u'{0}={1}'.format(key, value) for value in values])
 	return ' '.join(ret)
+
+dict_formats['key-value'] = (parse_key_values, format_key_values)
 
 ##### Metadata Parsers ########################################################
 
