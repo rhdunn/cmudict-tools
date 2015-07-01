@@ -190,6 +190,37 @@ def parse_rdf(filename, input_format=None):
 		graph.add_triple(*data)
 	return graph
 
+##### Key-Value Metadata Parser ###############################################
+
+def parse_key_values(data, values=None):
+	re_key   = re.compile(r'^[a-zA-Z0-9_\-]+$')
+	re_value = re.compile(r'^[^\x00-\x20\x7F-\xFF"]+$')
+	errors = []
+	meta = {}
+	for key, value in [x.split('=') for x in data.strip().split()]:
+		if values is not None:
+			if not key in values.keys():
+				errors.append(u'Invalid metadata key "{0}"'.format(key))
+			elif not values[key](value):
+				errors.append(u'Invalid metadata value "{0}"'.format(value))
+		else:
+			if not re_key.match(key):
+				errors.append(u'Invalid metadata key "{0}"'.format(key))
+			if not re_value.match(value):
+				errors.append(u'Invalid metadata value "{0}"'.format(value))
+
+		if key in meta.keys():
+			meta[key].append(value)
+		else:
+			meta[key] = [value]
+	return meta, errors
+
+def format_key_values(meta):
+	ret = []
+	for key, values in sorted(meta.items()):
+		ret.extend([u'{0}={1}'.format(key, value) for value in values])
+	return ' '.join(ret)
+
 ##### Metadata Parsers ########################################################
 
 def parse_rdf_metadata(filename):

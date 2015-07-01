@@ -456,7 +456,7 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 	if phoneset == 'ipa':
 		encoding = 'utf-8'
 	phonemeset = load_phonemes(accent, phoneset)
-	for word, context, phonemes, comment, metadata, error in entries:
+	for word, context, phonemes, comment, meta, error in entries:
 		if error:
 			print(error, file=sys.stderr)
 			continue
@@ -466,17 +466,15 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 			word = fmt['word'](word)
 		if context:
 			components.append('context')
-		if comment != None or metadata != None:
-			if metadata != None:
-				meta = []
-				for key, values in sorted(metadata.items()):
-					meta.extend([u'{0}={1}'.format(key, value) for value in values])
+		if comment != None or meta != None:
+			if meta != None:
+				metastring = metadata.format_key_values(meta)
 				if comment:
-					comment = u'@@ {0} @@{1}'.format(' '.join(meta), comment)
+					comment = u'@@ {0} @@{1}'.format(metastring, comment)
 				else:
-					comment = u'@@ {0} @@'.format(' '.join(meta))
-				if not encoding and 'encoding' in metadata.keys():
-					encoding = metadata['encoding'][0]
+					comment = u'@@ {0} @@'.format(metastring)
+				if not encoding and 'encoding' in meta.keys():
+					encoding = meta['encoding'][0]
 			if fmt['have-comments']:
 				components.append('comment')
 			elif not word: # line comment
@@ -543,30 +541,13 @@ def warnings_to_checks(warnings):
 	return checks
 
 def parse_comment_string(comment, values=None):
-	metadata = None
-	errors = []
 	re_key   = re.compile(r'^[a-zA-Z0-9_\-]+$')
 	re_value = re.compile(r'^[^\x00-\x20\x7F-\xFF"]+$')
 	if comment.startswith('@@'):
 		_, metastring, comment = comment.split('@@')
-		metadata = {}
-		for key, value in [x.split('=') for x in metastring.strip().split()]:
-			if values is not None:
-				if not key in values.keys():
-					errors.append(u'Invalid metadata key "{0}"'.format(key))
-				elif not values[key](value):
-					errors.append(u'Invalid metadata value "{0}"'.format(value))
-			else:
-				if not re_key.match(key):
-					errors.append(u'Invalid metadata key "{0}"'.format(key))
-				if not re_value.match(value):
-					errors.append(u'Invalid metadata value "{0}"'.format(value))
-
-			if key in metadata.keys():
-				metadata[key].append(value)
-			else:
-				metadata[key] = [value]
-	return comment, metadata, errors
+		meta, errors = metadata.parse_key_values(metastring, values=values)
+		return comment, meta, errors
+	return comment, None, []
 
 def parse_festlex(filename, checks, encoding):
 	"""
