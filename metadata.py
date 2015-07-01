@@ -54,6 +54,16 @@ def parse_csv(filename):
 		else:
 			columns = entry
 
+##### JSON Parser #############################################################
+
+def parse_json(meta, values=None):
+	try:
+		return json.loads(meta), []
+	except ValueError:
+		return None, [u'Invalid JSON: `{0}`'.format(meta)]
+
+dict_formats['json'] = (parse_json, json.dumps)
+
 ##### RDF Object Model ########################################################
 
 class Resource:

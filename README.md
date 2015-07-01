@@ -205,13 +205,22 @@ entry-based metadata. The metadata section of the comment starts and ends with
 characters) for it to be recognised as metadata. Any text after the metadata is
 treated as a regular comment.
 
-The content within the metadata block is a sequence of space-separated
-`key=value` pairs. A key can occur multiple times, in which case the key will
-have both values.
+The content within the metadata block may be in one of the following formats:
+
+1.  `key-value`
+
+    The content within the metadata block is a sequence of space-separated
+    `key=value` pairs. A key can occur multiple times, in which case the key
+    will have both values.
+
+2.  `json`
+
+    The metadata is a JSON string.
 
 ## File-Based Metadata
 
-This is metadata on line comments in the given dictionary format.
+This is metadata on line comments in the given dictionary format. This must be
+in the `key-value` format.
 
 The file-based metadata that `cmudict-tools` understands is:
 
@@ -220,6 +229,7 @@ The file-based metadata that `cmudict-tools` understands is:
 | `accent`=[ACCENT](#accent)       | `en-US`        | The accent the dictionary is specified in. |
 | `encoding`=`ENCODING`            | `windows-1252` | The character encoding the dictionary entries are encoded in. |
 | `format`=[FORMAT](#format)       | __auto__       | The specific format of the dictionary. |
+| `metadata-format`=`FORMAT`       | `key-value`    | The format type of entry-based metadata. |
 | `metadata`=[METADATA](#metadata) |                | The specification for entry-based metadata. |
 | `order-from`=`ORDER_FROM`        | 0              | Start variants at `ORDER_FROM`, including the initial entry. |
 | `phoneset`=[PHONESET](#phoneset) | `cmu`          | The phoneset used to transcribe the phones in. |
