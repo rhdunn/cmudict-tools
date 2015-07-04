@@ -2,7 +2,7 @@
 {"comment": " This is a line comment."},
 {"comment": " This is a metadata comment.", "metadata": {"key1": ["value1"], "key2": ["value2"]}},
 {"comment": " @@ key=value @@ This is not a metadata comment."},
-{"comment": "", "metadata": {"key3": ["value3", "value4"]}},
+{"metadata": {"key3": ["value3", "value4"]}},
 {},
 {"error-message": "Unsupported entry: \"(\"invalid_entry_only_word\")\""},
 {"error-message": "Unsupported entry: \"(\"invalid_entry_no_pronunciation\" nil)\""},

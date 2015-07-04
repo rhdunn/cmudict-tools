@@ -495,13 +495,24 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 			printf(fmt['-'.join(components)], input_encoding, word, context, phonemes, comment)
 
 def format_json(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252'):
-	fields = ['word', 'context', 'pronunciation', 'comment', 'metadata', 'error-message']
 	need_comma = False
 	if not encoding:
 		encoding = input_encoding
 	printf('[\n', encoding)
-	for entry in entries:
-		data = dict([(k, v) for k, v in zip(fields, entry) if v != None])
+	for word, context, pronunciation, comment, metadata, error in entries:
+		data = {}
+		if word:
+			data['word'] = word
+		if context:
+			data['context'] = context
+		if pronunciation:
+			data['pronunciation'] = pronunciation
+		if comment:
+			data['comment'] = comment
+		if metadata:
+			data['metadata'] = metadata
+		if error:
+			data['error-message'] = error
 		if need_comma:
 			printf(',\n', encoding)
 		printf('{0}', encoding, json.dumps(data, sort_keys=True))

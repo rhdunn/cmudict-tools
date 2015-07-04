@@ -1,5 +1,5 @@
 [
-{"comment": "", "metadata": {"format": ["cmudict-new"]}},
+{"metadata": {"format": ["cmudict-new"]}},
 {"error-message": "Incorrect word casing in entry: \"ONE W AA1 N\""},
 {"pronunciation": ["W", "AA1", "N"], "word": "ONE"},
 {"pronunciation": ["T", "UW1"], "word": "two"}
