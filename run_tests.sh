@@ -69,13 +69,13 @@ check_metadata() {
 	RES_FILE=/tmp/cmudict_tools_test.out
 
 	echo "-------------------------------------------------------------------------------" >> ${LOG_FILE}
-	echo "command  : ./metadata.py ${SRC_FILE}" >> ${LOG_FILE}
+	echo "command  : ./metadata ${SRC_FILE}" >> ${LOG_FILE}
 	echo "expected : ${OUT_FILE}" >> ${LOG_FILE}
 	echo >> ${LOG_FILE}
 
 	echo -n "testing ${MESSAGE} ... " | tee -a ${LOG_FILE}
 	if [[ x${PRESENT} == xyes ]] ; then
-		${PYTHON} ./metadata.py ${SRC_FILE} 2>&1 | tee > ${RES_FILE}
+		${PYTHON} ./metadata ${SRC_FILE} 2>&1 | tee > ${RES_FILE}
 		diff ${OUT_FILE} ${RES_FILE} > /dev/null
 		if [[ $? -eq 0 ]] ; then
 			echo "pass" | tee -a ${LOG_FILE}

@@ -267,8 +267,3 @@ def parse(filename):
 	if filename.endswith('.csv'):
 		return parse_csv_metadata(filename)
 	return parse_rdf_metadata(filename)
-
-##### Command-Line Interface ##################################################
-
-if __name__ == '__main__':
-	print(json.dumps(parse(sys.argv[1]), sort_keys=True))

@@ -21,10 +21,11 @@
 
 from __future__ import print_function
 
-import cmudict
 import sys
 import argparse
 import csv
+
+from cmudicttools import cmudict
 
 class HelpWarningsAction(argparse.Action):
 	def __init__(self, option_strings, dest, help=None):
