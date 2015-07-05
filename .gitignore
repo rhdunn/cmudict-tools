@@ -1,6 +1,11 @@
 .*.swp
 *.pyc
+*.rst
 
 README.html
 
 run_tests.log
+
+build/
+dist/
+*.egg-info/

@@ -7,9 +7,15 @@ VIMPLUGINDIR=/usr/share/vim/registry
 %.html: %.md _layouts/webpage.html
 	kramdown --template _layouts/webpage.html $< > $@
 
+%.rst: %.md
+	pandoc --from=markdown --to=rst --output=$@ $<
+
 all: docs
 
 docs: README.html
+
+install: vim_plugin README.rst
+	${PYTHON} setup.py install
 
 check:
 	PYTHON=${PYTHON} ./run_tests.sh
