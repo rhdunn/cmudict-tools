@@ -49,7 +49,7 @@ def create_sort_key(mode):
 		return unicode_sort_key
 	raise Exception('Unknown sort type: {0}'.format(mode))
 
-root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+root = os.path.dirname(os.path.realpath(__file__))
 
 if sys.version_info[0] == 2:
 	ustr = unicode
