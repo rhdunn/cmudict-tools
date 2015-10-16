@@ -124,11 +124,15 @@ def select(args):
 def diff(args):
 	cmudict.diff(args.filename, encoding=args.input_encoding)
 
+def merge(args):
+	cmudict.merge(args.filename, encoding=args.input_encoding)
+
 commands = {
 	'validate': validate,
 	'print':    print_dict,
 	'select':   select,
 	'diff':     diff,
+	'merge':    merge,
 }
 
 formats = list(cmudict.dict_formats.keys())

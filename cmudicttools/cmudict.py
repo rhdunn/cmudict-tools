@@ -805,6 +805,22 @@ def diff(filename, encoding='windows-1252'):
 		elif match == 'R':
 			print('+{0}'.format(line2))
 
+def merge(filename, encoding='windows-1252'):
+	for match, line1, line2 in align_diff(filename, encoding):
+		if match == 'B':
+			if line1 == line2:
+				print(line1)
+			else:
+				print('<<<<<<<')
+				print(line1)
+				print('=======')
+				print(line2)
+				print('>>>>>>>')
+		elif match == 'L':
+			print(line1)
+		elif match == 'R':
+			print(line2)
+
 def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252', syllable_breaks=True, sort_mode=None):
 	checks = warnings_to_checks(warnings)
 	previous_word = None
