@@ -528,10 +528,12 @@ def format(dict_format, entries, accent=None, phoneset=None, encoding='windows-1
 	else:
 		format_text(dict_format, entries, accent, phoneset, encoding, input_encoding)
 
-def read_file(filename, encoding='windows-1252'):
-	with codecs.open(filename, encoding=encoding) as f:
-		for line in f:
-			yield line.replace('\r', '').replace('\n', '')
+def read_file(filename):
+	with open(filename, 'rb') as f:
+		lines = re.split(b'\r?\n', f.read())
+	if len(lines[-1]) == 0:
+		lines = lines[:-1]
+	return lines
 
 class InvalidWarning(ValueError):
 	def __init__(self, message):
@@ -577,7 +579,8 @@ def parse_festlex(filename, checks, encoding):
 	re_linecomment = re.compile(r'^;;(.*)$')
 	re_entry = re.compile(r'^\("([^"]+)" ([a-zA-Z0-9_]+) \(([^\)]+)\)[ \t]*\)[ \t]*(;(.*))?[ \t]*$')
 	format = 'festlex'
-	for line in read_file(filename, encoding=encoding):
+	for line in read_file(filename):
+		line = line.decode(encoding)
 		if line == '':
 			yield line, format, None, None, None, None, None, None
 			continue
@@ -624,12 +627,7 @@ def parse_cmudict(filename, checks, encoding):
 	entry_metadata = {}
 	metaparser = metadata.parse_key_values
 
-	with open(filename, 'rb') as f:
-		lines = re.split(b'\r?\n', f.read())
-	if len(lines[-1]) == 0:
-		lines = lines[:-1]
-
-	for line in lines:
+	for line in read_file(filename):
 		line = line.decode(encoding)
 		if line == '':
 			yield line, format, None, None, None, None, None, None
