@@ -715,6 +715,96 @@ def parse_cmudict(lines, checks, encoding):
 
 		yield line, format, word, context, phonemes, comment, meta, None
 
+def align_diff(filename, encoding='windows-1252'):
+	if filename.endswith('.scm'):
+		dict_parser = parse_festlex
+	else:
+		dict_parser = parse_cmudict
+
+	lines1 = []
+	lines2 = []
+	mode = 'B'
+	for line in read_file(filename):
+		if line.startswith('<<<<<<<'):
+			mode = 'L'
+			continue
+		if line.startswith('======='):
+			mode = 'R'
+			continue
+		if line.startswith('>>>>>>>'):
+			mode = 'B'
+			continue
+		if mode == 'B' or mode == 'L':
+			lines1.append(line)
+		if mode == 'B' or mode == 'R':
+			lines2.append(line)
+	dict1 = dict_parser(lines1, [], encoding)
+	dict2 = dict_parser(lines2, [], encoding)
+	need_entry1 = True
+	need_entry2 = True
+	while True:
+		if need_entry1:
+			try:
+				entry1 = next(dict1)
+				line1, format1, word1, context1, phonemes1, comment1, meta1, error1 = entry1
+				if error1:
+					continue
+			except StopIteration:
+				entry1 = None
+				word1, context1, phonemes1, comment1, meta1 = None, None, None, None, None
+			need_entry1 = False
+		if need_entry2:
+			try:
+				entry2 = next(dict2)
+				line2, format2, word2, context2, phonemes2, comment2, meta2, error2 = entry2
+				if error2:
+					continue
+			except StopIteration:
+				entry2 = None
+				word2, context2, phonemes2, comment2, meta2 = None, None, None, None, None
+			need_entry2 = False
+		if not entry1 and not entry2:
+			return
+		# Line Comments
+		if not word1 and not word2:
+			yield 'B', line1, line2
+			need_entry1 = need_entry2 = True
+			continue
+		if not word1:
+			yield 'L', line1, None
+			need_entry2 = True
+			continue
+		if not word2:
+			yield 'R', None, line2
+			need_entry1 = True
+			continue
+		# Word
+		if word1 < word2:
+			yield 'L', line1, None
+			need_entry1 = True
+			continue
+		if word1 > word2:
+			yield 'R', None, line2
+			need_entry2 = True
+			continue
+		yield 'B', line1, line2
+		need_entry1 = need_entry2 = True
+
+def diff(filename, encoding='windows-1252'):
+	print('--- a/{0}'.format(filename))
+	print('+++ a/{0}'.format(filename))
+	for match, line1, line2 in align_diff(filename, encoding):
+		if match == 'B':
+			if line1 == line2:
+				print(' {0}'.format(line1))
+			else:
+				print('-{0}'.format(line1))
+				print('+{0}'.format(line2))
+		elif match == 'L':
+			print('-{0}'.format(line1))
+		elif match == 'R':
+			print('+{0}'.format(line2))
+
 def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252', syllable_breaks=True, sort_mode=None):
 	checks = warnings_to_checks(warnings)
 	previous_word = None

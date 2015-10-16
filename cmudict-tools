@@ -121,10 +121,14 @@ def select(args):
 			if value != None:
 				print(value)
 
+def diff(args):
+	cmudict.diff(args.filename, encoding=args.input_encoding)
+
 commands = {
 	'validate': validate,
 	'print':    print_dict,
 	'select':   select,
+	'diff':     diff,
 }
 
 formats = list(cmudict.dict_formats.keys())
