@@ -568,7 +568,7 @@ def parse_comment_string(comment, parser, values=None):
 		return comment, meta, errors
 	return comment, None, []
 
-def parse_festlex(filename, checks, encoding):
+def parse_festlex(lines, checks, encoding):
 	"""
 		Parse the entries in a festlex formatted dictionary (e.g. festlex-cmu).
 
@@ -579,7 +579,7 @@ def parse_festlex(filename, checks, encoding):
 	re_linecomment = re.compile(r'^;;(.*)$')
 	re_entry = re.compile(r'^\("([^"]+)" ([a-zA-Z0-9_]+) \(([^\)]+)\)[ \t]*\)[ \t]*(;(.*))?[ \t]*$')
 	format = 'festlex'
-	for line in read_file(filename):
+	for line in lines:
 		line = line.decode(encoding)
 		if line == '':
 			yield line, format, None, None, None, None, None, None
@@ -613,7 +613,7 @@ def parse_festlex(filename, checks, encoding):
 
 		yield line, format, word, context, phonemes, comment, meta, None
 
-def parse_cmudict(filename, checks, encoding):
+def parse_cmudict(lines, checks, encoding):
 	"""
 		Parse the entries in the cmudict file.
 
@@ -627,7 +627,7 @@ def parse_cmudict(filename, checks, encoding):
 	entry_metadata = {}
 	metaparser = metadata.parse_key_values
 
-	for line in read_file(filename):
+	for line in lines:
 		line = line.decode(encoding)
 		if line == '':
 			yield line, format, None, None, None, None, None, None
@@ -731,7 +731,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 		dict_parser = parse_cmudict
 
 	sort_key = create_sort_key(sort_mode)
-	for line, format, word, context, phonemes, comment, meta, error in dict_parser(filename, checks, encoding):
+	for line, format, word, context, phonemes, comment, meta, error in dict_parser(read_file(filename), checks, encoding):
 		if error:
 			yield None, None, None, None, None, error
 			continue
