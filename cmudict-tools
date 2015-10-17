@@ -21,9 +21,10 @@
 
 from __future__ import print_function
 
-import sys
 import argparse
+import textwrap
 import csv
+import sys
 
 from cmudicttools import cmudict
 
@@ -138,7 +139,22 @@ commands = {
 formats = list(cmudict.dict_formats.keys())
 formats.extend(['json'])
 
-parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.', usage='%(prog)s [option..] command dictionary')
+parser = argparse.ArgumentParser(
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    description=textwrap.dedent("""\
+        A helper program for working with the CMU Pronunciation Dictionary.
+
+        commands:
+          diff                  Perform a diff on the dictionary.
+          merge                 Perform a merge on the dictionary.
+          print                 Format and optionally sort the dictionary.
+          select=SELECTOR       Select the item corresponding to SELECTOR.
+          validate              Only perform validation checks.
+
+        positional arguments:
+          dictionary            The dictionary to process."""),
+    usage=textwrap.dedent("""\
+        %(prog)s [option..] command dictionary"""))
 parser.add_argument('-W', dest='warnings', action='append', metavar='WARNING', default=[], help='Configure the validation checks to perform.')
 parser.add_argument('--source-accent', default=None, help='The accent to process the dictionary pronunciation in.')
 parser.add_argument('--source-phoneset', default=None, help='The phoneset used by the dictionary pronunciations.')
@@ -153,8 +169,8 @@ parser.add_argument('--output-encoding', default=None, help='The encoding to pri
 parser.add_argument('--remove-context-entries', default=False, action='store_true', help='Ignore entries with a context specified.')
 parser.add_argument('--remove-syllable-breaks', default=False, action='store_true', help='Remove syllable break markers from pronunciations.')
 parser.add_argument('--remove-stress', default=False, action='store_true', help='Remove stress markers from pronunciations.')
-parser.add_argument('command', help='The action to perform.')
-parser.add_argument('filename', help='The dictionary file to perform the action on.')
+parser.add_argument('command', help=argparse.SUPPRESS)
+parser.add_argument('filename', help=argparse.SUPPRESS)
 args = parser.parse_args()
 
 if args.sort == 'none':
