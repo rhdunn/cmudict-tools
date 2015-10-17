@@ -138,7 +138,7 @@ commands = {
 formats = list(cmudict.dict_formats.keys())
 formats.extend(['json'])
 
-parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.')
+parser = argparse.ArgumentParser(description='A helper program for working with the CMU Pronunciation Dictionary.', usage='%(prog)s [option..] command dictionary')
 parser.add_argument('-W', dest='warnings', action='append', metavar='WARNING', default=[], help='Configure the validation checks to perform.')
 parser.add_argument('--source-accent', default=None, help='The accent to process the dictionary pronunciation in.')
 parser.add_argument('--source-phoneset', default=None, help='The phoneset used by the dictionary pronunciations.')
