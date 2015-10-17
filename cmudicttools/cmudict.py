@@ -733,6 +733,11 @@ class DiffType:
 	RIGHT = 'R'
 	BOTH  = 'B'
 
+def diff_line(yours, theirs):
+	if yours == theirs:
+		return 'M', yours, theirs
+	return 'B', yours, theirs
+
 def diff_dict(yours, theirs, encoding='windows-1252'):
 	if not theirs:
 		dict_parser, lines = setup_dict_parser(yours)
@@ -787,10 +792,7 @@ def diff_dict(yours, theirs, encoding='windows-1252'):
 			return
 		# Line Comments
 		if not word1 and not word2:
-			if line1 == line2:
-				yield DiffType.MATCH, line1, line2
-			else:
-				yield DiffType.BOTH, line1, line2
+			yield diff_line(line1, line2)
 			need_entry1 = need_entry2 = True
 			continue
 		if not word1:
@@ -810,10 +812,7 @@ def diff_dict(yours, theirs, encoding='windows-1252'):
 			yield DiffType.RIGHT, None, line2
 			need_entry2 = True
 			continue
-		if line1 == line2:
-			yield DiffType.MATCH, line1, line2
-		else:
-			yield DiffType.BOTH, line1, line2
+		yield diff_line(line1, line2)
 		need_entry1 = need_entry2 = True
 
 def diff(yours, theirs, encoding='windows-1252'):
