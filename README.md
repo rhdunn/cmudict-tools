@@ -33,6 +33,7 @@ The `cmudict-tools` program has the following command-line structure:
 
 	cmudict-tools [OPTIONS] COMMAND DICTIONARY
 	cmudict-tools [OPTIONS] COMMAND YOURS THEIRS
+	cmudict-tools [OPTIONS] COMMAND YOURS THEIRS BASE
 
 The supported `OPTIONS` are:
 
