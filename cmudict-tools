@@ -128,7 +128,7 @@ def diff(args):
 	else:
 		cmudict.diff(args.yours, args.theirs, encoding=args.input_encoding)
 
-def merge(args, show_help):
+def merge(args):
 	if args.filename:
 		cmudict.merge(args.filename, None, encoding=args.input_encoding)
 	else:
