@@ -722,26 +722,31 @@ def setup_dict_parser(filename):
 		dict_parser = parse_cmudict
 	return dict_parser, read_file(filename)
 
+class ConflictType:
+	BASE  = 'B'
+	LEFT  = 'L'
+	RIGHT = 'R'
+
 def align_diff(yours, theirs, encoding='windows-1252'):
 	if not theirs:
 		dict_parser, lines = setup_dict_parser(yours)
 		dict1_parser = dict2_parser = dict_parser
 		lines1 = []
 		lines2 = []
-		mode = 'B'
+		mode = ConflictType.BASE
 		for line in lines:
 			if line.startswith('<<<<<<<'):
-				mode = 'L'
+				mode = ConflictType.LEFT
 				continue
 			if line.startswith('======='):
-				mode = 'R'
+				mode = ConflictType.RIGHT
 				continue
 			if line.startswith('>>>>>>>'):
-				mode = 'B'
+				mode = ConflictType.BASE
 				continue
-			if mode == 'B' or mode == 'L':
+			if mode == ConflictType.BASE or mode == ConflictType.LEFT:
 				lines1.append(line)
-			if mode == 'B' or mode == 'R':
+			if mode == ConflictType.BASE or mode == ConflictType.RIGHT:
 				lines2.append(line)
 	else:
 		dict1_parser, lines1 = setup_dict_parser(yours)
