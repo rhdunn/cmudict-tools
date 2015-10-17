@@ -123,10 +123,16 @@ def select(args):
 				print(value)
 
 def diff(args):
-	cmudict.diff(args.filename, encoding=args.input_encoding)
+	if args.filename:
+		cmudict.diff(args.filename, None, encoding=args.input_encoding)
+	else:
+		cmudict.diff(args.yours, args.theirs, encoding=args.input_encoding)
 
-def merge(args):
-	cmudict.merge(args.filename, encoding=args.input_encoding)
+def merge(args, show_help):
+	if args.filename:
+		cmudict.merge(args.filename, None, encoding=args.input_encoding)
+	else:
+		cmudict.merge(args.yours, args.theirs, encoding=args.input_encoding)
 
 commands = {
 	'validate': validate,
@@ -152,9 +158,12 @@ parser = argparse.ArgumentParser(
           validate              Only perform validation checks.
 
         positional arguments:
-          dictionary            The dictionary to process."""),
+          dictionary            The dictionary to process.
+          yours                 The source dictionary to diff/merge.
+          theirs                The target dictionary to diff/merge."""),
     usage=textwrap.dedent("""\
-        %(prog)s [option..] command dictionary"""))
+        %(prog)s [option..] command dictionary
+               %(prog)s [option..] command yours theirs"""))
 parser.add_argument('-W', dest='warnings', action='append', metavar='WARNING', default=[], help='Configure the validation checks to perform.')
 parser.add_argument('--source-accent', default=None, help='The accent to process the dictionary pronunciation in.')
 parser.add_argument('--source-phoneset', default=None, help='The phoneset used by the dictionary pronunciations.')
@@ -170,11 +179,25 @@ parser.add_argument('--remove-context-entries', default=False, action='store_tru
 parser.add_argument('--remove-syllable-breaks', default=False, action='store_true', help='Remove syllable break markers from pronunciations.')
 parser.add_argument('--remove-stress', default=False, action='store_true', help='Remove stress markers from pronunciations.')
 parser.add_argument('command', help=argparse.SUPPRESS)
-parser.add_argument('filename', help=argparse.SUPPRESS)
+parser.add_argument('files', nargs='+', help=argparse.SUPPRESS)
 args = parser.parse_args()
 
 if args.sort == 'none':
 	args.sort = None
+
+if len(args.files) == 1:
+	args.filename = args.files[0]
+elif args.command in ['diff', 'merge']:
+	args.filename = None
+	if len(args.files) == 2:
+		args.yours  = args.files[0]
+		args.theirs = args.files[1]
+	else:
+		parser.print_help()
+		sys.exit(1)
+else:
+	parser.print_help()
+	sys.exit(1)
 
 try:
 	if args.command.startswith('select='):

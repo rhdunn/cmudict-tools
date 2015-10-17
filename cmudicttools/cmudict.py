@@ -722,27 +722,33 @@ def setup_dict_parser(filename):
 		dict_parser = parse_cmudict
 	return dict_parser, read_file(filename)
 
-def align_diff(filename, encoding='windows-1252'):
-	dict_parser, lines = setup_dict_parser(filename)
-	lines1 = []
-	lines2 = []
-	mode = 'B'
-	for line in lines:
-		if line.startswith('<<<<<<<'):
-			mode = 'L'
-			continue
-		if line.startswith('======='):
-			mode = 'R'
-			continue
-		if line.startswith('>>>>>>>'):
-			mode = 'B'
-			continue
-		if mode == 'B' or mode == 'L':
-			lines1.append(line)
-		if mode == 'B' or mode == 'R':
-			lines2.append(line)
-	dict1 = dict_parser(lines1, [], encoding)
-	dict2 = dict_parser(lines2, [], encoding)
+def align_diff(yours, theirs, encoding='windows-1252'):
+	if not theirs:
+		dict_parser, lines = setup_dict_parser(yours)
+		dict1_parser = dict2_parser = dict_parser
+		lines1 = []
+		lines2 = []
+		mode = 'B'
+		for line in lines:
+			if line.startswith('<<<<<<<'):
+				mode = 'L'
+				continue
+			if line.startswith('======='):
+				mode = 'R'
+				continue
+			if line.startswith('>>>>>>>'):
+				mode = 'B'
+				continue
+			if mode == 'B' or mode == 'L':
+				lines1.append(line)
+			if mode == 'B' or mode == 'R':
+				lines2.append(line)
+	else:
+		dict1_parser, lines1 = setup_dict_parser(yours)
+		dict2_parser, lines2 = setup_dict_parser(theirs)
+
+	dict1 = dict1_parser(lines1, [], encoding)
+	dict2 = dict2_parser(lines2, [], encoding)
 	need_entry1 = True
 	need_entry2 = True
 	while True:
@@ -793,10 +799,14 @@ def align_diff(filename, encoding='windows-1252'):
 		yield 'B', line1, line2
 		need_entry1 = need_entry2 = True
 
-def diff(filename, encoding='windows-1252'):
-	print('--- a/{0}'.format(filename))
-	print('+++ a/{0}'.format(filename))
-	for match, line1, line2 in align_diff(filename, encoding):
+def diff(yours, theirs, encoding='windows-1252'):
+	if not theirs:
+		print('--- a/{0}'.format(yours))
+		print('+++ b/{0}'.format(yours))
+	else:
+		print('--- {0}'.format(yours))
+		print('+++ {0}'.format(theirs))
+	for match, line1, line2 in align_diff(yours, theirs, encoding):
 		if match == 'B':
 			if line1 == line2:
 				print(' {0}'.format(line1))
@@ -808,8 +818,8 @@ def diff(filename, encoding='windows-1252'):
 		elif match == 'R':
 			print('+{0}'.format(line2))
 
-def merge(filename, encoding='windows-1252'):
-	for match, line1, line2 in align_diff(filename, encoding):
+def merge(yours, theirs, encoding='windows-1252'):
+	for match, line1, line2 in align_diff(yours, theirs, encoding):
 		if match == 'B':
 			if line1 == line2:
 				print(line1)

@@ -31,6 +31,7 @@ Dictionary.
 The `cmudict-tools` program has the following command-line structure:
 
 	cmudict-tools [OPTIONS] COMMAND DICTIONARY
+	cmudict-tools [OPTIONS] COMMAND YOURS THEIRS
 
 The supported `OPTIONS` are:
 
@@ -76,8 +77,12 @@ The `SELECTOR` value can be:
 | `@KEY`     | Select `KEY` from the metadata section of the dictionary. |
 | `A|B`      | Select the value of `A` if present, or `B` if not, where `A` and `B` are `SELCTOR` values themselves. |
 
-For the `diff` and `merge` commands, merge conflict markers are processed in
-the `DICTIONARY` file to diff or merge against.
+For the `diff` and `merge` commands, the following usage modes are supported:
+
+| Arguments      | Description |
+|----------------|-------------|
+| `DICTIONARY`   | Use conflict markers to determine YOURS and THEIRS. |
+| `YOURS THEIRS` | Perform the diff/merge against YOURS and THEIRS. |
 
 ### Example: Porter Stemmer
 
