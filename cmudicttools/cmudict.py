@@ -715,16 +715,19 @@ def parse_cmudict(lines, checks, encoding):
 
 		yield line, format, word, context, phonemes, comment, meta, None
 
-def align_diff(filename, encoding='windows-1252'):
+def setup_dict_parser(filename):
 	if filename.endswith('.scm'):
 		dict_parser = parse_festlex
 	else:
 		dict_parser = parse_cmudict
+	return dict_parser, read_file(filename)
 
+def align_diff(filename, encoding='windows-1252'):
+	dict_parser, lines = setup_dict_parser(filename)
 	lines1 = []
 	lines2 = []
 	mode = 'B'
-	for line in read_file(filename):
+	for line in lines:
 		if line.startswith('<<<<<<<'):
 			mode = 'L'
 			continue
@@ -831,13 +834,9 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 	lines = Trie()
 	fmt = None
 
-	if filename.endswith('.scm'):
-		dict_parser = parse_festlex
-	else:
-		dict_parser = parse_cmudict
-
+	dict_parser, dict_lines = setup_dict_parser(filename)
 	sort_key = create_sort_key(sort_mode)
-	for line, format, word, context, phonemes, comment, meta, error in dict_parser(read_file(filename), checks, encoding):
+	for line, format, word, context, phonemes, comment, meta, error in dict_parser(dict_lines, checks, encoding):
 		if error:
 			yield None, None, None, None, None, error
 			continue
