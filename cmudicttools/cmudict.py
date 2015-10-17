@@ -736,12 +736,21 @@ class DiffType:
 	RIGHT = 'R' # right has been modified
 	BOTH  = 'B' # both left and right have been modified
 
-def diff_line(yours, theirs):
+def diff2_line(yours, theirs):
 	if yours == theirs:
 		return DiffType.MATCH, yours, theirs
 	return DiffType.BOTH, yours, theirs
 
-def diff_dict(yours, theirs, encoding='windows-1252'):
+def diff3_line(yours, theirs, base):
+	if yours == theirs:
+		return DiffType.MATCH, yours, theirs
+	if yours == base:
+		return DiffType.RIGHT, yours, theirs
+	if theirs == base:
+		return DiffType.LEFT, yours, theirs
+	return DiffType.BOTH, yours, theirs
+
+def diff_dict(yours, theirs, base, encoding='windows-1252'):
 	if not theirs:
 		dict_parser, lines = setup_dict_parser(yours)
 		dict1_parser = dict2_parser = dict_parser
@@ -768,8 +777,16 @@ def diff_dict(yours, theirs, encoding='windows-1252'):
 
 	dict1 = dict1_parser(lines1, [], encoding)
 	dict2 = dict2_parser(lines2, [], encoding)
+	if base:
+		dict_parser, lines = setup_dict_parser(base)
+		dict3 = dict_parser(lines, [], encoding)
+	else:
+		dict3 = None
+		line3 = None
+
 	need_entry1 = True
 	need_entry2 = True
+	need_entry3 = True
 	while True:
 		if need_entry1:
 			try:
@@ -791,12 +808,26 @@ def diff_dict(yours, theirs, encoding='windows-1252'):
 				entry2 = None
 				word2, context2, phonemes2, comment2, meta2 = None, None, None, None, None
 			need_entry2 = False
+		if need_entry3 and dict3:
+			try:
+				entry3 = next(dict3)
+				line3, format3, word3, context3, phonemes3, comment3, meta3, error3 = entry3
+				if error3:
+					continue
+			except StopIteration:
+				entry3 = None
+				word3, context3, phonemes3, comment3, meta3 = None, None, None, None, None
+			need_entry3 = False
 		if not entry1 and not entry2:
 			return
 		# Line Comments
 		if not word1 and not word2:
-			yield diff_line(line1, line2)
+			if dict3:
+				yield diff3_line(line1, line2, line3)
+			else:
+				yield diff2_line(line1, line2)
 			need_entry1 = need_entry2 = True
+			need_entry3 = not word3
 			continue
 		if not word1:
 			yield DiffType.DEL, line1, None
@@ -805,6 +836,9 @@ def diff_dict(yours, theirs, encoding='windows-1252'):
 		if not word2:
 			yield DiffType.INS, None, line2
 			need_entry1 = True
+			continue
+		if not word3:
+			need_entry3 = True
 			continue
 		# Word
 		if word1 < word2:
@@ -815,17 +849,23 @@ def diff_dict(yours, theirs, encoding='windows-1252'):
 			yield DiffType.INS, None, line2
 			need_entry2 = True
 			continue
-		yield diff_line(line1, line2)
-		need_entry1 = need_entry2 = True
+		if word1 < word3:
+			need_entry3 = True
+			continue
+		if dict3:
+			yield diff3_line(line1, line2, line3)
+		else:
+			yield diff2_line(line1, line2)
+		need_entry1 = need_entry2 = need_entry3 = True
 
-def diff(yours, theirs, encoding='windows-1252'):
+def diff(yours, theirs, base, encoding='windows-1252'):
 	if not theirs:
 		print('--- a/{0}'.format(yours))
 		print('+++ b/{0}'.format(yours))
 	else:
 		print('--- {0}'.format(yours))
 		print('+++ {0}'.format(theirs))
-	for match, line1, line2 in diff_dict(yours, theirs, encoding):
+	for match, line1, line2 in diff_dict(yours, theirs, base, encoding):
 		if match == DiffType.MATCH:
 			print(' {0}'.format(line1))
 		elif match in [ DiffType.BOTH, DiffType.LEFT, DiffType.RIGHT ]:
@@ -836,8 +876,8 @@ def diff(yours, theirs, encoding='windows-1252'):
 		elif match == DiffType.INS:
 			print('+{0}'.format(line2))
 
-def merge(yours, theirs, encoding='windows-1252'):
-	for match, line1, line2 in diff_dict(yours, theirs, encoding):
+def merge(yours, theirs, base, encoding='windows-1252'):
+	for match, line1, line2 in diff_dict(yours, theirs, base, encoding):
 		if match == DiffType.MATCH:
 			print(line1)
 		elif match == DiffType.BOTH:

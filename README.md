@@ -79,10 +79,11 @@ The `SELECTOR` value can be:
 
 For the `diff` and `merge` commands, the following usage modes are supported:
 
-| Arguments      | Description |
-|----------------|-------------|
-| `DICTIONARY`   | Use conflict markers to determine YOURS and THEIRS. |
-| `YOURS THEIRS` | Perform the diff/merge against YOURS and THEIRS. |
+| Arguments           | Description |
+|---------------------|-------------|
+| `DICTIONARY`        | Use conflict markers to determine `YOURS` and `THEIRS`. |
+| `YOURS THEIRS`      | Perform the diff/merge against `YOURS` and `THEIRS`. |
+| `YOURS THEIRS BASE` | Perform the diff/merge against `YOURS` and `THEIRS`, using `BASE` as a reference. |
 
 ### Example: Porter Stemmer
 
