@@ -4,6 +4,7 @@
     - [Example: Porter Stemmer](#example-porter-stemmer)
     - [Example: Phonetisaurus](#example-phonetisaurus)
     - [Example: Sphinx Dictionary](#example-sphinx-dictionary)
+    - [Example: Git Merge Resolution](#example-git-merge-resolution)
 - [VIM Syntax File](#vim-syntax-file)
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
     - [Metadata](#metadata)
@@ -121,6 +122,23 @@ To generate a sphinx4 dictionary you can run:
 
 	./cmudict-tools --format=sphinx --remove-stress \
 		print cmudict > cmudict_SPHINX_40
+
+### Example: Git Merge Resolution
+
+To configure git to support merging cmudict files, run:
+
+	git config --global merge.tool cmudict
+	git config --global mergetool.cmudict.cmd 'cmudict-tools merge $LOCAL $REMOTE $BASE > $MERGED'
+	git config --global mergetool.cmudict.trustExitCode true
+	git config --global mergetool.cmudict.keepBackup false
+
+Now, when there are merge conflicts from a cmudict format file, you can run:
+
+	git mergetool -t cmudict
+
+You will still need to check the file for conflicts in the case where an entry
+has been modified by the local and remote versions. These are denoted by standard
+conflict markers, so searching for `<<<<<` will work.
 
 ## VIM Syntax File
 
