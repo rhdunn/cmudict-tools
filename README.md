@@ -59,9 +59,11 @@ result from removing the stress markers.
 
 | `COMMAND`         | Description |
 |-------------------|-------------|
+| `diff`            | Perform a diff on the dictionary. |
+| `merge`           | Perform a merge on the dictionary. |
 | `print`           | Format and optionally sort the dictionary. |
-| `validate`        | Only perform validation checks. |
 | `select=SELECTOR` | Select the item corresponding to `SELECTOR` (see below). |
+| `validate`        | Only perform validation checks. |
 
 The `DICTIONARY` file is auto-detected according to one of the supported input
 [FORMAT](#format) values.
@@ -73,6 +75,9 @@ The `SELECTOR` value can be:
 | `word`     | Select the word field of the dictionary. |
 | `@KEY`     | Select `KEY` from the metadata section of the dictionary. |
 | `A|B`      | Select the value of `A` if present, or `B` if not, where `A` and `B` are `SELCTOR` values themselves. |
+
+For the `diff` and `merge` commands, merge conflict markers are processed in
+the `DICTIONARY` file to diff or merge against.
 
 ### Example: Porter Stemmer
 
