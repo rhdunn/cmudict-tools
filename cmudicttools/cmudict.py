@@ -728,11 +728,12 @@ class ConflictType:
 	RIGHT = 'R'
 
 class DiffType:
+	MATCH = 'M'
 	LEFT  = 'L'
 	RIGHT = 'R'
 	BOTH  = 'B'
 
-def align_diff(yours, theirs, encoding='windows-1252'):
+def diff_dict(yours, theirs, encoding='windows-1252'):
 	if not theirs:
 		dict_parser, lines = setup_dict_parser(yours)
 		dict1_parser = dict2_parser = dict_parser
@@ -786,7 +787,10 @@ def align_diff(yours, theirs, encoding='windows-1252'):
 			return
 		# Line Comments
 		if not word1 and not word2:
-			yield DiffType.BOTH, line1, line2
+			if line1 == line2:
+				yield DiffType.MATCH, line1, line2
+			else:
+				yield DiffType.BOTH, line1, line2
 			need_entry1 = need_entry2 = True
 			continue
 		if not word1:
@@ -806,7 +810,10 @@ def align_diff(yours, theirs, encoding='windows-1252'):
 			yield DiffType.RIGHT, None, line2
 			need_entry2 = True
 			continue
-		yield DiffType.BOTH, line1, line2
+		if line1 == line2:
+			yield DiffType.MATCH, line1, line2
+		else:
+			yield DiffType.BOTH, line1, line2
 		need_entry1 = need_entry2 = True
 
 def diff(yours, theirs, encoding='windows-1252'):
@@ -816,29 +823,27 @@ def diff(yours, theirs, encoding='windows-1252'):
 	else:
 		print('--- {0}'.format(yours))
 		print('+++ {0}'.format(theirs))
-	for match, line1, line2 in align_diff(yours, theirs, encoding):
-		if match == DiffType.BOTH:
-			if line1 == line2:
-				print(' {0}'.format(line1))
-			else:
-				print('-{0}'.format(line1))
-				print('+{0}'.format(line2))
+	for match, line1, line2 in diff_dict(yours, theirs, encoding):
+		if match == DiffType.MATCH:
+			print(' {0}'.format(line1))
+		elif match == DiffType.BOTH:
+			print('-{0}'.format(line1))
+			print('+{0}'.format(line2))
 		elif match == DiffType.LEFT:
 			print('-{0}'.format(line1))
 		elif match == DiffType.RIGHT:
 			print('+{0}'.format(line2))
 
 def merge(yours, theirs, encoding='windows-1252'):
-	for match, line1, line2 in align_diff(yours, theirs, encoding):
-		if match == DiffType.BOTH:
-			if line1 == line2:
-				print(line1)
-			else:
-				print('<<<<<<<')
-				print(line1)
-				print('=======')
-				print(line2)
-				print('>>>>>>>')
+	for match, line1, line2 in diff_dict(yours, theirs, encoding):
+		if match == DiffType.MATCH:
+			print(line1)
+		elif match == DiffType.BOTH:
+			print('<<<<<<<')
+			print(line1)
+			print('=======')
+			print(line2)
+			print('>>>>>>>')
 		elif match == DiffType.LEFT:
 			print(line1)
 		elif match == DiffType.RIGHT:
