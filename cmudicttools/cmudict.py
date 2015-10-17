@@ -727,16 +727,19 @@ class ConflictType:
 	LEFT  = 'L'
 	RIGHT = 'R'
 
+# Result type for comparing (left, right) lines.
 class DiffType:
-	MATCH = 'M'
-	LEFT  = 'L'
-	RIGHT = 'R'
-	BOTH  = 'B'
+	INS   = '+' # right has been added
+	DEL   = '-' # left has been removed
+	MATCH = 'M' # left and right match
+	LEFT  = 'L' # left has been modified
+	RIGHT = 'R' # right has been modified
+	BOTH  = 'B' # both left and right have been modified
 
 def diff_line(yours, theirs):
 	if yours == theirs:
-		return 'M', yours, theirs
-	return 'B', yours, theirs
+		return DiffType.MATCH, yours, theirs
+	return DiffType.BOTH, yours, theirs
 
 def diff_dict(yours, theirs, encoding='windows-1252'):
 	if not theirs:
@@ -796,20 +799,20 @@ def diff_dict(yours, theirs, encoding='windows-1252'):
 			need_entry1 = need_entry2 = True
 			continue
 		if not word1:
-			yield DiffType.LEFT, line1, None
+			yield DiffType.DEL, line1, None
 			need_entry2 = True
 			continue
 		if not word2:
-			yield DiffType.RIGHT, None, line2
+			yield DiffType.INS, None, line2
 			need_entry1 = True
 			continue
 		# Word
 		if word1 < word2:
-			yield DiffType.LEFT, line1, None
+			yield DiffType.DEL, line1, None
 			need_entry1 = True
 			continue
 		if word1 > word2:
-			yield DiffType.RIGHT, None, line2
+			yield DiffType.INS, None, line2
 			need_entry2 = True
 			continue
 		yield diff_line(line1, line2)
@@ -825,12 +828,12 @@ def diff(yours, theirs, encoding='windows-1252'):
 	for match, line1, line2 in diff_dict(yours, theirs, encoding):
 		if match == DiffType.MATCH:
 			print(' {0}'.format(line1))
-		elif match == DiffType.BOTH:
+		elif match in [ DiffType.BOTH, DiffType.LEFT, DiffType.RIGHT ]:
 			print('-{0}'.format(line1))
 			print('+{0}'.format(line2))
-		elif match == DiffType.LEFT:
+		elif match == DiffType.DEL:
 			print('-{0}'.format(line1))
-		elif match == DiffType.RIGHT:
+		elif match == DiffType.INS:
 			print('+{0}'.format(line2))
 
 def merge(yours, theirs, encoding='windows-1252'):
@@ -843,9 +846,9 @@ def merge(yours, theirs, encoding='windows-1252'):
 			print('=======')
 			print(line2)
 			print('>>>>>>>')
-		elif match == DiffType.LEFT:
+		elif match in [ DiffType.LEFT, DiffType.DEL ]:
 			print(line1)
-		elif match == DiffType.RIGHT:
+		elif match in [ DiffType.RIGHT, DiffType.INS ]:
 			print(line2)
 
 def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encoding='windows-1252', syllable_breaks=True, sort_mode=None):
