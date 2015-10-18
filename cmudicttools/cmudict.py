@@ -782,8 +782,7 @@ def diff_dict(yours, theirs, base, encoding='windows-1252'):
 		dict3 = dict_parser(lines, [], encoding)
 	else:
 		dict3 = None
-		line3 = None
-		word3 = None
+		line3 = word3 = comment3 = None
 
 	need_entry1 = True
 	need_entry2 = True
@@ -838,7 +837,7 @@ def diff_dict(yours, theirs, base, encoding='windows-1252'):
 			yield DiffType.INS, None, line2
 			need_entry2 = True
 			continue
-		if not word3 and dict3:
+		if not word3 and comment3:
 			need_entry3 = True
 			continue
 		# Word
