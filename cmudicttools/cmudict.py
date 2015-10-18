@@ -783,6 +783,7 @@ def diff_dict(yours, theirs, base, encoding='windows-1252'):
 	else:
 		dict3 = None
 		line3 = None
+		word3 = None
 
 	need_entry1 = True
 	need_entry2 = True
