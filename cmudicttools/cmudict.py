@@ -830,12 +830,12 @@ def diff_dict(yours, theirs, base, encoding='windows-1252'):
 			need_entry3 = not word3
 			continue
 		if not word1:
-			yield DiffType.DEL, line1, None
-			need_entry1 = True
-			continue
-		if not word2:
 			yield DiffType.INS, None, line2
 			need_entry2 = True
+			continue
+		if not word2:
+			yield DiffType.DEL, line1, None
+			need_entry1 = True
 			continue
 		if not word3 and comment3:
 			need_entry3 = True
