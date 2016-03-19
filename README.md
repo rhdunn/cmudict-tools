@@ -463,9 +463,15 @@ allows things like the following combinations:
 | `-Wnone -Winvalid-phonemes` | Only use the `invalid-phonemes` warning.  |
 | `-Wall -Wno-missing-stress` | Use all warnings except `missing-stress`. |
 
+It is also possible to locally disable warnings when using the JSON-based line
+metadata format using the `disable-warnings` metadata key as a list of the
+warnings to disable. For example:
+
+	IS  IH0 Z #@@{ "disable-warnings": ["missing-primary-stress"] }@@
+
 ## License
 
 The CMU Pronunciation Dictionary Tools are released under the GPL version 3 or
 later license.
 
-Copyright (C) 2015 Reece H. Dunn
+Copyright (C) 2015-2016 Reece H. Dunn

@@ -3,7 +3,7 @@
 #
 # Tool for processing the CMU Pronunciation Dictionary file formats.
 #
-# Copyright (C) 2015 Reece H. Dunn
+# Copyright (C) 2015-2016 Reece H. Dunn
 #
 # This file is part of cmudict-tools.
 #
@@ -131,7 +131,7 @@ class IpaPhonemeSet:
 		else:
 			self.to_ipa[arpabet] = ipa
 
-	def parse(self, phonemes, checks):
+	def parse(self, phonemes, checks, meta):
 		raise Exception('parse is not currently supported for IPA phonemes')
 
 	def to_local_phonemes(self, phonemes):
@@ -210,21 +210,21 @@ class ArpabetPhonemeSet:
 	def types(self, phoneme):
 		return self.phone_types.get(phoneme, [])
 
-	def parse(self, phonemes, checks):
+	def parse(self, phonemes, checks, meta):
 		for phoneme in self.re_phonemes.split(phonemes.strip()):
 			if ' ' in phoneme or '\t' in phoneme:
 				phoneme = phoneme.strip()
-				if 'phoneme-spacing' in checks:
+				if is_check_enabled('phoneme-spacing', checks, meta):
 					yield None, 'Incorrect whitespace after phoneme "{0}"'.format(phoneme)
 
 			if phoneme in self.missing_stress_marks:
-				if 'missing-stress' in checks:
+				if is_check_enabled('missing-stress', checks, meta):
 					yield None, 'Vowel phoneme "{0}" missing stress marker'.format(phoneme)
 			elif not phoneme in self.to_arpabet.keys():
 				newphoneme = self.conversion(phoneme)
-				if 'invalid-phonemes' in checks:
+				if is_check_enabled('invalid-phonemes', checks, meta):
 					if newphoneme in self.missing_stress_marks:
-						if 'missing-stress' in checks:
+						if is_check_enabled('missing-stress', checks, meta):
 							yield None, 'Vowel phoneme "{0}" missing stress marker'.format(phoneme)
 					elif not newphoneme in self.to_arpabet.keys():
 						yield None, 'Invalid phoneme "{0}"'.format(phoneme)
@@ -559,6 +559,11 @@ def warnings_to_checks(warnings):
 			raise InvalidWarning('Invalid warning: {0}'.format(warning))
 	return checks
 
+def is_check_enabled(check, checks, metadata):
+	if metadata is not None and check in metadata.get('disable-warnings', []):
+		return False # locally disabled
+	return check in checks
+
 def parse_comment_string(comment, parser, values=None):
 	re_key   = re.compile(r'^[a-zA-Z0-9_\-]+$')
 	re_value = re.compile(r'^[^\x00-\x20\x7F-\xFF"]+$')
@@ -707,10 +712,10 @@ def parse_cmudict(lines, checks, encoding):
 				format = 'cmudict-new'
 				spacing = ' '
 
-		if word_phoneme_space != spacing and 'entry-spacing' in checks:
+		if word_phoneme_space != spacing and is_check_enabled('entry-spacing', checks, meta):
 			yield line, format, None, None, None, None, None, u'Entry needs {0} spaces between word and phoneme: "{1}"'.format(len(spacing), line)
 
-		if phonemes.endswith(' ') and 'trailing-whitespace' in checks:
+		if phonemes.endswith(' ') and is_check_enabled('trailing-whitespace', checks, meta):
 			yield line, format, None, None, None, None, None, u'Trailing whitespace in entry: "{0}"'.format(line)
 
 		yield line, format, word, context, phonemes, comment, meta, None
@@ -932,10 +937,10 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 
 		# word validation checks
 
-		if fmt['word'](word) != word and 'word-casing' in checks:
+		if is_check_enabled('word-casing', checks, meta) and fmt['word'](word) != word:
 			yield None, None, None, None, None, u'Incorrect word casing in entry: "{0}"'.format(line)
 
-		if previous_word and sort_key(word) < sort_key(previous_word) and 'unsorted' in checks:
+		if is_check_enabled('unsorted', checks, meta) and previous_word and sort_key(word) < sort_key(previous_word):
 			yield None, None, None, None, None, u'Incorrect word ordering ("{0}" < "{1}") for entry: "{2}"'.format(word, previous_word, line)
 
 		# context parsing and validation checks
@@ -944,14 +949,14 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 			if context is not None:
 				context = context_parser(context)
 		except ValueError:
-			if 'context-values' in checks:
+			if is_check_enabled('context-values', checks, meta):
 				yield None, None, None, None, None, u'Invalid context format "{0}" in entry: "{1}"'.format(context, line)
 
 		# phoneme validation checks
 
 		arpabet_phonemes = []
 		stress_counts = dict([(t, 0) for t in StressType.types()])
-		for phoneme, error in phonemeset.parse(phonemes, checks):
+		for phoneme, error in phonemeset.parse(phonemes, checks, meta):
 			if error:
 				yield None, None, None, None, None, u'{0} in entry: "{1}"'.format(error, line)
 			else:
@@ -970,10 +975,10 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 		elif len(arpabet_phonemes) == 1 and 'fricative' in phonemeset.types(arpabet_phonemes[0]): # shhh, zzzz, etc.
 			pass
 		elif stress_counts[StressType.PRIMARY_STRESS] == 0:
-			if 'missing-primary-stress' in checks:
+			if is_check_enabled('missing-primary-stress', checks, meta):
 				yield None, None, None, None, None, u'No primary stress marker in entry: "{0}"'.format(line)
 		elif stress_counts[StressType.PRIMARY_STRESS] != 1:
-			if 'multiple-primary-stress' in checks:
+			if is_check_enabled('multiple-primary-stress', checks, meta):
 				yield None, None, None, None, None, u'Multiple primary stress markers in entry: "{0}"'.format(line)
 
 		# duplicate and context ordering checks
@@ -982,7 +987,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 		position = order_from if context is None else context
 
 		entry_line = u'{0}({1}) {2}'.format(word, context, arpabet_phonemes)
-		if entry_line in lines and 'duplicate-entries' in checks:
+		if is_check_enabled('duplicate-entries', checks, meta) and entry_line in lines:
 			yield None, None, None, None, None, u'Duplicate entry: "{2}"'.format(position, expect_position, line)
 		elif isinstance(position, int):
 			pronunciation = ' '.join(arpabet_phonemes)
@@ -991,14 +996,14 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 			else:
 				expect_position = order_from
 				pronunciations = []
-			if position != expect_position and 'context-ordering' in checks:
+			if is_check_enabled('context-ordering', checks, meta) and position != expect_position:
 				yield None, None, None, None, None, u'Incorrect context ordering "{0}" (expected: "{1}") in entry: "{2}"'.format(position, expect_position, line)
 			expect_position = expect_position + 1
-			if pronunciation in pronunciations:
-				if 'duplicate-pronunciations' in checks:
+			if is_check_enabled('duplicate-pronunciations', checks, meta):
+				if pronunciation in pronunciations:
 					yield None, None, None, None, None, u'Existing pronunciation in entry: "{2}"'.format(position, expect_position, line)
-			else:
-				pronunciations.append(pronunciation)
+				else:
+					pronunciations.append(pronunciation)
 			entries[keyword] = (expect_position, pronunciations)
 
 		lines[entry_line] = True
