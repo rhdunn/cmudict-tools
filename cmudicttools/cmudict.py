@@ -627,7 +627,7 @@ def parse_cmudict(lines, checks, encoding):
 	"""
 	re_linecomment_weide = re.compile(r'^##(.*)$')
 	re_linecomment_air   = re.compile(r'^;;;(.*)$')
-	re_entry = re.compile(r'^([^ \t(]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
+	re_entry = re.compile(r'^([^ \t][^ \t(]*)(\(([^\)]*)\))?([ \t]+)([^#]+)( #(.*))?[ \t]*$')
 	format = None
 	entry_metadata = {}
 	metaparser = metadata.parse_key_values
