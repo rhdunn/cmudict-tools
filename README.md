@@ -66,6 +66,7 @@ result from removing the stress markers.
 | `merge`           | Perform a merge on the dictionary. |
 | `print`           | Format and optionally sort the dictionary. |
 | `select=SELECTOR` | Select the item corresponding to `SELECTOR` (see below). |
+| `stats`           | Display dictionary statistics. |
 | `validate`        | Only perform validation checks. |
 
 The `DICTIONARY` file is auto-detected according to one of the supported input

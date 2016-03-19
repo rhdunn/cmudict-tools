@@ -2,7 +2,7 @@
 #
 # Tool for processing the CMU Pronunciation Dictionary file formats.
 #
-# Copyright (C) 2015 Reece H. Dunn
+# Copyright (C) 2015-2016 Reece H. Dunn
 #
 # This file is part of cmudict-tools.
 #
@@ -106,6 +106,20 @@ def parse(args):
 def print_dict(args):
 	cmudict.format(args.format, parse(args), accent=args.accent, phoneset=args.phoneset, encoding=args.output_encoding, input_encoding=args.input_encoding)
 
+def statistics(args):
+	words    = 0
+	variants = 0
+	for word, context, phonemes, comment, metadata, error in parse(args):
+		if error:
+			print(error, file=sys.stderr)
+		if word is not None and context is None:
+			words = words + 1
+		if context is not None:
+			variants = variants + 1
+	print('Entries:  {0}'.format(words + variants))
+	print('Words:    {0}'.format(words))
+	print('Variants: {0}'.format(variants))
+
 def validate(args):
 	for word, context, phonemes, comment, metadata, error in parse(args):
 		if error:
@@ -135,6 +149,7 @@ def merge(args):
 		cmudict.merge(args.yours, args.theirs, args.base, encoding=args.input_encoding)
 
 commands = {
+	'stats':    statistics,
 	'validate': validate,
 	'print':    print_dict,
 	'select':   select,
@@ -155,6 +170,7 @@ parser = argparse.ArgumentParser(
           merge                 Perform a merge on the dictionary.
           print                 Format and optionally sort the dictionary.
           select=SELECTOR       Select the item corresponding to SELECTOR.
+          stats                 Display dictionary statistics.
           validate              Only perform validation checks.
 
         positional arguments:
