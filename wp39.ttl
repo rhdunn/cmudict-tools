@@ -105,7 +105,7 @@ wp39:cd a skos:Concept ;
 wp39:dt a skos:Concept ;
 	skos:prefLabel "determiner"@en ;
 	skos:notation "dt" ;
-	skos:comment "An article or determiner."@en ;
+	skos:scopeNote "An article or determiner."@en ;
 	skos:exactMatch upenn:dt ;
 	skos:broadMatch wp20:dt ;
 	skos:inScheme wp39: .
@@ -134,7 +134,7 @@ wp39:fw a skos:Concept ;
 wp39:in a skos:Concept ;
 	skos:prefLabel "subordinating conjunction"@en ;
 	skos:notation "in" ;
-	skos:comment "A preposition or subordinating conjunction"@en ;
+	skos:scopeNote "A preposition or subordinating conjunction"@en ;
 	skos:exactMatch upenn:in ;
 	skos:broadMatch wp20:in ;
 	skos:inScheme wp39: .
@@ -142,7 +142,7 @@ wp39:in a skos:Concept ;
 wp39:jj a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "jj" ;
-	skos:comment "An adjective, ordinal number, or 'nth-Xest' compound."@en ;
+	skos:scopeNote "An adjective, ordinal number, or 'nth-Xest' compound."@en ;
 	skos:broadMatch upenn:jj ;
 	skos:broadMatch wp20:j ;
 	skos:inScheme wp39: .
@@ -275,7 +275,7 @@ wp39:sym a skos:Concept ;
 wp39:to a skos:Concept ;
 	skos:prefLabel "to"@en ;
 	skos:notation "to" ;
-	skos:comment "The word 'to', a preposition or infinitive marker." ;
+	skos:scopeNote "The word 'to', a preposition or infinitive marker." ;
 	skos:exactMatch upenn:to ;
 	skos:broadMatch wp20:to ;
 	skos:inScheme wp39: .
@@ -304,7 +304,7 @@ wp39:vbd a skos:Concept ;
 wp39:vbg a skos:Concept ;
 	skos:prefLabel "present participle verb"@en ;
 	skos:notation "vbg" ;
-	skos:comment "Gerund or present participle verbs."@en ;
+	skos:scopeNote "Gerund or present participle verbs."@en ;
 	skos:exactMatch upenn:vbg ;
 	skos:broadMatch wp20:v ;
 	skos:inScheme wp39: .
@@ -319,7 +319,7 @@ wp39:vbn a skos:Concept ;
 wp39:vbp a skos:Concept ;
 	skos:prefLabel "present tense verb"@en ;
 	skos:notation "vbp" ;
-	skos:comment "Does not include 3rd person singular verbs."@en ;
+	skos:scopeNote "Does not include 3rd person singular verbs."@en ;
 	skos:exactMatch upenn:vbp ;
 	skos:broadMatch wp20:v ;
 	skos:inScheme wp39: .
