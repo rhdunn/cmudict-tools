@@ -37,6 +37,7 @@
 upenn: a skos:ConceptScheme ;
 	dct:title "Penn Treebank Part-of-Speech Tags"@en ;
 	dct::references <http://repository.upenn.edu/cis_reports/570> ;
+	skos:notation "upenn" ;
 	skos:hasTopConcept upenn:cc ;
 	skos:hasTopConcept upenn:cd ;
 	skos:hasTopConcept upenn:dt ;

@@ -28,6 +28,7 @@
 
 pos: a skos:ConceptScheme ;
 	dct:title "Parts of Speech"@en ;
+	skos:notation "pos" ;
 	skos:hasTopConcept pos:adjective ;
 	skos:hasTopConcept pos:adverb ;
 	skos:hasTopConcept pos:conjunction ;

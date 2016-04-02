@@ -31,6 +31,7 @@
 wp39: a skos:ConceptScheme ;
 	dct:title "WP39 Part-of-Speech Tags"@en ;
 	dct:description "This is the WP39 tagset from the festival text-to-speech program used in the wsj.wp39.tr.ngrambin part of speech model." ;
+	skos:notation "wp39" ;
 	skos:hasTopConcept wp39:1 ;
 	skos:hasTopConcept wp39:2 ;
 	skos:hasTopConcept wp39:cc ;
