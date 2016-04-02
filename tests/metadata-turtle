@@ -2,34 +2,43 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <#number> a skos:ConceptScheme ;
-	skos:prefLabel "number" .
+	skos:prefLabel "numeric" ;
+	skos:notation "number" .
 
 <#one>	a skos:Concept ;
-	skos:prefLabel "one" ;
+	skos:prefLabel "1" ;
+	skos:notation "one" ;
 	skos:inScheme <#number> .
 
 <#two>	a skos:Concept ;
-	skos:prefLabel "two"@en ;
+	skos:prefLabel "2"@en ;
+	skos:notation "two"@en ;
 	skos:inScheme <#number> .
 
 <#three> a skos:Concept ;
-	skos:prefLabel "three"^^xsd:string ;
+	skos:prefLabel "3"^^xsd:string ;
+	skos:notation "three"^^xsd:string ;
 	skos:inScheme <#number> .
 
 <#ordinal> a skos:ConceptScheme ;
-	skos:prefLabel "ordinal" .
+	skos:prefLabel "ordinal number" ;
+	skos:notation "ordinal" .
 
 <#first> a skos:Concept ;
-	skos:prefLabel "first" ;
+	skos:prefLabel "1st" ;
+	skos:notation "first" ;
 	skos:inScheme <#ordinal> .
 
 <#second> a skos:Concept ;
-	skos:prefLabel "second" ;
+	skos:prefLabel "2nd" ;
+	skos:notation "second" ;
 	skos:inScheme <#ordinal> .
 
 <#col> a skos:ConceptScheme ;
-	skos:prefLabel "color" .
+	skos:prefLabel "colour" ;
+	skos:notation "color" .
 
 <#R> a skos:Concept ;
-	skos:prefLabel "red" ;
+	skos:prefLabel "R" ;
+	skos:notation "red" ;
 	skos:inScheme <#col> .

@@ -243,7 +243,7 @@ def parse_rdf_metadata(filename):
 	for scheme, _, _ in graph.select(predicate=rdf['type'], obj=skos['ConceptScheme']):
 		ref = None
 		for s, p, o in graph.select(subject=scheme):
-			if p.match(skos['prefLabel']):
+			if p.match(skos['notation']):
 				ref = o.text
 				metadata[ref] = []
 		if not ref:
@@ -251,7 +251,7 @@ def parse_rdf_metadata(filename):
 
 		for concept, _, _ in graph.select(predicate=skos['inScheme'], obj=scheme):
 			for s, p, o in graph.select(subject=concept):
-				if p.match(skos['prefLabel']):
+				if p.match(skos['notation']):
 					metadata[ref].append(o.text)
 	return metadata
 

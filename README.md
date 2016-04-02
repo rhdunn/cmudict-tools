@@ -327,17 +327,17 @@ For example:
 This is an RDF document using the SKOS ontology.
 
 A `key` is defined as a `skos:ConceptScheme` and a `value` as a `skos:Concept`.
-The labels are defined using `skos:prefLabel` predicates. A `value` is
+The labels are defined using `skos:notation` predicates. A `value` is
 associated with a `key` using the `skos:inScheme` predicate. All other metadata
-triples are ignored.
+triples are currently ignored.
 
 For example, to support `key=value` a minimal RDF Turtle file is:
 
 	@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-	<#> a skos:ConceptScheme ; skos:prefLabel "key" .
+	<#> a skos:ConceptScheme ; skos:notation "key" .
 
-	<#val> a skos:Concept ; skos:prefLabel "value" ; skos:inScheme <#> .
+	<#val> a skos:Concept ; skos:notation "value" ; skos:inScheme <#> .
 
 ## Configuration Options
 
