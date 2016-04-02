@@ -1,7 +1,7 @@
 # POS Tags
 
-The POS (Part-of-Speech) Tags project is a SKOS-based vocabulary for describing
-parts of speech in corpora and dictionaries.
+The POS (Part-of-Speech) Tags project is a collection of SKOS-based vocabularies
+for describing parts of speech in corpora and dictionaries.
 
 ## License
 
