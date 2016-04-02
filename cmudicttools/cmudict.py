@@ -918,6 +918,14 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 					phoneset = meta['phoneset'][0]
 				if 'sorting' in meta.keys():
 					sort_key = create_sort_key(meta['sorting'][0])
+				if 'context-format' in meta.keys():
+					entry = meta['context-format'][0]
+					if entry.startswith('@'):
+						context_parser = TypeValidator(entry[1:])
+					else:
+						path = os.path.join(os.path.dirname(filename), entry)
+						for key, value in metadata.parse(path).items():
+							context_parser = SetValidator(value)
 			continue
 
 		if not fmt:
@@ -927,7 +935,8 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 			if not phoneset:
 				phoneset = fmt['phoneset']
 			phonemeset = load_phonemes(accent, phoneset)
-			context_parser = fmt['context-parser']
+			if not context_parser:
+				context_parser = fmt['context-parser']
 
 		# word validation checks
 
