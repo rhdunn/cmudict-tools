@@ -24,6 +24,8 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
+@prefix pos: <http://reecedunn.co.uk/linguistics/model/pos/> .
+
 @prefix upenn: <http://reecedunn.co.uk/linguistics/pos/upenn/> .
 @prefix wp20:  <http://reecedunn.co.uk/linguistics/pos/wp20/> .
 @prefix wp39:  <http://reecedunn.co.uk/linguistics/pos/wp39/> .
@@ -55,6 +57,7 @@ wp20: a skos:ConceptScheme ;
 wp20:cc a skos:Concept ;
 	skos:prefLabel "coordinating conjunction"@en ;
 	skos:notation "cc" ;
+	skos:exactMatch pos:coordinating_conjunction ;
 	skos:exactMatch upenn:cc ;
 	skos:exactMatch wp39:cc ;
 	skos:inScheme wp20: .
@@ -62,6 +65,7 @@ wp20:cc a skos:Concept ;
 wp20:cd a skos:Concept ;
 	skos:prefLabel "cardinal number"@en ;
 	skos:notation "cd" ;
+	skos:broadMatch pos:number ;
 	skos:exactMatch upenn:cd ;
 	skos:exactMatch wp39:cd ;
 	skos:inScheme wp20: .
@@ -70,6 +74,7 @@ wp20:dt a skos:Concept ;
 	skos:prefLabel "determiner"@en ;
 	skos:notation "dt" ;
 	skos:comment "An article or determiner."@en ;
+	skos:broadMatch pos:determiner ;
 	skos:exactMatch upenn:dt ;
 	skos:exactMatch wp39:dt ;
 	skos:inScheme wp20: .
@@ -85,6 +90,9 @@ wp20:in a skos:Concept ;
 	skos:prefLabel "subordinating conjunction"@en ;
 	skos:notation "in" ;
 	skos:comment "A preposition or subordinating conjunction"@en ;
+	skos:related pos:preposition ;
+	skos:related pos:conjunction ;
+	skos:narrowMatch pos:subordinating_conjunction ;
 	skos:exactMatch upenn:in ;
 	skos:exactMatch wp39:in ;
 	skos:inScheme wp20: .
@@ -92,6 +100,7 @@ wp20:in a skos:Concept ;
 wp20:j a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "j" ;
+	skos:broadMatch pos:adjective ;
 	skos:narrowMatch upenn:jj ;
 	skos:narrowMatch upenn:jjr ;
 	skos:narrowMatch upenn:jjs ;
@@ -105,6 +114,7 @@ wp20:j a skos:Concept ;
 wp20:md a skos:Concept ;
 	skos:prefLabel "modal verb"@en ;
 	skos:notation "md" ;
+	skos:broadMatch pos:verb ;
 	skos:exactMatch upenn:md ;
 	skos:exactMatch wp39:md ;
 	skos:inScheme wp20: .
@@ -112,6 +122,7 @@ wp20:md a skos:Concept ;
 wp20:n a skos:Concept ;
 	skos:prefLabel "noun"@en ;
 	skos:notation "n" ;
+	skos:exactMatch pos:noun ;
 	skos:narrowMatch upenn:fw ;
 	skos:narrowMatch upenn:ls ;
 	skos:narrowMatch upenn:nn ;
@@ -138,6 +149,7 @@ wp20:of a skos:Concept ;
 wp20:pdt a skos:Concept ;
 	skos:prefLabel "predeterminer"@en ;
 	skos:notation "pdt" ;
+	skos:exactMatch pos:quantifier ;
 	skos:exactMatch upenn:pdt ;
 	skos:exactMatch wp39:pdt ;
 	skos:inScheme wp20: .
@@ -152,6 +164,7 @@ wp20:pos a skos:Concept ;
 wp20:prp a skos:Concept ;
 	skos:prefLabel "personal pronoun"@en ;
 	skos:notation "prp" ;
+	skos:broadMatch pos:pronoun ;
 	skos:exactMatch upenn:pp ;
 	skos:exactMatch wp39:prp ;
 	skos:inScheme wp20: .
@@ -166,6 +179,7 @@ wp20:punc a skos:Concept ;
 wp20:r a skos:Concept ;
 	skos:prefLabel "adverb"@en ;
 	skos:notation "r" ;
+	skos:broadMatch pos:adverb ;
 	skos:narrowMatch upenn:rb ;
 	skos:narrowMatch upenn:rbr ;
 	skos:narrowMatch upenn:rbs ;
@@ -180,6 +194,8 @@ wp20:to a skos:Concept ;
 	skos:prefLabel "to"@en ;
 	skos:notation "to" ;
 	skos:comment "The word 'to', a preposition or infinitive marker." ;
+	skos:related pos:preposition ;
+	skos:related pos:infinitive ;
 	skos:exactMatch upenn:to ;
 	skos:exactMatch wp39:to ;
 	skos:inScheme wp20: .
@@ -187,12 +203,14 @@ wp20:to a skos:Concept ;
 wp20:uh a skos:Concept ;
 	skos:prefLabel "interjection"@en ;
 	skos:notation "uh" ;
+	skos:exactMatch pos:interjection ;
 	skos:exactMatch wp39:uh ;
 	skos:inScheme wp20: .
 
 wp20:v a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "v" ;
+	skos:exactMatch pos:verb ;
 	skos:narrowMatch upenn:vb ;
 	skos:narrowMatch upenn:vbd ;
 	skos:narrowMatch upenn:vbg ;
@@ -210,6 +228,7 @@ wp20:v a skos:Concept ;
 wp20:wdt a skos:Concept ;
 	skos:prefLabel "wh-determiner"@en ;
 	skos:notation "wdt" ;
+	skos:broadMatch pos:determiner ;
 	skos:exactMatch upenn:wdt ;
 	skos:exactMatch wp39:wdt ;
 	skos:inScheme wp20: .
@@ -217,6 +236,7 @@ wp20:wdt a skos:Concept ;
 wp20:wp a skos:Concept ;
 	skos:prefLabel "wh-pronoun"@en ;
 	skos:notation "wp" ;
+	skos:broadMatch pos:pronoun ;
 	skos:narrowMatch upenn:wp ;
 	skos:narrowMatch upenn:wp_ ;
 	skos:exactMatch wp39:wp ;
@@ -225,6 +245,7 @@ wp20:wp a skos:Concept ;
 wp20:wrb a skos:Concept ;
 	skos:prefLabel "wh-adverb"@en ;
 	skos:notation "wrp" ;
+	skos:broadMatch pos:adverb ;
 	skos:exactMatch upenn:wrb ;
 	skos:exactMatch wp39:wrb ;
 	skos:inScheme wp20: .
