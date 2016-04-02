@@ -25,6 +25,7 @@
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
 @prefix wp20:  <http://reecedunn.co.uk/linguistics/pos/wp20/> .
+@prefix wp39:  <http://reecedunn.co.uk/linguistics/pos/wp39/> .
 
 wp20: a skos:ConceptScheme ;
 	dct:title "WP20 Part-of-Speech Tags"@en ;
@@ -53,103 +54,142 @@ wp20: a skos:ConceptScheme ;
 wp20:cc a skos:Concept ;
 	skos:prefLabel "coordinating conjunction"@en ;
 	skos:notation "cc" ;
+	skos:exactMatch wp39:cc ;
 	skos:inScheme wp20: .
 
 wp20:cd a skos:Concept ;
 	skos:prefLabel "cardinal number"@en ;
 	skos:notation "cd" ;
+	skos:exactMatch wp39:cd ;
 	skos:inScheme wp20: .
 
 wp20:dt a skos:Concept ;
 	skos:prefLabel "determiner"@en ;
 	skos:notation "dt" ;
 	skos:comment "An article or determiner."@en ;
+	skos:exactMatch wp39:dt ;
 	skos:inScheme wp20: .
 
 wp20:ex a skos:Concept ;
 	skos:prefLabel "existential there"@en ;
 	skos:notation "ex" ;
+	skos:exactMatch wp39:ex ;
 	skos:inScheme wp20: .
 
 wp20:in a skos:Concept ;
 	skos:prefLabel "subordinating conjunction"@en ;
 	skos:notation "in" ;
 	skos:comment "A preposition or subordinating conjunction"@en ;
+	skos:exactMatch wp39:in ;
 	skos:inScheme wp20: .
 
 wp20:j a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "j" ;
+	skos:narrowMatch wp39:1 ;
+	skos:narrowMatch wp39:2 ;
+	skos:narrowMatch wp39:jj ;
+	skos:narrowMatch wp39:jjr ;
+	skos:narrowMatch wp39:jjs ;
 	skos:inScheme wp20: .
 
 wp20:md a skos:Concept ;
 	skos:prefLabel "modal verb"@en ;
 	skos:notation "md" ;
+	skos:exactMatch wp39:md ;
 	skos:inScheme wp20: .
 
 wp20:n a skos:Concept ;
 	skos:prefLabel "noun"@en ;
 	skos:notation "n" ;
+	skos:narrowMatch wp39:fw ;
+	skos:narrowMatch wp39:ls ;
+	skos:narrowMatch wp39:nn ;
+	skos:narrowMatch wp39:nnp ;
+	skos:narrowMatch wp39:nnps ;
+	skos:narrowMatch wp39:nns ;
+	skos:narrowMatch wp39:sym ;
 	skos:inScheme wp20: .
 
 wp20:of a skos:Concept ;
 	skos:prefLabel "of"@en ;
 	skos:notation "of" ;
 	skos:note "TODO: Find out what this tag means."@en ;
+	skos:exactMatch wp39:of ;
 	skos:inScheme wp20: .
 
 wp20:pdt a skos:Concept ;
 	skos:prefLabel "predeterminer"@en ;
 	skos:notation "pdt" ;
+	skos:exactMatch wp39:pdt ;
 	skos:inScheme wp20: .
 
 wp20:pos a skos:Concept ;
 	skos:prefLabel "possessive ending"@en ;
 	skos:notation "pos" ;
+	skos:exactMatch wp39:pos ;
 	skos:inScheme wp20: .
 
 wp20:prp a skos:Concept ;
 	skos:prefLabel "personal pronoun"@en ;
 	skos:notation "prp" ;
+	skos:exactMatch wp39:prp ;
 	skos:inScheme wp20: .
 
 wp20:punc a skos:Concept ;
 	skos:prefLabel "punctuation"@en ;
 	skos:notation "punc" ;
+	skos:narrowMatch wp39:fpunc ;
+	skos:narrowMatch wp39:punc ;
 	skos:inScheme wp20: .
 
 wp20:r a skos:Concept ;
 	skos:prefLabel "adverb"@en ;
 	skos:notation "r" ;
+	skos:narrowMatch wp39:rb ;
+	skos:narrowMatch wp39:rbr ;
+	skos:narrowMatch wp39:rbs ;
+	skos:narrowMatch wp39:rp ;
 	skos:inScheme wp20: .
 
 wp20:to a skos:Concept ;
 	skos:prefLabel "to"@en ;
 	skos:notation "to" ;
 	skos:comment "The word 'to', a preposition or infinitive marker." ;
+	skos:exactMatch wp39:to ;
 	skos:inScheme wp20: .
 
 wp20:uh a skos:Concept ;
 	skos:prefLabel "interjection"@en ;
 	skos:notation "uh" ;
+	skos:exactMatch wp39:uh ;
 	skos:inScheme wp20: .
 
 wp20:v a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "v" ;
+	skos:narrowMatch wp39:vb ;
+	skos:narrowMatch wp39:vbd ;
+	skos:narrowMatch wp39:vbg ;
+	skos:narrowMatch wp39:vbn ;
+	skos:narrowMatch wp39:vbp ;
+	skos:narrowMatch wp39:vbz ;
 	skos:inScheme wp20: .
 
 wp20:wdt a skos:Concept ;
 	skos:prefLabel "wh-determiner"@en ;
 	skos:notation "wdt" ;
+	skos:exactMatch wp39:wdt ;
 	skos:inScheme wp20: .
 
 wp20:wp a skos:Concept ;
 	skos:prefLabel "wh-pronoun"@en ;
 	skos:notation "wp" ;
+	skos:exactMatch wp39:wp ;
 	skos:inScheme wp20: .
 
 wp20:wrb a skos:Concept ;
 	skos:prefLabel "wh-adverb"@en ;
 	skos:notation "wrp" ;
+	skos:exactMatch wp39:wrb ;
 	skos:inScheme wp20: .
