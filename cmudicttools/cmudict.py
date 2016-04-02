@@ -70,17 +70,12 @@ def read_phonetable(filename):
 		data['Phone Sets'] = data['Phone Sets'].split(';')
 		yield data
 
-def festlex_context(context):
-	if not context in ['dt', 'j', 'n', 'nil', 'v', 'v_p', 'vl', 'y']:
-		raise ValueError('Unknown festlex context value: {0}'.format(context))
-	return context
-
 class SetValidator:
 	def __init__(self, values):
 		self.values = values
 
 	def __call__(self, value):
-		return value in self.values
+		return value in self.values, value
 
 class TypeValidator:
 	# NOTE: Accept anything for string (`s`) types.
@@ -91,10 +86,9 @@ class TypeValidator:
 
 	def __call__(self, value):
 		try:
-			self.value_type(value)
-			return True
+			return True, self.value_type(value)
 		except ValueError:
-			return False
+			return False, value
 
 class StressType:
 	UNSTRESSED = '0'
@@ -278,7 +272,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.upper(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_\x80-\xFF]*$',
-		'context-parser': int,
+		'context-parser': TypeValidator('i'),
 	},
 	'cmudict': {
 		'accent': 'en-US',
@@ -293,7 +287,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.upper(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_\x80-\xFF]*$',
-		'context-parser': int,
+		'context-parser': TypeValidator('i'),
 	},
 	'cmudict-new': {
 		'accent': 'en-US',
@@ -308,7 +302,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.lower(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
-		'context-parser': int,
+		'context-parser': TypeValidator('i'),
 	},
 	'festlex': {
 		'accent': 'en-US',
@@ -323,7 +317,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.lower(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
-		'context-parser': festlex_context,
+		'context-parser': SetValidator(['dt', 'j', 'n', 'nil', 'v', 'v_p', 'vl', 'y']),
 	},
 	'sphinx': {
 		'accent': 'en-US',
@@ -945,11 +939,9 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 
 		# context parsing and validation checks
 
-		try:
-			if context is not None:
-				context = context_parser(context)
-		except ValueError:
-			if is_check_enabled('context-values', checks, meta):
+		if context is not None:
+			isvalid, context = context_parser(context)
+			if is_check_enabled('context-values', checks, meta) and not isvalid:
 				yield None, None, None, None, None, u'Invalid context format "{0}" in entry: "{1}"'.format(context, line)
 
 		# phoneme validation checks

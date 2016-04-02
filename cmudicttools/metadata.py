@@ -213,8 +213,10 @@ def parse_key_values(data, values=None):
 		if values is not None:
 			if not key in values.keys():
 				errors.append(u'Invalid metadata key "{0}"'.format(key))
-			elif not values[key](value):
-				errors.append(u'Invalid metadata value "{0}"'.format(value))
+			else:
+				isvalid, _ = values[key](value)
+				if not isvalid:
+					errors.append(u'Invalid metadata value "{0}"'.format(value))
 		else:
 			if not re_key.match(key):
 				errors.append(u'Invalid metadata key "{0}"'.format(key))
