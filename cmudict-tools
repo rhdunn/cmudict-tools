@@ -109,14 +109,19 @@ def print_dict(args):
 def statistics(args):
 	words    = 0
 	variants = 0
+	entries  = 0
+	prev_word = None
 	for word, context, phonemes, comment, metadata, error in parse(args):
 		if error:
 			print(error, file=sys.stderr)
-		if word is not None and context is None:
-			words = words + 1
-		if context is not None:
+		if word:
+			entries = entries + 1
+		if context:
 			variants = variants + 1
-	print('Entries:  {0}'.format(words + variants))
+		if word != prev_word:
+			words = words + 1
+			prev_word = word
+	print('Entries:  {0}'.format(entries))
 	print('Words:    {0}'.format(words))
 	print('Variants: {0}'.format(variants))
 
