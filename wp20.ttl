@@ -1,4 +1,4 @@
-# SKOS Description of the WP20 Part-of-Speech Tagset used by festival, flite and mimic
+# SKOS Description of the WP20 Part-of-Speech Tagset used by festival
 #
 # Copyright (c) 2016 Reece H. Dunn (Cainteoir Technologies)
 #
@@ -32,7 +32,7 @@
 
 wp20: a skos:ConceptScheme ;
 	dct:title "WP20 Part-of-Speech Tags"@en ;
-	dct:description "This is the WP20 tagset from the festival text-to-speech program used in the festlex version of the CMU pronunciation dictionary used by festival and flite." ;
+	dct:description "This is the WP20 tagset from the festival text-to-speech program." ;
 	skos:notation "wp20" ;
 	skos:hasTopConcept wp20:cc ;
 	skos:hasTopConcept wp20:cd ;

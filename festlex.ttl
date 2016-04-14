@@ -1,0 +1,65 @@
+# SKOS Description of the WP20 Part-of-Speech Tagset used by festival lexicons
+#
+# Copyright (c) 2016 Reece H. Dunn (Cainteoir Technologies)
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
+
+@prefix lex: <http://reecedunn.co.uk/linguistics/pos/festlex/> .
+
+fl: a skos:ConceptScheme ;
+	dct:title "Festival Lexicon Part-of-Speech Tags"@en ;
+	dct:description "This is the Part-of-Speech tagset from the festival cmudict lexicon." ;
+	skos:notation "festlex" ;
+	skos:hasTopConcept fl:dt ;
+	skos:hasTopConcept fl:j ;
+	skos:hasTopConcept fl:n ;
+	skos:hasTopConcept fl:v ;
+	skos:hasTopConcept fl:v_p .
+
+fl:dt a skos:Concept ;
+	skos:prefLabel "determiner"@en ;
+	skos:notation "dt" ;
+	skos:scopeNote "An article or determiner."@en ;
+	skos:inScheme fl: .
+
+fl:j a skos:Concept ;
+	skos:prefLabel "adjective"@en ;
+	skos:notation "j" ;
+	skos:notation "y" ;
+	skos:inScheme fl: .
+
+fl:n a skos:Concept ;
+	skos:prefLabel "noun"@en ;
+	skos:notation "n" ;
+	skos:inScheme fl: .
+
+fl:v a skos:Concept ;
+	skos:prefLabel "verb"@en ;
+	skos:notation "v" ;
+	skos:notation "vl" ;
+	skos:inScheme fl: .
+
+fl:v_p a skos:Concept ;
+	skos:prefLabel "past participle verb"@en ;
+	skos:notation "v_p" ;
+	skos:inScheme fl: .
