@@ -1,0 +1,56 @@
+SYLLABLE  s ih1 - l ah0 - b ah0 l
+PALM  a0 a1 a2
+PALM(1)  a0 a1 a2 # Cepstral
+TRAP  ae0 ae1 ae2
+STRUT  ah0 ah1 ah2
+THOUGHT  ao0 ao1 ao2
+MOUTH  aw0 aw1 aw2
+COMMA  ax ax0
+LETTER  axr axr0
+PRICE  ay0 ay1 ay2
+B  bcl b
+CH  ch
+D  dcl d dx
+DH  dh
+SQUARE  e@0 e@1 e@2
+SQUARE(1)  e@0 e@1 e@2 # Cepstral
+DRESS  eh0 eh1 eh2
+NURSE  er0 er1 er2
+FACE  ey0 ey1 ey2
+F  f
+G  gcl g
+H  hh hv hw
+H(1)  h # Cepstral
+FLEECE  i0 i1 i2
+FLEECE(1)  i0 i1 i2 # Cepstral/short
+NEAR  i@0 i@1 i@2
+NEAR(1)  i@0 i@1 i@2 # Cepstral
+KIT  ih0 ih1 ih2 ix ix0
+JH  jh
+K  kcl k
+L  l el
+M  m em
+N  n en nx
+NG  ng eng
+LOT  oa0 oa1 oa2
+FORCE  oa0 oa1 oa2 # Cepstral LOT vowel
+GOAT  ow0 ow1 ow2
+CHOICE  oy0 oy1 oy2
+P  pcl p
+Q  q
+R  r
+S  s
+SH  sh
+T  tcl t
+TH  th
+CURE  ua0 ua1 ua2
+FOOT  uh0 uh1 uh2
+GOOSE  uw0 uw1 uw2
+GOOSE(1)  u0 u1 u2 # Short
+GOOSE(2)  ux0 ux1 ux2 # Scottish
+V  v
+W  w
+Y  j
+Y(1)  j # Cepstral
+Z  z
+ZH  zh
