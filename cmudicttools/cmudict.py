@@ -137,7 +137,8 @@ class IpaPhonemeSet:
 		return ''.join(self.to_local_phonemes(phonemes))
 
 class ArpabetPhonemeSet:
-	def __init__(self, capitalization):
+	def __init__(self, capitalization, name):
+		self.name = name
 		self.re_phonemes = re.compile(r' (?=[^ ])')
 		if capitalization == 'upper':
 			self.conversion = ustr.upper
@@ -167,6 +168,8 @@ class ArpabetPhonemeSet:
 			self.from_arpabet['{0}0'.format(normalized)] = u'{0}0'.format(phoneme)
 			self.from_arpabet['{0}1'.format(normalized)] = u'{0}1'.format(phoneme)
 			self.from_arpabet['{0}2'.format(normalized)] = u'{0}2'.format(phoneme)
+			if self.name == 'festvox' and normalized == 'ah':
+				self.from_arpabet['{0}0'.format(normalized)] = u'ax'
 			self.stress_types['{0}0'.format(normalized)] = StressType.UNSTRESSED
 			self.stress_types['{0}1'.format(normalized)] = StressType.PRIMARY_STRESS
 			self.stress_types['{0}2'.format(normalized)] = StressType.SECONDARY_STRESS
@@ -241,12 +244,12 @@ class ArpabetPhonemeSet:
 		return ' '.join(self.to_local_phonemes(phonemes))
 
 phonesets = {
-	'arpabet':  lambda: ArpabetPhonemeSet('upper'),
-	'cepstral': lambda: ArpabetPhonemeSet('lower'),
-	'cmu':      lambda: ArpabetPhonemeSet('upper'),
-	'festvox':  lambda: ArpabetPhonemeSet('lower'),
+	'arpabet':  lambda: ArpabetPhonemeSet('upper', 'arpabet'),
+	'cepstral': lambda: ArpabetPhonemeSet('lower', 'cepstral'),
+	'cmu':      lambda: ArpabetPhonemeSet('upper', 'cmu'),
+	'festvox':  lambda: ArpabetPhonemeSet('lower', 'festvox'),
 	'ipa':      lambda: IpaPhonemeSet('IPA'),
-	'timit':    lambda: ArpabetPhonemeSet('lower'),
+	'timit':    lambda: ArpabetPhonemeSet('lower', 'timit'),
 }
 
 def load_phonemes(accent, phoneset):

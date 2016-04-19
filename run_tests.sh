@@ -188,7 +188,7 @@ check "--remove-stress" tests/no_stress ${ARGS} --remove-stress tests/no_stress.
 
 ARGS="print -Wnone --source-phoneset=arpabet --accent=en-US"
 check "printing en-US accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
-check "printing en-US accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
+check "printing en-US accent, festvox phones" tests/phone_festvox.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
 check "printing en-US accent, cepstral phones" tests/phone_en-US-x-cepstral.cmudict ${ARGS} --phoneset=cepstral tests/phone_arpabet.upper
 
 ARGS="print -Wnone --source-phoneset=arpabet --accent=en-GB-x-rp"
@@ -196,7 +196,7 @@ check "printing en-GB-x-rp accent, cepstral phones" tests/phone_en-GB-x-rp-cepst
 
 ARGS="print -Wnone --source-phoneset=arpabet"
 check "printing default accent, arpabet phones" tests/phone_arpabet.upper ${ARGS} --phoneset=arpabet tests/phone_arpabet.upper
-check "printing default accent, festvox phones" tests/phone_arpabet.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
+check "printing default accent, festvox phones" tests/phone_festvox.lower ${ARGS} --phoneset=festvox tests/phone_arpabet.upper
 check "printing default accent, cepstral phones" tests/phone_en-US-x-cepstral.cmudict ${ARGS} --phoneset=cepstral tests/phone_arpabet.upper
 
 ARGS="print -Wnone --source-phoneset=arpabet --phoneset=ipa --output-encoding=utf-8"
