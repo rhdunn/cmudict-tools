@@ -12,8 +12,6 @@
 {"pronunciation": ["ao0", "ao1", "ao2"], "word": "THOUGHT"},
 {"pronunciation": ["aw0", "aw1", "aw2"], "word": "MOUTH"},
 {"pronunciation": ["ax", "ax0"], "word": "COMMA"},
-{"error-message": "Invalid phoneme \"axr\" in entry: \"LETTER  axr axr0\""},
-{"error-message": "Invalid phoneme \"axr0\" in entry: \"LETTER  axr axr0\""},
 {"pronunciation": ["axr", "axr0"], "word": "LETTER"},
 {"pronunciation": ["ay0", "ay1", "ay2"], "word": "PRICE"},
 {"error-message": "Invalid phoneme \"bcl\" in entry: \"B  bcl b\""},

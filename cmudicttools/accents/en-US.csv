@@ -24,7 +24,7 @@ AH,,ʌ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,STRUT,hut,HH AH1 T,
 AO,,ɔ,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,THOUGHT,ought,AO1 T,
 AW,,aʊ̯,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,MOUTH,cow,K AW1,
 AX,,ə,schwa,arpabet;ipa;festvox;timit,COMMA,ago,AX G OW1,
-AXR,,ɚ,schwa,arpabet;ipa;timit,LETTER,bigger,B IH1 G AXR,
+AXR,,ɚ,schwa,arpabet;ipa;festvox;timit,LETTER,bigger,B IH1 G AXR,
 AY,,aɪ̯,vowel,arpabet;ipa;cmu;festvox;cepstral;timit,PRICE,hide,HH AY1 D,
 B,,b,stop,arpabet;ipa;cmu;festvox;cepstral;timit,,be,B IY1,
 BCL,,b̚,stop,timit,,be,BCL B IY1,Unreleased B

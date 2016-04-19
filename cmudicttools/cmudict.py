@@ -180,8 +180,12 @@ class ArpabetPhonemeSet:
 		elif 'schwa' in types:
 			self.to_arpabet[phoneme] = normalized
 			self.to_arpabet['{0}0'.format(phoneme)] = u'{0}0'.format(normalized)
-			self.from_arpabet[normalized] = phoneme
-			self.from_arpabet['{0}0'.format(normalized)] = u'{0}0'.format(phoneme)
+			if self.name == 'festvox' and normalized == 'axr':
+				self.from_arpabet[normalized] = u'er0'
+				self.from_arpabet['{0}0'.format(normalized)] = u'er0'
+			else:
+				self.from_arpabet[normalized] = phoneme
+				self.from_arpabet['{0}0'.format(normalized)] = u'{0}0'.format(phoneme)
 			self.stress_types[normalized] = StressType.WEAK
 			self.stress_types['{0}0'.format(normalized)] = StressType.WEAK
 			self.phone_types[normalized] = types
