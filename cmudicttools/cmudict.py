@@ -163,16 +163,25 @@ class ArpabetPhonemeSet:
 			self.to_arpabet[phoneme] = normalized
 			self.to_arpabet['{0}0'.format(phoneme)] = u'{0}0'.format(normalized)
 			self.to_arpabet['{0}1'.format(phoneme)] = u'{0}1'.format(normalized)
-			self.to_arpabet['{0}2'.format(phoneme)] = u'{0}2'.format(normalized)
+			if self.name == 'festvox':
+				self.to_arpabet['{0}2'.format(phoneme)] = u'{0}1'.format(normalized)
+			else:
+				self.to_arpabet['{0}2'.format(phoneme)] = u'{0}2'.format(normalized)
 			self.from_arpabet[normalized] = phoneme
 			self.from_arpabet['{0}0'.format(normalized)] = u'{0}0'.format(phoneme)
 			self.from_arpabet['{0}1'.format(normalized)] = u'{0}1'.format(phoneme)
-			self.from_arpabet['{0}2'.format(normalized)] = u'{0}2'.format(phoneme)
-			if self.name == 'festvox' and normalized == 'ah':
-				self.from_arpabet['{0}0'.format(normalized)] = u'ax'
+			if self.name == 'festvox':
+				if normalized == 'ah':
+					self.from_arpabet['{0}0'.format(normalized)] = u'ax'
+				self.from_arpabet['{0}2'.format(normalized)] = u'{0}1'.format(phoneme)
+			else:
+				self.from_arpabet['{0}2'.format(normalized)] = u'{0}2'.format(phoneme)
 			self.stress_types['{0}0'.format(normalized)] = StressType.UNSTRESSED
 			self.stress_types['{0}1'.format(normalized)] = StressType.PRIMARY_STRESS
-			self.stress_types['{0}2'.format(normalized)] = StressType.SECONDARY_STRESS
+			if self.name == 'festvox':
+				self.stress_types['{0}2'.format(normalized)] = StressType.PRIMARY_STRESS
+			else:
+				self.stress_types['{0}2'.format(normalized)] = StressType.SECONDARY_STRESS
 			self.phone_types[normalized] = types
 			self.phone_types['{0}0'.format(normalized)] = types
 			self.phone_types['{0}1'.format(normalized)] = types
