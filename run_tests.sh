@@ -95,7 +95,15 @@ check_metadata() {
 check_metadata - "csv metadata parsing" tests/metadata.json tests/metadata.csv
 check_metadata rapper "rdf turtle metadata parsing using rapper" tests/metadata.json tests/metadata-turtle
 check_metadata rapper "rdf/xml metadata parsing using rapper" tests/metadata.json tests/metadata-rdfxml
-check_metadata - "n-triples metadata parsing using rapper" tests/metadata.json tests/metadata-ntriples
+check_metadata - "n-triples metadata parsing" tests/metadata.json tests/metadata-ntriples
+
+# Context Tagset Tests ########################################################
+
+check_metadata rapper "cmu context tagset parsing using rapper" tests/context-cmu.json cmudicttools/pos-tags/cmu.ttl
+check_metadata rapper "festlex part-of-speech tagset parsing using rapper" tests/context-festlex.json cmudicttools/pos-tags/festlex.ttl
+check_metadata rapper "upenn part-of-speech tagset parsing using rapper" tests/context-upenn.json cmudicttools/pos-tags/upenn.ttl
+check_metadata rapper "wp20 part-of-speech tagset parsing using rapper" tests/context-wp20.json cmudicttools/pos-tags/wp20.ttl
+check_metadata rapper "wp39 part-of-speech tagset parsing using rapper" tests/context-wp39.json cmudicttools/pos-tags/wp39.ttl
 
 # Parser Tests ################################################################
 #
