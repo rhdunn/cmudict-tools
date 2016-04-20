@@ -24,7 +24,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
-@prefix lex: <http://reecedunn.co.uk/linguistics/pos/festlex/> .
+@prefix fl: <http://reecedunn.co.uk/linguistics/pos/festlex/> .
 
 fl: a skos:ConceptScheme ;
 	dct:title "Festival Lexicon Part-of-Speech Tags"@en ;
