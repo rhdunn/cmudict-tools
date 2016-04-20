@@ -1,0 +1,91 @@
+# SKOS Description of the context tagset used by the CMU pronunciation dictionary
+#
+# Copyright (c) 2016 Reece H. Dunn (Cainteoir Technologies)
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
+
+@prefix cmu: <http://reecedunn.co.uk/linguistics/pos/cmu/> .
+
+cmu: a skos:ConceptScheme ;
+	dct:title "CMU Pronunciation Dictionary Context Tags"@en ;
+	dct:description "This is the context tagset used in the CMU pronunciation dictionary." ;
+	skos:notation "cmu" ;
+	skos:hasTopConcept cmu:1 ;
+	skos:hasTopConcept cmu:2 ;
+	skos:hasTopConcept cmu:3 ;
+	skos:hasTopConcept cmu:4 ;
+	skos:hasTopConcept cmu:5 ;
+	skos:hasTopConcept cmu:6 ;
+	skos:hasTopConcept cmu:7 ;
+	skos:hasTopConcept cmu:8 ;
+	skos:hasTopConcept cmu:9 .
+
+cmu:1 a skos:Concept ;
+	skos:prefLabel "1"@en ;
+	skos:notation "1" ;
+	skos:inScheme cmu: .
+
+cmu:2 a skos:Concept ;
+	skos:prefLabel "2"@en ;
+	skos:notation "2" ;
+	skos:inScheme cmu: .
+
+cmu:3 a skos:Concept ;
+	skos:prefLabel "3"@en ;
+	skos:notation "3" ;
+	skos:inScheme cmu: .
+
+cmu:4 a skos:Concept ;
+	skos:prefLabel "4"@en ;
+	skos:notation "4" ;
+	skos:inScheme cmu: .
+
+cmu:5 a skos:Concept ;
+	skos:prefLabel "5"@en ;
+	skos:notation "5" ;
+	skos:scopeNote "First used in cmudict 0.6."@en ;
+	skos:inScheme cmu: .
+
+cmu:6 a skos:Concept ;
+	skos:prefLabel "6"@en ;
+	skos:notation "6" ;
+	skos:scopeNote "First used in cmudict 0.6."@en ;
+	skos:inScheme cmu: .
+
+cmu:7 a skos:Concept ;
+	skos:prefLabel "7"@en ;
+	skos:notation "7" ;
+	skos:scopeNote "First used in cmudict 0.6d."@en ;
+	skos:inScheme cmu: .
+
+cmu:8 a skos:Concept ;
+	skos:prefLabel "8"@en ;
+	skos:notation "8" ;
+	skos:scopeNote "First used in cmudict 0.6d."@en ;
+	skos:inScheme cmu: .
+
+cmu:9 a skos:Concept ;
+	skos:prefLabel "9"@en ;
+	skos:notation "9" ;
+	skos:scopeNote "First used in cmudict 0.6d."@en ;
+	skos:inScheme cmu: .

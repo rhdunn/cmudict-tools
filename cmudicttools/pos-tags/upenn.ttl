@@ -1,0 +1,334 @@
+# SKOS Description of the Penn Treebank Part-of-Speech Tagset
+#
+# Copyright (c) 2016 Reece H. Dunn (Cainteoir Technologies)
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
+
+@prefix upenn: <http://reecedunn.co.uk/linguistics/pos/upenn/> .
+@prefix wp20:  <http://reecedunn.co.uk/linguistics/pos/wp20/> .
+@prefix wp39:  <http://reecedunn.co.uk/linguistics/pos/wp39/> .
+
+<http://repository.upenn.edu/cis_reports/570>
+	dct:title "Part-of-Speech Tagging Guidelines for the Penn Treebank Project (3rd Revision)" ;
+	dct:creator "Beatrice Santorini" ;
+	dct:publisher "University of Pennsylvania" ;
+	dct:date "01-07-1990"^^xsd:date .
+
+upenn: a skos:ConceptScheme ;
+	dct:title "Penn Treebank Part-of-Speech Tags"@en ;
+	dct::references <http://repository.upenn.edu/cis_reports/570> ;
+	skos:notation "upenn" ;
+	skos:hasTopConcept upenn:cc ;
+	skos:hasTopConcept upenn:cd ;
+	skos:hasTopConcept upenn:dt ;
+	skos:hasTopConcept upenn:ex ;
+	skos:hasTopConcept upenn:fw ;
+	skos:hasTopConcept upenn:in ;
+	skos:hasTopConcept upenn:jj ;
+	skos:hasTopConcept upenn:jjr ;
+	skos:hasTopConcept upenn:jjs ;
+	skos:hasTopConcept upenn:ls ;
+	skos:hasTopConcept upenn:md ;
+	skos:hasTopConcept upenn:nn ;
+	skos:hasTopConcept upenn:nns ;
+	skos:hasTopConcept upenn:np ;
+	skos:hasTopConcept upenn:nps ;
+	skos:hasTopConcept upenn:pdt ;
+	skos:hasTopConcept upenn:pos ;
+	skos:hasTopConcept upenn:pp ;
+	skos:hasTopConcept upenn:pp_ ;
+	skos:hasTopConcept upenn:rb ;
+	skos:hasTopConcept upenn:rbr ;
+	skos:hasTopConcept upenn:rbs ;
+	skos:hasTopConcept upenn:rp ;
+	skos:hasTopConcept upenn:sym ;
+	skos:hasTopConcept upenn:to ;
+	skos:hasTopConcept upenn:uh ;
+	skos:hasTopConcept upenn:vb ;
+	skos:hasTopConcept upenn:vbd ;
+	skos:hasTopConcept upenn:vbg ;
+	skos:hasTopConcept upenn:vbn ;
+	skos:hasTopConcept upenn:vbp ;
+	skos:hasTopConcept upenn:vbz ;
+	skos:hasTopConcept upenn:wdt ;
+	skos:hasTopConcept upenn:wp ;
+	skos:hasTopConcept upenn:wp_ ;
+	skos:hasTopConcept upenn:wrb .
+
+upenn:cc a skos:Concept ;
+	skos:prefLabel "coordinating conjunction"@en ;
+	skos:notation "CC" ;
+	skos:exactMatch wp20:cc ;
+	skos:exactMatch wp39:cc ;
+	skos:inScheme upenn: .
+
+upenn:cd a skos:Concept ;
+	skos:prefLabel "cardinal number"@en ;
+	skos:notation "CD" ;
+	skos:exactMatch wp20:cd ;
+	skos:exactMatch wp39:cd ;
+	skos:inScheme upenn: .
+
+upenn:dt a skos:Concept ;
+	skos:prefLabel "determiner"@en ;
+	skos:notation "DT" ;
+	skos:scopeNote "An article or determiner."@en ;
+	skos:exactMatch wp20:dt ;
+	skos:exactMatch wp39:dt ;
+	skos:inScheme upenn: .
+
+upenn:ex a skos:Concept ;
+	skos:prefLabel "existential there"@en ;
+	skos:notation "EX" ;
+	skos:exactMatch wp20:ex ;
+	skos:exactMatch wp39:ex ;
+	skos:inScheme upenn: .
+
+upenn:fw a skos:Concept ;
+	skos:prefLabel "foreign word"@en ;
+	skos:notation "FW" ;
+	skos:broadMatch wp20:n ;
+	skos:exactMatch wp39:fw ;
+	skos:inScheme upenn: .
+
+upenn:in a skos:Concept ;
+	skos:prefLabel "subordinating conjunction"@en ;
+	skos:notation "IN" ;
+	skos:scopeNote "A preposition or subordinating conjunction"@en ;
+	skos:exactMatch wp20:in ;
+	skos:exactMatch wp39:in ;
+	skos:inScheme upenn: .
+
+upenn:jj a skos:Concept ;
+	skos:prefLabel "adjective"@en ;
+	skos:notation "JJ" ;
+	skos:scopeNote "An adjective, ordinal number, or 'nth-Xest' compound."@en ;
+	skos:broadMatch wp20:j ;
+	skos:narrowMatch wp39:1 ;
+	skos:narrowMatch wp39:2 ;
+	skos:narrowMatch wp39:jj ;
+	skos:inScheme upenn: .
+
+upenn:jjr a skos:Concept ;
+	skos:prefLabel "comparative adjective"@en ;
+	skos:notation "JJR" ;
+	skos:broadMatch wp20:j ;
+	skos:exactMatch wp39:jjr ;
+	skos:inScheme upenn: .
+
+upenn:jjs a skos:Concept ;
+	skos:prefLabel "superlative adjective"@en ;
+	skos:notation "JJS" ;
+	skos:broadMatch wp20:j ;
+	skos:exactMatch wp39:jjs ;
+	skos:inScheme upenn: .
+
+upenn:ls a skos:Concept ;
+	skos:prefLabel "list item marker"@en ;
+	skos:notation "LS" ;
+	skos:broadMatch wp20:n ;
+	skos:exactMatch wp39:ls ;
+	skos:inScheme upenn: .
+
+upenn:md a skos:Concept ;
+	skos:prefLabel "modal verb"@en ;
+	skos:notation "MD" ;
+	skos:exactMatch wp20:md ;
+	skos:exactMatch wp39:md ;
+	skos:inScheme upenn: .
+
+upenn:nn a skos:Concept ;
+	skos:prefLabel "singular or mass noun"@en ;
+	skos:notation "NN" ;
+	skos:broadMatch wp20:n ;
+	skos:exactMatch wp39:nn ;
+	skos:inScheme upenn: .
+
+upenn:nns a skos:Concept ;
+	skos:prefLabel "plural noun"@en ;
+	skos:notation "NNS" ;
+	skos:broadMatch wp20:n ;
+	skos:exactMatch wp39:nns ;
+	skos:inScheme upenn: .
+
+upenn:np a skos:Concept ;
+	skos:prefLabel "singular proper noun"@en ;
+	skos:notation "NP" ;
+	skos:broadMatch wp20:n ;
+	skos:exactMatch wp39:nnp ;
+	skos:inScheme upenn: .
+
+upenn:nps a skos:Concept ;
+	skos:prefLabel "plural proper noun"@en ;
+	skos:notation "NPS" ;
+	skos:broadMatch wp20:n ;
+	skos:exactMatch wp39:nnps ;
+	skos:inScheme upenn: .
+
+upenn:pdt a skos:Concept ;
+	skos:prefLabel "predeterminer"@en ;
+	skos:notation "PDT" ;
+	skos:exactMatch wp20:pdt ;
+	skos:exactMatch wp39:pdt ;
+	skos:inScheme upenn: .
+
+upenn:pos a skos:Concept ;
+	skos:prefLabel "possessive ending"@en ;
+	skos:notation "POS" ;
+	skos:exactMatch wp20:pos ;
+	skos:exactMatch wp39:pos ;
+	skos:inScheme upenn: .
+
+upenn:pp a skos:Concept ;
+	skos:prefLabel "personal pronoun"@en ;
+	skos:notation "PP" ;
+	skos:exactMatch wp20:prp ;
+	skos:exactMatch wp39:prp ;
+	skos:inScheme upenn: .
+
+upenn:pp_ a skos:Concept ;
+	skos:prefLabel "possessive pronoun"@en ;
+	skos:notation "PP$" ;
+	skos:inScheme upenn: .
+
+upenn:rb a skos:Concept ;
+	skos:prefLabel "adverb"@en ;
+	skos:notation "RB" ;
+	skos:broadMatch wp20:r ;
+	skos:exactMatch wp39:rb ;
+	skos:inScheme upenn: .
+
+upenn:rbr a skos:Concept ;
+	skos:prefLabel "comparative adverb"@en ;
+	skos:notation "RBR" ;
+	skos:broadMatch wp20:r ;
+	skos:exactMatch wp39:rbr ;
+	skos:inScheme upenn: .
+
+upenn:rbs a skos:Concept ;
+	skos:prefLabel "superlative adverb"@en ;
+	skos:notation "RBS" ;
+	skos:broadMatch wp20:r ;
+	skos:exactMatch wp39:rbs ;
+	skos:inScheme upenn: .
+
+upenn:rp a skos:Concept ;
+	skos:prefLabel "particle"@en ;
+	skos:notation "RP" ;
+	skos:broadMatch wp20:r ;
+	skos:exactMatch wp39:rp ;
+	skos:inScheme upenn: .
+
+upenn:sym a skos:Concept ;
+	skos:prefLabel "symbol"@en ;
+	skos:notation "SYM" ;
+	skos:broadMatch wp20:n ;
+	skos:exactMatch wp39:sym ;
+	skos:inScheme upenn: .
+
+upenn:to a skos:Concept ;
+	skos:prefLabel "to"@en ;
+	skos:notation "TO" ;
+	skos:scopeNote "The word 'to', a preposition or infinitive marker." ;
+	skos:exactMatch wp20:to ;
+	skos:exactMatch wp39:to ;
+	skos:inScheme upenn: .
+
+upenn:uh a skos:Concept ;
+	skos:prefLabel "interjection"@en ;
+	skos:notation "UH" ;
+	skos:exactMatch wp20:uh ;
+	skos:exactMatch wp39:uh ;
+	skos:inScheme upenn: .
+
+upenn:vb a skos:Concept ;
+	skos:prefLabel "verb"@en ;
+	skos:notation "VB" ;
+	skos:broadMatch wp20:v ;
+	skos:exactMatch wp39:vb ;
+	skos:inScheme upenn: .
+
+upenn:vbd a skos:Concept ;
+	skos:prefLabel "past tense verb"@en ;
+	skos:notation "VBD" ;
+	skos:broadMatch wp20:v ;
+	skos:exactMatch wp39:vbd ;
+	skos:inScheme upenn: .
+
+upenn:vbg a skos:Concept ;
+	skos:prefLabel "present participle verb"@en ;
+	skos:notation "VBG" ;
+	skos:scopeNote "Gerund or present participle verbs."@en ;
+	skos:broadMatch wp20:v ;
+	skos:exactMatch wp39:vbg ;
+	skos:inScheme upenn: .
+
+upenn:vbn a skos:Concept ;
+	skos:prefLabel "past participle verb"@en ;
+	skos:notation "VBN" ;
+	skos:broadMatch wp20:v ;
+	skos:exactMatch wp39:vbn ;
+	skos:inScheme upenn: .
+
+upenn:vbp a skos:Concept ;
+	skos:prefLabel "present tense verb"@en ;
+	skos:notation "VBP" ;
+	skos:scopeNote "Does not include 3rd person singular verbs."@en ;
+	skos:broadMatch wp20:v ;
+	skos:exactMatch wp39:vbp ;
+	skos:inScheme upenn: .
+
+upenn:vbz a skos:Concept ;
+	skos:prefLabel "present tense 3rd person singular verb"@en ;
+	skos:notation "VBZ" ;
+	skos:broadMatch wp20:v ;
+	skos:exactMatch wp39:vbz ;
+	skos:inScheme upenn: .
+
+upenn:wdt a skos:Concept ;
+	skos:prefLabel "wh-determiner"@en ;
+	skos:notation "WDT" ;
+	skos:exactMatch wp20:wdt ;
+	skos:exactMatch wp39:wdt ;
+	skos:inScheme upenn: .
+
+upenn:wp a skos:Concept ;
+	skos:prefLabel "wh-pronoun"@en ;
+	skos:notation "WP" ;
+	skos:broadMatch wp20:wp ;
+	skos:broadMatch wp39:wp ;
+	skos:inScheme upenn: .
+
+upenn:wp_ a skos:Concept ;
+	skos:prefLabel "possessive wh-pronoun"@en ;
+	skos:notation "WP$" ;
+	skos:broadMatch wp20:wp ;
+	skos:broadMatch wp39:wp ;
+	skos:inScheme upenn: .
+
+upenn:wrb a skos:Concept ;
+	skos:prefLabel "wh-adverb"@en ;
+	skos:notation "WRB" ;
+	skos:exactMatch wp20:wrb ;
+	skos:exactMatch wp39:wrb ;
+	skos:inScheme upenn: .
