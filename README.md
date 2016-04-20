@@ -1,5 +1,6 @@
 # CMU Pronunciation Dictionary Tools
 
+- [Dependencies](#dependencies)
 - [Usage](#usage)
     - [Example: Porter Stemmer](#example-porter-stemmer)
     - [Example: Phonetisaurus](#example-phonetisaurus)
@@ -26,6 +27,24 @@
 
 This is a collection of tools for working with the CMU Pronunciation
 Dictionary.
+
+## Dependencies
+
+| Library | Required? | Description |
+|---------|-----------|-------------|
+| [pyicu](https://pypi.python.org/pypi/PyICU/) | No | Used for the `unicode` [SORT](#sort) ordering. |
+| [rdflib](https://pypi.python.org/pypi/rdflib/) | Yes | Used for the context and metadata tagset parsing. |
+| [rdflib-jsonld](https://pypi.python.org/pypi/rdflib-jsonld/) | No | Used for JSON-LD format support in the context and metadata tagset parsing. |
+
+To install these libraries on Debian-based machines (including Ubuntu and Mint), you can run:
+
+	sudo apt-get install python-LIBRARY
+
+On other operating systems, you can run:
+
+	sudo pip install LIBRARY
+
+This will install the `LIBRARY` python package.
 
 ## Usage
 
@@ -300,12 +319,15 @@ For example:
 | File Type | Metadata Format               |
 |-----------|-------------------------------|
 | CSV       | [CSV Metadata](#csv-metadata) |
-| Turtle    | [RDF Metadata](#rdf-metadata) |
-| RDF/XML   | [RDF Metadata](#rdf-metadata) |
+| JSON-LD   | [RDF Metadata](#rdf-metadata) |
+| Microdata | [RDF Metadata](#rdf-metadata) |
+| N-Quads   | [RDF Metadata](#rdf-metadata) |
 | N-Triples | [RDF Metadata](#rdf-metadata) |
-
-__NOTE:__ The Turtle and RDF/XML formats require the `rapper` command-line
-application. This is so those formats can be converted to the N-Triple format.
+| N3        | [RDF Metadata](#rdf-metadata) |
+| RDF/XML   | [RDF Metadata](#rdf-metadata) |
+| RDFa      | [RDF Metadata](#rdf-metadata) |
+| TriX      | [RDF Metadata](#rdf-metadata) |
+| Turtle    | [RDF Metadata](#rdf-metadata) |
 
 ### CSV Metadata
 
@@ -417,8 +439,6 @@ The supported `SORT` values are:
   *  `unicode` to use the new-style sort order (group variants next to their root
      entry) with words sorted using the Unicode Collation Algorithm (UCA) to
      provide a more natural grouping of accented characters, etc.;
-
-     __NOTE:__ This requires the `pyicu` package to be installed to be used.
 
   *  `weide` to use the old-style sort order (simple ASCII character ordering).
 

@@ -48,23 +48,9 @@ check() {
 }
 
 check_metadata() {
-	PROGRAM=$1
-	MESSAGE=$2
-	OUT_FILE=$3
-	SRC_FILE=$4
-
-	case "${PROGRAM}" in
-		-)
-			PRESENT=yes
-			;;
-		*)
-			if type ${PROGRAM} >/dev/null 2>&1 ; then
-				PRESENT=yes
-			else
-				PRESENT=no
-			fi
-			;;
-	esac
+	MESSAGE=$1
+	OUT_FILE=$2
+	SRC_FILE=$3
 
 	RES_FILE=/tmp/cmudict_tools_test.out
 
@@ -74,36 +60,32 @@ check_metadata() {
 	echo >> ${LOG_FILE}
 
 	echo -n "testing ${MESSAGE} ... " | tee -a ${LOG_FILE}
-	if [[ x${PRESENT} == xyes ]] ; then
-		${PYTHON} ./metadata ${SRC_FILE} 2>&1 | tee > ${RES_FILE}
-		diff ${OUT_FILE} ${RES_FILE} > /dev/null
-		if [[ $? -eq 0 ]] ; then
-			echo "pass" | tee -a ${LOG_FILE}
-		else
-			echo "fail" | tee -a ${LOG_FILE}
-			echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" >> ${LOG_FILE}
-			diff -U0 ${OUT_FILE} ${RES_FILE} >> ${LOG_FILE}
-			echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> ${LOG_FILE}
-		fi
+	${PYTHON} ./metadata ${SRC_FILE} 2>&1 | tee > ${RES_FILE}
+	diff ${OUT_FILE} ${RES_FILE} > /dev/null
+	if [[ $? -eq 0 ]] ; then
+		echo "pass" | tee -a ${LOG_FILE}
 	else
-		echo "skip" | tee -a ${LOG_FILE}
+		echo "fail" | tee -a ${LOG_FILE}
+		echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" >> ${LOG_FILE}
+		diff -U0 ${OUT_FILE} ${RES_FILE} >> ${LOG_FILE}
+		echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> ${LOG_FILE}
 	fi
 }
 
 # Metadata Description Parser Tests ###########################################
 
-check_metadata - "csv metadata parsing" tests/metadata.json tests/metadata.csv
-check_metadata rapper "rdf turtle metadata parsing using rapper" tests/metadata.json tests/metadata-turtle
-check_metadata rapper "rdf/xml metadata parsing using rapper" tests/metadata.json tests/metadata-rdfxml
-check_metadata - "n-triples metadata parsing" tests/metadata.json tests/metadata-ntriples
+check_metadata "csv metadata parsing" tests/metadata.json tests/metadata.csv
+check_metadata "rdf turtle metadata parsing" tests/metadata.json tests/metadata-turtle
+check_metadata "rdf/xml metadata parsing" tests/metadata.json tests/metadata-rdfxml
+check_metadata "n-triples metadata parsing" tests/metadata.json tests/metadata-ntriples
 
 # Context Tagset Tests ########################################################
 
-check_metadata rapper "cmu context tagset parsing using rapper" tests/context-cmu.json cmudicttools/pos-tags/cmu.ttl
-check_metadata rapper "festlex part-of-speech tagset parsing using rapper" tests/context-festlex.json cmudicttools/pos-tags/festlex.ttl
-check_metadata rapper "upenn part-of-speech tagset parsing using rapper" tests/context-upenn.json cmudicttools/pos-tags/upenn.ttl
-check_metadata rapper "wp20 part-of-speech tagset parsing using rapper" tests/context-wp20.json cmudicttools/pos-tags/wp20.ttl
-check_metadata rapper "wp39 part-of-speech tagset parsing using rapper" tests/context-wp39.json cmudicttools/pos-tags/wp39.ttl
+check_metadata "cmu context tagset parsing" tests/context-cmu.json cmudicttools/pos-tags/cmu.ttl
+check_metadata "festlex part-of-speech tagset parsing" tests/context-festlex.json cmudicttools/pos-tags/festlex.ttl
+check_metadata "upenn part-of-speech tagset parsing" tests/context-upenn.json cmudicttools/pos-tags/upenn.ttl
+check_metadata "wp20 part-of-speech tagset parsing" tests/context-wp20.json cmudicttools/pos-tags/wp20.ttl
+check_metadata "wp39 part-of-speech tagset parsing" tests/context-wp39.json cmudicttools/pos-tags/wp39.ttl
 
 # Parser Tests ################################################################
 #
