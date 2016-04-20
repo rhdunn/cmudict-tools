@@ -1,4 +1,4 @@
-# SKOS Description of the WP20 Part-of-Speech Tagset used by festival lexicons
+# SKOS Description of the Part-of-Speech Tagset used by festlex-CMU
 #
 # Copyright (c) 2016 Reece H. Dunn (Cainteoir Technologies)
 #
