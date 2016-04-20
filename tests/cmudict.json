@@ -18,7 +18,7 @@
 {"pronunciation": ["F", "AY1", "V"], "word": "E"},
 {"error-message": "Trailing whitespace in entry: \"F  S IH1 K S \""},
 {"pronunciation": ["S", "IH1", "K", "S"], "word": "F"},
-{"context": 1, "pronunciation": ["S", "EH1", "V", "AH0", "N"], "word": "F"},
+{"context": "1", "pronunciation": ["S", "EH1", "V", "AH0", "N"], "word": "F"},
 {"comment": " metadata", "metadata": {"key1": ["value1"]}, "pronunciation": ["EY1", "T"], "word": "G"},
 {"comment": " @@ key1=value1 @@ not-metadata", "pronunciation": ["N", "AY1", "N"], "word": "H"},
 {"error-message": "Incorrect word casing in entry: \"GOnE  G AO1 N\""},

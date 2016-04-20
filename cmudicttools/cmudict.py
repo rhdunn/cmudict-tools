@@ -90,6 +90,12 @@ class TypeValidator:
 		except ValueError:
 			return False, value
 
+def SkosValidator(path, schemeName=None):
+	for key, values in metadata.parse(path).items():
+		if key == schemeName or not schemeName:
+			return SetValidator(values)
+	return None
+
 class StressType:
 	UNSTRESSED = '0'
 	PRIMARY_STRESS = '1'
@@ -288,7 +294,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.upper(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_\x80-\xFF]*$',
-		'context-parser': TypeValidator('i'),
+		'context-parser': SkosValidator(os.path.join(root, 'pos-tags', 'cmu.ttl'), 'cmu'),
 	},
 	'cmudict': {
 		'accent': 'en-US',
@@ -303,7 +309,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.upper(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[A-Z0-9\'\.\-\_\x80-\xFF]*$',
-		'context-parser': TypeValidator('i'),
+		'context-parser': SkosValidator(os.path.join(root, 'pos-tags', 'cmu.ttl'), 'cmu'),
 	},
 	'cmudict-new': {
 		'accent': 'en-US',
@@ -318,7 +324,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.lower(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
-		'context-parser': TypeValidator('i'),
+		'context-parser': SkosValidator(os.path.join(root, 'pos-tags', 'cmu.ttl'), 'cmu'),
 	},
 	'festlex': {
 		'accent': 'en-US',
@@ -333,7 +339,7 @@ dict_formats = { # {0} = word ; {1} = context ; {2} = phonemes ; {3} = comment
 		'word': lambda word: word.lower(),
 		# parsing:
 		'word-validation': r'^[^ a-zA-Z]?[a-z0-9\'\.\-\_\x80-\xFF]*$',
-		'context-parser': SetValidator(['dt', 'j', 'n', 'nil', 'v', 'v_p', 'vl', 'y']),
+		'context-parser': SkosValidator(os.path.join(root, 'pos-tags', 'festlex.ttl'), 'festlex'),
 	},
 	'sphinx': {
 		'accent': 'en-US',
@@ -939,9 +945,7 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 					if entry.startswith('@'):
 						context_parser = TypeValidator(entry[1:])
 					else:
-						path = os.path.join(os.path.dirname(filename), entry)
-						for key, value in metadata.parse(path).items():
-							context_parser = SetValidator(value)
+						context_parser = SkosValidator(os.path.join(os.path.dirname(filename), entry))
 			continue
 
 		if not fmt:
