@@ -114,7 +114,7 @@ ctts:verb a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "verb" ;
 	skos:narrower ctts:verb_past ;
-	skos:broadMatch pos:verb ;
+	skos:exactMatch pos:verb ;
 	skos:inScheme ctts: .
 
 ctts:verb_past a skos:Concept ;
