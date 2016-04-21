@@ -47,6 +47,7 @@ ctts: a skos:ConceptScheme ;
 ctts:adj a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "adj" ;
+	skos:narrower ctts:ord ;
 	skos:exactMatch pos:adjective ;
 	skos:inScheme ctts: .
 
@@ -85,7 +86,16 @@ ctts:num a skos:Concept ;
 	skos:prefLabel "number"@en ;
 	skos:altLabel "numeral"@en ;
 	skos:notation "num" ;
+	skos:related ctts:ord ;
 	skos:exactMatch pos:number ;
+	skos:inScheme ctts: .
+
+ctts:ord a skos:Concept ;
+	skos:prefLabel "ordinal number"@en ;
+	skos:notation "ord" ;
+	skos:broader ctts:adj ;
+	skos:related ctts:num ;
+	skos:exactMatch pos:ordinal ;
 	skos:inScheme ctts: .
 
 ctts:prep a skos:Concept ;
