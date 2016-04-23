@@ -20,6 +20,7 @@
     - [METADATA](#metadata-1)
     - [PHONESET](#phoneset)
     - [SORT](#sort)
+    - [TAGSET](#tagset)
     - [WARNING](#warning)
 - [License](#license)
 
@@ -274,16 +275,17 @@ in the `key-value` format.
 
 The file-based metadata that `cmudict-tools` understands is:
 
-| Metadata                         | Default        | Description |
-|----------------------------------|----------------|-------------|
-| `accent`=[ACCENT](#accent)       | `en-US`        | The accent the dictionary is specified in. |
-| `encoding`=`ENCODING`            | `windows-1252` | The character encoding the dictionary entries are encoded in. |
-| `format`=[FORMAT](#format)       | __auto__       | The specific format of the dictionary. |
-| `metadata-format`=`FORMAT`       | `key-value`    | The format type of entry-based metadata. |
-| `metadata`=[METADATA](#metadata) |                | The specification for entry-based metadata. |
-| `order-from`=`ORDER_FROM`        | 0              | Start variants at `ORDER_FROM`, including the initial entry. |
-| `phoneset`=[PHONESET](#phoneset) | `cmu`          | The phoneset used to transcribe the phones in. |
-| `sorting`=[SORT](#sort)          | `none`         | Sort the entries using `SORT` ordering. |
+| Metadata                           | Default        | Description |
+|------------------------------------|----------------|-------------|
+| `accent`=[ACCENT](#accent)         | `en-US`        | The accent the dictionary is specified in. |
+| `context-format`=[TAGSET](#tagset) | __auto__       | Use `TAGSET` to validate context values. |
+| `encoding`=`ENCODING`              | `windows-1252` | The character encoding the dictionary entries are encoded in. |
+| `format`=[FORMAT](#format)         | __auto__       | The specific format of the dictionary. |
+| `metadata-format`=`FORMAT`         | `key-value`    | The format type of entry-based metadata. |
+| `metadata`=[METADATA](#metadata)   |                | The specification for entry-based metadata. |
+| `order-from`=`ORDER_FROM`          | 0              | Start variants at `ORDER_FROM`, including the initial entry. |
+| `phoneset`=[PHONESET](#phoneset)   | `cmu`          | The phoneset used to transcribe the phones in. |
+| `sorting`=[SORT](#sort)            | `none`         | Sort the entries using `SORT` ordering. |
 
 ## Phone Table File Format
 
@@ -441,6 +443,20 @@ The supported `SORT` values are:
      provide a more natural grouping of accented characters, etc.;
 
   *  `weide` to use the old-style sort order (simple ASCII character ordering).
+
+### TAGSET
+
+The supported `TAGSET` values are:
+
+| `TAGSET`     | Description |
+|--------------|-------------|
+| `cainteoir`  | The Part-of-Speech tagset used by Cainteoir Text-to-Speech and related projects. |
+| `cmu`        | The context values used by CMU pronunciation dictionaries. |
+| `festlex`    | The Part-of-Speech tagset used by `festlex-CMU`. |
+| `upenn`      | The Part-of-Speech tagset used by the Penn Treebank project. |
+| `wp20`       | A Part-of-Speech tagset defined by the Festival Text-to-Speech project that is a subset of wp39. |
+| `wp39`       | A Part-of-Speech tagset defined by the Festival Text-to-Speech project. |
+| __filename__ | A metadata file containing the tagset definition. |
 
 ### WARNING
 
