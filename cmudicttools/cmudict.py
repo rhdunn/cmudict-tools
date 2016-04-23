@@ -945,7 +945,10 @@ def parse(filename, warnings=[], order_from=0, accent=None, phoneset=None, encod
 					if entry.startswith('@'):
 						context_parser = TypeValidator(entry[1:])
 					else:
-						context_parser = SkosValidator(os.path.join(os.path.dirname(filename), entry))
+						path = os.path.join(os.path.dirname(filename), entry)
+						if not os.path.exists(path):
+							path = os.path.join(root, 'pos-tags', '{0}.ttl'.format(entry))
+						context_parser = SkosValidator(path)
 			continue
 
 		if not fmt:
