@@ -55,6 +55,6 @@ setup(name='cmudict-tools',
       keywords='cmudict festlex pronunciation dictionary parse sort format filter',
       packages=['cmudicttools'],
       package_data = {
-          'cmudicttools': ['accents/*.csv'],
+          'cmudicttools': ['accents/*.csv', 'pos-tags/COPYING', 'pos-tags/README.md', 'pos-tags/*.ttl', 'pos-tags/model/*.ttl'],
       },
       scripts=['cmudict-tools'])
