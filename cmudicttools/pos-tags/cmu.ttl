@@ -43,6 +43,7 @@ cmu: a skos:ConceptScheme ;
 cmu:1 a skos:Concept ;
 	skos:prefLabel "1"@en ;
 	skos:notation "1" ;
+	skos:note "Used in air and cmudict-new formatted dictionaries as of svn commit 9094."@en ;
 	skos:inScheme cmu: .
 
 cmu:2 a skos:Concept ;
@@ -63,29 +64,29 @@ cmu:4 a skos:Concept ;
 cmu:5 a skos:Concept ;
 	skos:prefLabel "5"@en ;
 	skos:notation "5" ;
-	skos:scopeNote "First used in cmudict 0.6."@en ;
+	skos:note "First used in cmudict 0.6."@en ;
 	skos:inScheme cmu: .
 
 cmu:6 a skos:Concept ;
 	skos:prefLabel "6"@en ;
 	skos:notation "6" ;
-	skos:scopeNote "First used in cmudict 0.6."@en ;
+	skos:note "First used in cmudict 0.6."@en ;
 	skos:inScheme cmu: .
 
 cmu:7 a skos:Concept ;
 	skos:prefLabel "7"@en ;
 	skos:notation "7" ;
-	skos:scopeNote "First used in cmudict 0.6d."@en ;
+	skos:note "First used in cmudict 0.6d."@en ;
 	skos:inScheme cmu: .
 
 cmu:8 a skos:Concept ;
 	skos:prefLabel "8"@en ;
 	skos:notation "8" ;
-	skos:scopeNote "First used in cmudict 0.6d."@en ;
+	skos:note "First used in cmudict 0.6d."@en ;
 	skos:inScheme cmu: .
 
 cmu:9 a skos:Concept ;
 	skos:prefLabel "9"@en ;
 	skos:notation "9" ;
-	skos:scopeNote "First used in cmudict 0.6d."@en ;
+	skos:note "First used in cmudict 0.6d."@en ;
 	skos:inScheme cmu: .

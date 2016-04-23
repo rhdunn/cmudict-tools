@@ -79,7 +79,7 @@ pos:infinitive a skos:Concept ;
 pos:interjection a skos:Concept ;
 	skos:prefLabel "interjection"@en ;
 	skos:altLabel "exclamation"@en ;
-	skos:notation "int" ;
+	skos:notation "intj" ;
 	skos:inScheme pos: .
 
 pos:noun a skos:Concept ;
