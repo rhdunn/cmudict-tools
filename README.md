@@ -98,7 +98,7 @@ The `SELECTOR` value can be:
 |------------|-------------|
 | `word`     | Select the word field of the dictionary. |
 | `@KEY`     | Select `KEY` from the metadata section of the dictionary. |
-| `A|B`      | Select the value of `A` if present, or `B` if not, where `A` and `B` are `SELCTOR` values themselves. |
+| `A|B`      | Select the value of `A` if present, or `B` if not, where `A` and `B` are `SELECTOR` values themselves. |
 
 For the `diff` and `merge` commands, the following usage modes are supported:
 
