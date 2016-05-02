@@ -22,7 +22,6 @@
 
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
 @prefix pos: <http://reecedunn.co.uk/linguistics/model/pos/> .
 
@@ -58,7 +57,7 @@ wp20: a skos:ConceptScheme ;
 wp20:cc a skos:Concept ;
 	skos:prefLabel "coordinating conjunction"@en ;
 	skos:notation "cc" ;
-	skos:exactMatch pos:coordinating_conjunction ;
+	skos:broadMatch pos:conjunction ;
 	skos:exactMatch upenn:cc ;
 	skos:exactMatch wp39:cc ;
 	skos:inScheme wp20: .
@@ -83,6 +82,7 @@ wp20:dt a skos:Concept ;
 wp20:ex a skos:Concept ;
 	skos:prefLabel "existential there"@en ;
 	skos:notation "ex" ;
+	skos:broadMatch pos:pronoun ;
 	skos:exactMatch upenn:ex ;
 	skos:exactMatch wp39:ex ;
 	skos:inScheme wp20: .
@@ -91,9 +91,8 @@ wp20:in a skos:Concept ;
 	skos:prefLabel "subordinating conjunction"@en ;
 	skos:notation "in" ;
 	skos:scopeNote "A preposition or subordinating conjunction"@en ;
-	skos:related pos:preposition ;
-	skos:related pos:conjunction ;
-	skos:narrowMatch pos:subordinating_conjunction ;
+	skos:relatedMatch pos:preposition ;
+	skos:relatedMatch pos:conjunction ;
 	skos:exactMatch upenn:in ;
 	skos:exactMatch wp39:in ;
 	skos:inScheme wp20: .
@@ -143,7 +142,8 @@ wp20:n a skos:Concept ;
 wp20:of a skos:Concept ;
 	skos:prefLabel "of"@en ;
 	skos:notation "of" ;
-	skos:note "TODO: Find out what this tag means."@en ;
+	skos:scopeNote "The word 'of', a preposition."@en ;
+	skos:broadMatch pos:preposition ;
 	skos:exactMatch wp39:of ;
 	skos:inScheme wp20: .
 
@@ -205,13 +205,14 @@ wp20:uh a skos:Concept ;
 	skos:prefLabel "interjection"@en ;
 	skos:notation "uh" ;
 	skos:exactMatch pos:interjection ;
+	skos:exactMatch upenn:uh ;
 	skos:exactMatch wp39:uh ;
 	skos:inScheme wp20: .
 
 wp20:v a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "v" ;
-	skos:exactMatch pos:verb ;
+	skos:broadMatch pos:verb ;
 	skos:narrowMatch upenn:vb ;
 	skos:narrowMatch upenn:vbd ;
 	skos:narrowMatch upenn:vbg ;

@@ -22,7 +22,6 @@
 
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
 @prefix upenn: <http://reecedunn.co.uk/linguistics/pos/upenn/> .
 @prefix wp20:  <http://reecedunn.co.uk/linguistics/pos/wp20/> .
@@ -92,14 +91,14 @@ wp39:cc a skos:Concept ;
 	skos:prefLabel "coordinating conjunction"@en ;
 	skos:notation "cc" ;
 	skos:exactMatch upenn:cc ;
-	skos:broadMatch wp20:cc ;
+	skos:exactMatch wp20:cc ;
 	skos:inScheme wp39: .
 
 wp39:cd a skos:Concept ;
 	skos:prefLabel "cardinal number"@en ;
 	skos:notation "cd" ;
 	skos:exactMatch upenn:cd ;
-	skos:broadMatch wp20:cd ;
+	skos:exactMatch wp20:cd ;
 	skos:inScheme wp39: .
 
 wp39:dt a skos:Concept ;
@@ -107,14 +106,14 @@ wp39:dt a skos:Concept ;
 	skos:notation "dt" ;
 	skos:scopeNote "An article or determiner."@en ;
 	skos:exactMatch upenn:dt ;
-	skos:broadMatch wp20:dt ;
+	skos:exactMatch wp20:dt ;
 	skos:inScheme wp39: .
 
 wp39:ex a skos:Concept ;
 	skos:prefLabel "existential there"@en ;
 	skos:notation "ex" ;
 	skos:exactMatch upenn:ex ;
-	skos:broadMatch wp20:ex ;
+	skos:exactMatch wp20:ex ;
 	skos:inScheme wp39: .
 
 wp39:fpunc a skos:Concept ;
@@ -136,7 +135,7 @@ wp39:in a skos:Concept ;
 	skos:notation "in" ;
 	skos:scopeNote "A preposition or subordinating conjunction"@en ;
 	skos:exactMatch upenn:in ;
-	skos:broadMatch wp20:in ;
+	skos:exactMatch wp20:in ;
 	skos:inScheme wp39: .
 
 wp39:jj a skos:Concept ;
@@ -172,7 +171,7 @@ wp39:md a skos:Concept ;
 	skos:prefLabel "modal verb"@en ;
 	skos:notation "md" ;
 	skos:exactMatch upenn:md ;
-	skos:broadMatch wp20:md ;
+	skos:exactMatch wp20:md ;
 	skos:inScheme wp39: .
 
 wp39:nn a skos:Concept ;
@@ -206,29 +205,29 @@ wp39:nns a skos:Concept ;
 wp39:of a skos:Concept ;
 	skos:prefLabel "of"@en ;
 	skos:notation "of" ;
-	skos:note "TODO: Find out what this tag means."@en ;
-	skos:broadMatch wp20:of ;
+	skos:scopeNote "The word 'of', a preposition."@en ;
+	skos:exactMatch wp20:of ;
 	skos:inScheme wp39: .
 
 wp39:pdt a skos:Concept ;
 	skos:prefLabel "predeterminer"@en ;
 	skos:notation "pdt" ;
 	skos:exactMatch upenn:pdt ;
-	skos:broadMatch wp20:pdt ;
+	skos:exactMatch wp20:pdt ;
 	skos:inScheme wp39: .
 
 wp39:pos a skos:Concept ;
 	skos:prefLabel "possessive ending"@en ;
 	skos:notation "pos" ;
 	skos:exactMatch upenn:pos ;
-	skos:broadMatch wp20:pos ;
+	skos:exactMatch wp20:pos ;
 	skos:inScheme wp39: .
 
 wp39:prp a skos:Concept ;
 	skos:prefLabel "personal pronoun"@en ;
 	skos:notation "prp" ;
 	skos:exactMatch upenn:pp ;
-	skos:broadMatch wp20:prp ;
+	skos:exactMatch wp20:prp ;
 	skos:inScheme wp39: .
 
 wp39:punc a skos:Concept ;
@@ -277,14 +276,14 @@ wp39:to a skos:Concept ;
 	skos:notation "to" ;
 	skos:scopeNote "The word 'to', a preposition or infinitive marker." ;
 	skos:exactMatch upenn:to ;
-	skos:broadMatch wp20:to ;
+	skos:exactMatch wp20:to ;
 	skos:inScheme wp39: .
 
 wp39:uh a skos:Concept ;
 	skos:prefLabel "interjection"@en ;
 	skos:notation "uh" ;
 	skos:exactMatch upenn:uh ;
-	skos:broadMatch wp20:uh ;
+	skos:exactMatch wp20:uh ;
 	skos:inScheme wp39: .
 
 wp39:vb a skos:Concept ;
@@ -327,7 +326,7 @@ wp39:vbp a skos:Concept ;
 wp39:vbz a skos:Concept ;
 	skos:prefLabel "present tense 3rd person singular verb"@en ;
 	skos:notation "vbz" ;
-	skos:exactMatch upenn:vbd ;
+	skos:exactMatch upenn:vbz ;
 	skos:broadMatch wp20:v ;
 	skos:inScheme wp39: .
 
@@ -335,7 +334,7 @@ wp39:wdt a skos:Concept ;
 	skos:prefLabel "wh-determiner"@en ;
 	skos:notation "wdt" ;
 	skos:exactMatch upenn:wdt ;
-	skos:broadMatch wp20:wdt ;
+	skos:exactMatch wp20:wdt ;
 	skos:inScheme wp39: .
 
 wp39:wp a skos:Concept ;
@@ -343,12 +342,12 @@ wp39:wp a skos:Concept ;
 	skos:notation "wp" ;
 	skos:narrowMatch upenn:wp ;
 	skos:narrowMatch upenn:wp_ ;
-	skos:broadMatch wp20:wp ;
+	skos:exactMatch wp20:wp ;
 	skos:inScheme wp39: .
 
 wp39:wrb a skos:Concept ;
 	skos:prefLabel "wh-adverb"@en ;
 	skos:notation "wrp" ;
 	skos:exactMatch upenn:wrb ;
-	skos:broadMatch wp20:wrb ;
+	skos:exactMatch wp20:wrb ;
 	skos:inScheme wp39: .

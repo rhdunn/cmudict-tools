@@ -22,9 +22,9 @@
 
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
-@prefix fl: <http://reecedunn.co.uk/linguistics/pos/festlex/> .
+@prefix ctts: <http://reecedunn.co.uk/linguistics/pos/cainteoir/> .
+@prefix fl:   <http://reecedunn.co.uk/linguistics/pos/festlex/> .
 
 fl: a skos:ConceptScheme ;
 	dct:title "Festival Lexicon Part-of-Speech Tags"@en ;
@@ -34,32 +34,55 @@ fl: a skos:ConceptScheme ;
 	skos:hasTopConcept fl:j ;
 	skos:hasTopConcept fl:n ;
 	skos:hasTopConcept fl:v ;
-	skos:hasTopConcept fl:v_p .
+	skos:hasTopConcept fl:v_p ;
+	skos:hasTopConcept fl:vl ;
+	skos:hasTopConcept fl:y .
 
 fl:dt a skos:Concept ;
 	skos:prefLabel "determiner"@en ;
 	skos:notation "dt" ;
 	skos:scopeNote "An article or determiner."@en ;
+	skos:exactMatch ctts:det ;
 	skos:inScheme fl: .
 
 fl:j a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "j" ;
-	skos:notation "y" ;
+	skos:related fl:y ;
+	skos:exactMatch ctts:adj ;
 	skos:inScheme fl: .
 
 fl:n a skos:Concept ;
 	skos:prefLabel "noun"@en ;
 	skos:notation "n" ;
+	skos:exactMatch ctts:noun ;
 	skos:inScheme fl: .
 
 fl:v a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "v" ;
-	skos:notation "vl" ;
+	skos:related fl:vl ;
+	skos:exactMatch ctts:verb ;
 	skos:inScheme fl: .
 
 fl:v_p a skos:Concept ;
-	skos:prefLabel "past participle verb"@en ;
+	skos:prefLabel "past tense verb"@en ;
 	skos:notation "v_p" ;
+	skos:exactMatch ctts:verb_past ;
+	skos:inScheme fl: .
+
+fl:vl a skos:Concept ;
+	skos:prefLabel "verb"@en ;
+	skos:notation "vl" ;
+	skos:scopeNote "A transcription error for 'v'."@en ;
+	skos:related fl:v ;
+	skos:relatedMatch ctts:verb ;
+	skos:inScheme fl: .
+
+fl:y a skos:Concept ;
+	skos:prefLabel "adjective"@en ;
+	skos:notation "y" ;
+	skos:scopeNote "A transcription error for 'j'."@en ;
+	skos:related fl:j ;
+	skos:relatedMatch ctts:adj ;
 	skos:inScheme fl: .

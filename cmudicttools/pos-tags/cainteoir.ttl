@@ -23,9 +23,9 @@
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix pos:  <http://reecedunn.co.uk/linguistics/model/pos/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
-@prefix ctts: <http://reecedunn.co.uk/linguistics/model/pos/cainteoir/> .
+@prefix ctts: <http://reecedunn.co.uk/linguistics/pos/cainteoir/> .
+@prefix fl:   <http://reecedunn.co.uk/linguistics/pos/festlex/> .
 
 ctts: a skos:ConceptScheme ;
 	dct:title "Cainteoir Part of Speech Tagset"@en ;
@@ -49,6 +49,8 @@ ctts:adj a skos:Concept ;
 	skos:notation "adj" ;
 	skos:narrower ctts:ord ;
 	skos:exactMatch pos:adjective ;
+	skos:exactMatch fl:j ;
+	skos:relatedMatch fl:y ;
 	skos:inScheme ctts: .
 
 ctts:adv a skos:Concept ;
@@ -67,6 +69,7 @@ ctts:det a skos:Concept ;
 	skos:prefLabel "determiner"@en ;
 	skos:notation "det" ;
 	skos:exactMatch pos:determiner ;
+	skos:exactMatch fl:dt ;
 	skos:inScheme ctts: .
 
 ctts:intj a skos:Concept ;
@@ -80,6 +83,7 @@ ctts:noun a skos:Concept ;
 	skos:prefLabel "noun"@en ;
 	skos:notation "noun" ;
 	skos:exactMatch pos:noun ;
+	skos:exactMatch fl:n ;
 	skos:inScheme ctts: .
 
 ctts:num a skos:Concept ;
@@ -115,6 +119,8 @@ ctts:verb a skos:Concept ;
 	skos:notation "verb" ;
 	skos:narrower ctts:verb_past ;
 	skos:exactMatch pos:verb ;
+	skos:exactMatch fl:v ;
+	skos:relatedMatch fl:vl ;
 	skos:inScheme ctts: .
 
 ctts:verb_past a skos:Concept ;
@@ -122,6 +128,7 @@ ctts:verb_past a skos:Concept ;
 	skos:notation "verb@past" ;
 	skos:broader ctts:verb ;
 	skos:broadMatch pos:verb ;
+	skos:exactMatch fl:v_p ;
 	skos:inScheme ctts: .
 
 ctts:2 a skos:Concept ;
