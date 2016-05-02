@@ -213,7 +213,7 @@ wp20:uh a skos:Concept ;
 wp20:v a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "v" ;
-	skos:exactMatch pos:verb ;
+	skos:broadMatch pos:verb ;
 	skos:narrowMatch upenn:vb ;
 	skos:narrowMatch upenn:vbd ;
 	skos:narrowMatch upenn:vbg ;
