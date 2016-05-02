@@ -205,6 +205,7 @@ wp20:uh a skos:Concept ;
 	skos:prefLabel "interjection"@en ;
 	skos:notation "uh" ;
 	skos:exactMatch pos:interjection ;
+	skos:exactMatch upenn:uh ;
 	skos:exactMatch wp39:uh ;
 	skos:inScheme wp20: .
 
