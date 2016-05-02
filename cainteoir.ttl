@@ -25,7 +25,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
-@prefix ctts: <http://reecedunn.co.uk/linguistics/model/pos/cainteoir/> .
+@prefix ctts: <http://reecedunn.co.uk/linguistics/pos/cainteoir/> .
 
 ctts: a skos:ConceptScheme ;
 	dct:title "Cainteoir Part of Speech Tagset"@en ;
