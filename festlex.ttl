@@ -48,6 +48,7 @@ fl:dt a skos:Concept ;
 fl:j a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "j" ;
+	skos:related fl:y ;
 	skos:exactMatch ctts:adj ;
 	skos:inScheme fl: .
 
@@ -60,6 +61,7 @@ fl:n a skos:Concept ;
 fl:v a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "v" ;
+	skos:related fl:vl ;
 	skos:exactMatch ctts:verb ;
 	skos:inScheme fl: .
 
@@ -72,11 +74,15 @@ fl:v_p a skos:Concept ;
 fl:vl a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "vl" ;
-	skos:exactMatch ctts:verb ;
+	skos:scopeNote "A transcription error for 'v'."@en ;
+	skos:related fl:v ;
+	skos:relatedMatch ctts:verb ;
 	skos:inScheme fl: .
 
 fl:y a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "y" ;
-	skos:exactMatch ctts:adj ;
+	skos:scopeNote "A transcription error for 'j'."@en ;
+	skos:related fl:j ;
+	skos:relatedMatch ctts:adj ;
 	skos:inScheme fl: .
