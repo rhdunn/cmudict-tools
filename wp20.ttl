@@ -58,7 +58,7 @@ wp20: a skos:ConceptScheme ;
 wp20:cc a skos:Concept ;
 	skos:prefLabel "coordinating conjunction"@en ;
 	skos:notation "cc" ;
-	skos:exactMatch pos:coordinating_conjunction ;
+	skos:broadMatch pos:conjunction ;
 	skos:exactMatch upenn:cc ;
 	skos:exactMatch wp39:cc ;
 	skos:inScheme wp20: .
@@ -93,7 +93,6 @@ wp20:in a skos:Concept ;
 	skos:scopeNote "A preposition or subordinating conjunction"@en ;
 	skos:related pos:preposition ;
 	skos:related pos:conjunction ;
-	skos:narrowMatch pos:subordinating_conjunction ;
 	skos:exactMatch upenn:in ;
 	skos:exactMatch wp39:in ;
 	skos:inScheme wp20: .
