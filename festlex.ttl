@@ -24,7 +24,8 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
-@prefix fl: <http://reecedunn.co.uk/linguistics/pos/festlex/> .
+@prefix ctts: <http://reecedunn.co.uk/linguistics/pos/cainteoir/> .
+@prefix fl:   <http://reecedunn.co.uk/linguistics/pos/festlex/> .
 
 fl: a skos:ConceptScheme ;
 	dct:title "Festival Lexicon Part-of-Speech Tags"@en ;
@@ -40,26 +41,31 @@ fl:dt a skos:Concept ;
 	skos:prefLabel "determiner"@en ;
 	skos:notation "dt" ;
 	skos:scopeNote "An article or determiner."@en ;
+	skos:exactMatch ctts:det ;
 	skos:inScheme fl: .
 
 fl:j a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "j" ;
 	skos:notation "y" ;
+	skos:exactMatch ctts:adj ;
 	skos:inScheme fl: .
 
 fl:n a skos:Concept ;
 	skos:prefLabel "noun"@en ;
 	skos:notation "n" ;
+	skos:exactMatch ctts:noun ;
 	skos:inScheme fl: .
 
 fl:v a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "v" ;
 	skos:notation "vl" ;
+	skos:exactMatch ctts:verb ;
 	skos:inScheme fl: .
 
 fl:v_p a skos:Concept ;
 	skos:prefLabel "past tense verb"@en ;
 	skos:notation "v_p" ;
+	skos:exactMatch ctts:verb_past ;
 	skos:inScheme fl: .
