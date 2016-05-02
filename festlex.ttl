@@ -60,6 +60,6 @@ fl:v a skos:Concept ;
 	skos:inScheme fl: .
 
 fl:v_p a skos:Concept ;
-	skos:prefLabel "past participle verb"@en ;
+	skos:prefLabel "past tense verb"@en ;
 	skos:notation "v_p" ;
 	skos:inScheme fl: .
