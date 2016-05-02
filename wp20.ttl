@@ -92,8 +92,8 @@ wp20:in a skos:Concept ;
 	skos:prefLabel "subordinating conjunction"@en ;
 	skos:notation "in" ;
 	skos:scopeNote "A preposition or subordinating conjunction"@en ;
-	skos:related pos:preposition ;
-	skos:related pos:conjunction ;
+	skos:relatedMatch pos:preposition ;
+	skos:relatedMatch pos:conjunction ;
 	skos:exactMatch upenn:in ;
 	skos:exactMatch wp39:in ;
 	skos:inScheme wp20: .
