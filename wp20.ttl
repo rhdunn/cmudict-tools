@@ -83,6 +83,7 @@ wp20:dt a skos:Concept ;
 wp20:ex a skos:Concept ;
 	skos:prefLabel "existential there"@en ;
 	skos:notation "ex" ;
+	skos:broadMatch pos:pronoun ;
 	skos:exactMatch upenn:ex ;
 	skos:exactMatch wp39:ex ;
 	skos:inScheme wp20: .
