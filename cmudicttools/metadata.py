@@ -103,10 +103,10 @@ dict_formats['key-value'] = (parse_key_values, format_key_values)
 
 ##### Metadata Parsers ########################################################
 
-def parse_rdf_metadata(filename):
-	rdf  = rdflib.Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-	skos = rdflib.Namespace('http://www.w3.org/2004/02/skos/core#')
+rdf  = rdflib.Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+skos = rdflib.Namespace('http://www.w3.org/2004/02/skos/core#')
 
+def parse_rdf(graph, filename):
 	fmt = rdflib.util.guess_format(filename)
 	if not fmt:
 		with open(filename, 'rb') as f:
@@ -117,9 +117,11 @@ def parse_rdf_metadata(filename):
 			fmt = 'xml' # RDF/XML
 		else:
 			fmt = 'nt' # N-Triples
-
-	graph = rdflib.Graph()
 	graph.load(filename, format=fmt)
+
+def parse_rdf_metadata(filename):
+	graph = rdflib.Graph()
+	parse_rdf(graph, filename)
 
 	metadata = {}
 	for scheme, _, _ in graph.triples((None, rdf.type, skos.ConceptScheme)):
@@ -151,3 +153,35 @@ def parse(filename):
 	if filename.endswith('.csv'):
 		return parse_csv_metadata(filename)
 	return parse_rdf_metadata(filename)
+
+def parse_mapping(srcfile, src, dstfile, dst):
+	graph = rdflib.Graph()
+	parse_rdf(graph, srcfile)
+	parse_rdf(graph, dstfile)
+
+	mapping = {}
+
+	srcref = None
+	dstref = None
+	for scheme, _, _ in graph.triples((None, rdf.type, skos.ConceptScheme)):
+		notation = [str(o) for s, p, o in graph.triples((scheme, skos.notation, None))]
+		if src in notation:
+			srcref = scheme
+		if dst in notation:
+			dstref = scheme
+
+	dstconcepts = {}
+	for concept, _, _ in graph.triples((None, skos.inScheme, dstref)):
+		dstconcepts[str(concept)] = [str(o) for s, p, o in graph.triples((concept, skos.notation, None))][0]
+
+	srcconcepts = {}
+	for concept, _, _ in graph.triples((None, skos.inScheme, srcref)):
+		notation = [str(o) for s, p, o in graph.triples((concept, skos.notation, None))][0]
+		mapping[notation] = None
+		for s, p, o in graph.triples((concept, None, None)):
+			if p == skos.exactMatch and str(o) in dstconcepts.keys():
+				mapping[notation] = dstconcepts[str(o)]
+			elif p == skos.broadMatch and str(o) in dstconcepts.keys():
+				mapping[notation] = dstconcepts[str(o)]
+
+	return mapping
