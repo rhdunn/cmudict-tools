@@ -22,7 +22,6 @@
 
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema> .
 
 @prefix upenn: <http://reecedunn.co.uk/linguistics/pos/upenn/> .
 @prefix wp20:  <http://reecedunn.co.uk/linguistics/pos/wp20/> .
