@@ -206,7 +206,7 @@ wp39:nns a skos:Concept ;
 wp39:of a skos:Concept ;
 	skos:prefLabel "of"@en ;
 	skos:notation "of" ;
-	skos:note "TODO: Find out what this tag means."@en ;
+	skos:scopeNote "The word 'of', a preposition."@en ;
 	skos:exactMatch wp20:of ;
 	skos:inScheme wp39: .
 
