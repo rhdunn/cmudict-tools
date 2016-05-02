@@ -50,6 +50,7 @@ ctts:adj a skos:Concept ;
 	skos:narrower ctts:ord ;
 	skos:exactMatch pos:adjective ;
 	skos:exactMatch fl:j ;
+	skos:exactMatch fl:y ;
 	skos:inScheme ctts: .
 
 ctts:adv a skos:Concept ;
@@ -119,6 +120,7 @@ ctts:verb a skos:Concept ;
 	skos:narrower ctts:verb_past ;
 	skos:exactMatch pos:verb ;
 	skos:exactMatch fl:v ;
+	skos:exactMatch fl:vl ;
 	skos:inScheme ctts: .
 
 ctts:verb_past a skos:Concept ;

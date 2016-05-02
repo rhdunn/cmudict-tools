@@ -34,7 +34,9 @@ fl: a skos:ConceptScheme ;
 	skos:hasTopConcept fl:j ;
 	skos:hasTopConcept fl:n ;
 	skos:hasTopConcept fl:v ;
-	skos:hasTopConcept fl:v_p .
+	skos:hasTopConcept fl:v_p ;
+	skos:hasTopConcept fl:vl ;
+	skos:hasTopConcept fl:y .
 
 fl:dt a skos:Concept ;
 	skos:prefLabel "determiner"@en ;
@@ -46,7 +48,6 @@ fl:dt a skos:Concept ;
 fl:j a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "j" ;
-	skos:notation "y" ;
 	skos:exactMatch ctts:adj ;
 	skos:inScheme fl: .
 
@@ -59,7 +60,6 @@ fl:n a skos:Concept ;
 fl:v a skos:Concept ;
 	skos:prefLabel "verb"@en ;
 	skos:notation "v" ;
-	skos:notation "vl" ;
 	skos:exactMatch ctts:verb ;
 	skos:inScheme fl: .
 
@@ -67,4 +67,16 @@ fl:v_p a skos:Concept ;
 	skos:prefLabel "past tense verb"@en ;
 	skos:notation "v_p" ;
 	skos:exactMatch ctts:verb_past ;
+	skos:inScheme fl: .
+
+fl:vl a skos:Concept ;
+	skos:prefLabel "verb"@en ;
+	skos:notation "vl" ;
+	skos:exactMatch ctts:verb ;
+	skos:inScheme fl: .
+
+fl:y a skos:Concept ;
+	skos:prefLabel "adjective"@en ;
+	skos:notation "y" ;
+	skos:exactMatch ctts:adj ;
 	skos:inScheme fl: .
