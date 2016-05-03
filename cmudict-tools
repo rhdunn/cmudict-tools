@@ -98,6 +98,8 @@ def parse(args):
 	parser = cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from, accent=args.source_accent, phoneset=args.source_phoneset, encoding=args.input_encoding, syllable_breaks=not args.remove_syllable_breaks, sort_mode=args.sort)
 	if args.sort:
 		parser = cmudict.sort(parser, args.sort)
+	if args.output_context:
+		parser = cmudict.filter_context_entries(parser, rootdir=os.path.dirname(args.filename), output_context=args.output_context)
 	if args.remove_context_entries:
 		parser = cmudict.remove_context_entries(parser)
 	if args.remove_stress:

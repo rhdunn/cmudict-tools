@@ -439,6 +439,34 @@ def sort(entries, mode):
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
 
+def filter_context_entries(entries, rootdir=None, output_context=None):
+	context_map = None
+	for word, context, phonemes, comment, meta, error in entries:
+		if meta != None:
+			if 'context-format' in meta.keys():
+				entry = meta['context-format'][0]
+				if not entry.startswith('@') and output_context:
+					srcpath = os.path.join(rootdir, entry)
+					if not os.path.exists(srcpath):
+						srcpath = os.path.join(root, 'pos-tags', '{0}.ttl'.format(entry))
+						srcname = entry
+					else:
+						srcname = None
+					dstpath = os.path.join(rootdir, output_context)
+					if not os.path.exists(dstpath):
+						dstpath = os.path.join(root, 'pos-tags', '{0}.ttl'.format(output_context))
+						dstname = output_context
+					else:
+						dstname = None
+					context_map = metadata.parse_mapping(srcpath, srcname, dstpath, dstname)
+
+		if context and context_map:
+			context = context_map[context]
+			if not context:
+				continue
+
+		yield word, context, phonemes, comment, meta, error
+
 def remove_context_entries(entries):
 	for word, context, phonemes, comment, metadata, error in entries:
 		if not word or not context:
@@ -473,7 +501,6 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 		encoding = 'utf-8'
 	phonemeset = load_phonemes(accent, phoneset)
 	metaformatter = None
-	context_map = None
 	for word, context, phonemes, comment, meta, error in entries:
 		if error:
 			print(error, file=sys.stderr)
@@ -494,22 +521,6 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 						encoding = meta['encoding'][0]
 					if 'metadata-format' in meta.keys():
 						_, metaformatter = metadata.dict_formats[ meta['metadata-format'][0] ]
-					elif 'context-format' in meta.keys():
-						entry = meta['context-format'][0]
-						if not entry.startswith('@') and output_context:
-							srcpath = os.path.join(rootdir, entry)
-							if not os.path.exists(srcpath):
-								srcpath = os.path.join(root, 'pos-tags', '{0}.ttl'.format(entry))
-								srcname = entry
-							else:
-								srcname = None
-							dstpath = os.path.join(rootdir, output_context)
-							if not os.path.exists(dstpath):
-								dstpath = os.path.join(root, 'pos-tags', '{0}.ttl'.format(output_context))
-								dstname = output_context
-							else:
-								dstname = None
-							context_map = metadata.parse_mapping(srcpath, srcname, dstpath, dstname)
 				if comment:
 					comment = u'@@ {0} @@{1}'.format(metastring, comment)
 				else:
@@ -522,15 +533,10 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 			phonemes = phonemeset.format(phonemes)
 		if len(components) == 0:
 			print()
+		elif encoding:
+			printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
 		else:
-			if context and context_map:
-				context = context_map[context]
-				if not context:
-					continue
-			if encoding:
-				printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
-			else:
-				printf(fmt['-'.join(components)], input_encoding, word, context, phonemes, comment)
+			printf(fmt['-'.join(components)], input_encoding, word, context, phonemes, comment)
 
 def format_json(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252'):
 	need_comma = False
