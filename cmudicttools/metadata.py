@@ -96,7 +96,10 @@ def parse_key_values(data, values=None):
 def format_key_values(meta):
 	ret = []
 	for key, values in sorted(meta.items()):
-		ret.extend([u'{0}={1}'.format(key, value) for value in values])
+		if isinstance(values, (str, unicode)):
+			ret.append(u'{0}={1}'.format(key, values))
+		else:
+			ret.extend([u'{0}={1}'.format(key, value) for value in values])
 	return ' '.join(ret)
 
 dict_formats['key-value'] = (parse_key_values, format_key_values)
