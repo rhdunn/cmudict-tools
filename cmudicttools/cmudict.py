@@ -463,7 +463,7 @@ def remove_stress(entries, order_from=0):
 		words[word] = (context + 1, pronunciations)
 		yield word, context, phonemes, comment, metadata, error
 
-def format_text(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252'):
+def format_text(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252', output_context=None, rootdir=None):
 	fmt = dict_formats[dict_format]
 	if not accent:
 		accent = fmt['accent']
@@ -473,6 +473,7 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 		encoding = 'utf-8'
 	phonemeset = load_phonemes(accent, phoneset)
 	metaformatter = None
+	context_map = None
 	for word, context, phonemes, comment, meta, error in entries:
 		if error:
 			print(error, file=sys.stderr)
@@ -493,6 +494,22 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 						encoding = meta['encoding'][0]
 					if 'metadata-format' in meta.keys():
 						_, metaformatter = metadata.dict_formats[ meta['metadata-format'][0] ]
+					elif 'context-format' in meta.keys():
+						entry = meta['context-format'][0]
+						if not entry.startswith('@') and output_context:
+							srcpath = os.path.join(rootdir, entry)
+							if not os.path.exists(srcpath):
+								srcpath = os.path.join(root, 'pos-tags', '{0}.ttl'.format(entry))
+								srcname = entry
+							else:
+								srcname = None
+							dstpath = os.path.join(rootdir, output_context)
+							if not os.path.exists(dstpath):
+								dstpath = os.path.join(root, 'pos-tags', '{0}.ttl'.format(output_context))
+								dstname = output_context
+							else:
+								dstname = None
+							context_map = metadata.parse_mapping(srcpath, srcname, dstpath, dstname)
 				if comment:
 					comment = u'@@ {0} @@{1}'.format(metastring, comment)
 				else:
@@ -505,10 +522,15 @@ def format_text(dict_format, entries, accent=None, phoneset=None, encoding='wind
 			phonemes = phonemeset.format(phonemes)
 		if len(components) == 0:
 			print()
-		elif encoding:
-			printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
 		else:
-			printf(fmt['-'.join(components)], input_encoding, word, context, phonemes, comment)
+			if context and context_map:
+				context = context_map[context]
+				if not context:
+					continue
+			if encoding:
+				printf(fmt['-'.join(components)], encoding, word, context, phonemes, comment)
+			else:
+				printf(fmt['-'.join(components)], input_encoding, word, context, phonemes, comment)
 
 def format_json(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252'):
 	need_comma = False
@@ -538,11 +560,11 @@ def format_json(dict_format, entries, accent=None, phoneset=None, encoding='wind
 	else:
 		printf(']\n', encoding)
 
-def format(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252'):
+def format(dict_format, entries, accent=None, phoneset=None, encoding='windows-1252', input_encoding='windows-1252',  output_context=None, rootdir=None):
 	if dict_format in ['json']:
 		format_json(dict_format, entries, accent, phoneset, encoding, input_encoding)
 	else:
-		format_text(dict_format, entries, accent, phoneset, encoding, input_encoding)
+		format_text(dict_format, entries, accent, phoneset, encoding, input_encoding, output_context, rootdir)
 
 def read_file(filename):
 	with open(filename, 'rb') as f:

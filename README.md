@@ -5,6 +5,7 @@
     - [Example: Porter Stemmer](#example-porter-stemmer)
     - [Example: Phonetisaurus](#example-phonetisaurus)
     - [Example: Sphinx Dictionary](#example-sphinx-dictionary)
+    - [Example: Festival Dictionary](#example-festival-dictionary)
     - [Example: Git Merge Resolution](#example-git-merge-resolution)
 - [VIM Syntax File](#vim-syntax-file)
 - [CMU Pronunciation Dictionary File Format](#cmu-pronunciation-dictionary-file-format)
@@ -71,6 +72,7 @@ The supported `OPTIONS` are:
 | `--help-warnings`                         | List the available validation warnings. |
 | `--input-encoding ENCODING`               | Use `ENCODING` to read the dictionary file in (e.g. `latin1`). |
 | `--output-encoding ENCODING`              | Use `ENCODING` to print the entries in (e.g. `latin1`). |
+| `--output-context` [TAGSET](#tagset)      | Use the `TAGSET` to format the context entries as. |
 | `--remove-context-entries`                | Ignore entries with a context specified. |
 | `--remove-syllable-breaks`                | Remove syllable break markers from pronunciations. |
 | `--remove-stress`                         | Remove stress markers from pronunciations. |
@@ -144,6 +146,13 @@ To generate a sphinx4 dictionary you can run:
 
 	./cmudict-tools --format=sphinx --remove-stress \
 		print cmudict > cmudict_SPHINX_40
+
+### Example: Festival Dictionary
+
+To generate a festival dictionary you can run:
+
+	./cmudict-tools --format=festlex --output-context=festlex \
+		print cmudict > cmudict.scm
 
 ### Example: Git Merge Resolution
 

@@ -25,6 +25,7 @@ import argparse
 import textwrap
 import csv
 import sys
+import os
 
 from cmudicttools import cmudict
 
@@ -104,7 +105,7 @@ def parse(args):
 	return parser
 
 def print_dict(args):
-	cmudict.format(args.format, parse(args), accent=args.accent, phoneset=args.phoneset, encoding=args.output_encoding, input_encoding=args.input_encoding)
+	cmudict.format(args.format, parse(args), accent=args.accent, phoneset=args.phoneset, encoding=args.output_encoding, input_encoding=args.input_encoding, output_context=args.output_context, rootdir=os.path.dirname(args.filename))
 
 def statistics(args):
 	words    = 0
@@ -198,6 +199,7 @@ parser.add_argument('--order-from', default=0, type=int, help='The number to sta
 parser.add_argument('--help-warnings', action=HelpWarningsAction, help='List the available validation warnings.')
 parser.add_argument('--input-encoding', default='windows-1252', help='The encoding of the dictionary file.')
 parser.add_argument('--output-encoding', default=None, help='The encoding to print the entries in.')
+parser.add_argument('--output-context', default=None, help='The context format to convert to.')
 parser.add_argument('--remove-context-entries', default=False, action='store_true', help='Ignore entries with a context specified.')
 parser.add_argument('--remove-syllable-breaks', default=False, action='store_true', help='Remove syllable break markers from pronunciations.')
 parser.add_argument('--remove-stress', default=False, action='store_true', help='Remove stress markers from pronunciations.')
