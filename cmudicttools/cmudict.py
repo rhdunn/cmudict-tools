@@ -439,7 +439,9 @@ def sort(entries, mode):
 	else:
 		raise ValueError('unsupported sort mode: {0}'.format(mode))
 
-def filter_context_entries(entries, rootdir=None, output_context=None):
+def filter_context_entries(entries, rootdir=None, output_context=None, remove_duplicate_contexts=False):
+	current_word = None
+	contexts = []
 	context_map = None
 	for word, context, phonemes, comment, meta, error in entries:
 		if meta != None:
@@ -464,6 +466,14 @@ def filter_context_entries(entries, rootdir=None, output_context=None):
 			context = context_map[context]
 			if not context:
 				continue
+
+		if remove_duplicate_contexts:
+			if current_word != word:
+				current_word = word
+				contexts = []
+			if context in contexts:
+				continue
+			contexts.append(context)
 
 		yield word, context, phonemes, comment, meta, error
 

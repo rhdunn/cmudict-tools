@@ -74,6 +74,7 @@ The supported `OPTIONS` are:
 | `--output-encoding ENCODING`              | Use `ENCODING` to print the entries in (e.g. `latin1`). |
 | `--output-context` [TAGSET](#tagset)      | Use the `TAGSET` to format the context entries as. |
 | `--remove-context-entries`                | Ignore entries with a context specified. |
+| `--remove-duplicate-contexts`             | Remove entries with the same context for a given word, keeping the first context entry. |
 | `--remove-syllable-breaks`                | Remove syllable break markers from pronunciations. |
 | `--remove-stress`                         | Remove stress markers from pronunciations. |
 
@@ -151,7 +152,7 @@ To generate a sphinx4 dictionary you can run:
 
 To generate a festival dictionary you can run:
 
-	./cmudict-tools --format=festlex --output-context=festlex \
+	./cmudict-tools --format=festlex --output-context=festlex --remove-duplicate-contexts \
 		print cmudict > cmudict.scm
 
 ### Example: Git Merge Resolution

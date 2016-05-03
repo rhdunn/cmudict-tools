@@ -98,8 +98,8 @@ def parse(args):
 	parser = cmudict.parse(args.filename, warnings=args.warnings, order_from=args.order_from, accent=args.source_accent, phoneset=args.source_phoneset, encoding=args.input_encoding, syllable_breaks=not args.remove_syllable_breaks, sort_mode=args.sort)
 	if args.sort:
 		parser = cmudict.sort(parser, args.sort)
-	if args.output_context:
-		parser = cmudict.filter_context_entries(parser, rootdir=os.path.dirname(args.filename), output_context=args.output_context)
+	if args.output_context or args.remove_duplicate_contexts:
+		parser = cmudict.filter_context_entries(parser, rootdir=os.path.dirname(args.filename), output_context=args.output_context, remove_duplicate_contexts=args.remove_duplicate_contexts)
 	if args.remove_context_entries:
 		parser = cmudict.remove_context_entries(parser)
 	if args.remove_stress:
@@ -203,6 +203,7 @@ parser.add_argument('--input-encoding', default='windows-1252', help='The encodi
 parser.add_argument('--output-encoding', default=None, help='The encoding to print the entries in.')
 parser.add_argument('--output-context', default=None, help='The context format to convert to.')
 parser.add_argument('--remove-context-entries', default=False, action='store_true', help='Ignore entries with a context specified.')
+parser.add_argument('--remove-duplicate-contexts', default=False, action='store_true', help='Remove entries with the same context for a given word, keeping the first context entry.')
 parser.add_argument('--remove-syllable-breaks', default=False, action='store_true', help='Remove syllable break markers from pronunciations.')
 parser.add_argument('--remove-stress', default=False, action='store_true', help='Remove stress markers from pronunciations.')
 parser.add_argument('command', help=argparse.SUPPRESS)
