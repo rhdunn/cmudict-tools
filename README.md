@@ -1,6 +1,7 @@
 # CMU Pronunciation Dictionary Tools
 
 - [Dependencies](#dependencies)
+- [Building](#building)
 - [Usage](#usage)
     - [Example: Porter Stemmer](#example-porter-stemmer)
     - [Example: Phonetisaurus](#example-phonetisaurus)
@@ -47,6 +48,29 @@ On other operating systems, you can run:
 	sudo pip install LIBRARY
 
 This will install the `LIBRARY` python package.
+
+## Building
+
+The `cmudict-tools` project uses the python `setup.py` script to build and
+install the package. This requires the `README.rst` file, which can be
+built by running:
+
+	make README.rst
+
+This build step depends on `pandoc` to create the RST file from `README.md`.
+
+The `Makefile` provides the following standard GNU commands that make it easier
+to run the setup script:
+
+| Command   | Description |
+|-----------|-------------|
+| all       | Compile the program. This is the default target. |
+| install   | Install the `cmudict-tool` library and programs. |
+| uninstall | Uninstall the `cmudict-tool` library and programs. |
+| clean     | Remove the built files. |
+| distclean | Remove the built files and `README.rst`. |
+| html      | Generate the HTML documentation. Requires `kramdown`. |
+| check     | Run the tests. |
 
 ## Usage
 

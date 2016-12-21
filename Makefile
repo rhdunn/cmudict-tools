@@ -10,12 +10,24 @@ VIMPLUGINDIR=/usr/share/vim/registry
 %.rst: %.md
 	pandoc --from=markdown --to=rst --output=$@ $<
 
-all: docs
+all: docs build
 
 docs: README.html
 
+build: README.rst
+	${PYTHON} setup.py build
+
 install: vim_plugin README.rst
 	${PYTHON} setup.py install
+
+uninstall: README.rst
+	${PYTHON} setup.py uninstall
+
+clean:
+	${PYTHON} setup.py clean
+
+distclean: clean
+	rm README.rst
 
 check:
 	PYTHON=${PYTHON} ./run_tests.sh
