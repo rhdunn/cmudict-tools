@@ -2,7 +2,7 @@
 #
 # Tool for processing the CMU Pronunciation Dictionary file formats.
 #
-# Copyright (C) 2015-2016 Reece H. Dunn
+# Copyright (C) 2015-2017 Reece H. Dunn
 #
 # This file is part of cmudict-tools.
 #
@@ -121,7 +121,7 @@ def statistics(args):
 			entries = entries + 1
 		if context:
 			variants = variants + 1
-		if word != prev_word:
+		if not error and word != prev_word:
 			words = words + 1
 			prev_word = word
 	print('Entries:  {0}'.format(entries))
