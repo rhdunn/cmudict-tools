@@ -1,6 +1,6 @@
 # SKOS Description of the Cainteoir Part-of-Speech Tagset
 #
-# Copyright (c) 2016 Reece H. Dunn (Cainteoir Technologies)
+# Copyright (c) 2016-2017 Reece H. Dunn (Cainteoir Technologies)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -47,10 +47,24 @@ ctts: a skos:ConceptScheme ;
 ctts:adj a skos:Concept ;
 	skos:prefLabel "adjective"@en ;
 	skos:notation "adj" ;
+	skos:narrower ctts:adj_attr ;
+	skos:narrower ctts:adj_pred ;
 	skos:narrower ctts:ord ;
 	skos:exactMatch pos:adjective ;
 	skos:exactMatch fl:j ;
 	skos:relatedMatch fl:y ;
+	skos:inScheme ctts: .
+
+ctts:adj_attr a skos:Concept ;
+	skos:prefLabel "attributive adjective"@en ;
+	skos:notation "adj@attr" ;
+	skos:broader ctts:adj ;
+	skos:inScheme ctts: .
+
+ctts:adj_pred a skos:Concept ;
+	skos:prefLabel "predicative adjective"@en ;
+	skos:notation "adj@pred" ;
+	skos:broader ctts:adj ;
 	skos:inScheme ctts: .
 
 ctts:adv a skos:Concept ;
