@@ -59,6 +59,17 @@ built by running:
 
 This build step depends on `pandoc` to create the RST file from `README.md`.
 
+The `Makefile` respects the following environment variables:
+
+| Variable  | Description |
+|-----------|-------------|
+| PYTHON    | Choose the python binary (e.g. `python`, `python3`, `/path/to/python`) |
+| PREFIX    | Where to install the `cmudict-tool` library, program and python modules. |
+
+If you use a custom prefix, you may need to adjust your `PYTHONPATH` environment variable
+when running `cmudict-tools`, so it can find the python module.
+
+
 The `Makefile` provides the following standard GNU commands that make it easier
 to run the setup script:
 
